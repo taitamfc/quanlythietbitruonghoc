@@ -1,0 +1,11 @@
+{
+    "name": "Borrow",
+    "alias": "borrow",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Borrow\\app\\Providers\\BorrowServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,8 @@
+{
+    "AdminTheme": true,
+    "Auth": true,
+    "AdminUser": true,
+    "User": true,
+    "Device": true,
+    "Borrow": true
+}
