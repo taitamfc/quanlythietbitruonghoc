@@ -1,66 +1,70 @@
 @extends('admintheme::layouts.auth')
 @section('content')
-<!-- Login Form -->
-<div class="login-form default-form">
-    <div class="form-inner">
-        <h3>Login to Superio</h3>
-        <!--Login Form-->
-        <form action="{{ route('website.postLogin')}}" method="POST">
-            @if (session('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('error') }}
+<h3 class="fw-bold text-center">QUẢN LÍ THIẾT BỊ</h3>
+@if (session('error'))
+<div class="alert alert-danger" role="alert">
+    {{ session('error') }}
+</div>
+@endif
+@if (session('success'))
+<div class="alert alert-success" role="alert">
+    {{ session('success') }}
+</div>
+@endif
+<div class="form-body mt-4">
+    <form class="row g-3" action="{{ route('auth.postLogin') }}" method="POST">
+        @csrf
+        <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="jhon@example.com">
+            @error('email')
+            <a style="color:red" class='form-control'>{{ $errors->first('email') }}</a>
+            @enderror
+        </div>
+        <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group" id="show_hide_password">
+                <input type="password" class="form-control border-end-0" id="password" name="password" value="12345678"
+                    placeholder="Enter Password">
+                <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
             </div>
-            @endif
-            @if (session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-            @csrf
-            <div class="form-group">
-                <label>email</label>
-                <input type="email" name="email" placeholder="email" value="{{ old('email') }}">
-                @if ($errors->any())
-                <p style="color:red">{{ $errors->first('email') }}</p>
-                @endif
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input id="password-field" type="password" name="password" value="" placeholder="Password" value="{{ old('Password') }}">
-                @if ($errors->any())
-                <p style="color:red">{{ $errors->first('password') }}</p>
-                @endif
-            </div>
-            <div class="form-group">
-                <div class="field-outer">
-                    <div class="input-group checkboxes square">
-                        <input type="checkbox" name="remember-me" value="" id="remember">
-                        <label for="remember" class="remember"><span class="custom-checkbox"></span> Remember me</label>
-                    </div>
-                    <a href="{{ route('website.forgot')}}" class="pwd">Forgot password?</a>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <button class="theme-btn btn-style-one" type="submit" name="log-in">Log In</button>
-            </div>
-        </form>
-
-        <div class="bottom-box">
-            <div class="text">Don't have an account? <a href="{{ route('website.register')}}">Signup</a></div>
-            <div class="divider"><span>or</span></div>
-            <div class="btn-box row">
-                <div class="col-lg-6 col-md-12">
-                    <a href="#" class="theme-btn social-btn-two facebook-btn"><i class="fab fa-facebook-f"></i> Log In
-                        via Facebook</a>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <a href="#" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Log In via
-                        Gmail</a>
-                </div>
+            @error('password')
+            <a style="color:red" class='form-control'>{{ $errors->first('password') }}</a>
+            @enderror
+        </div>
+        <div class="col-md-6">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                <label class="form-check-label" for="remember">Ghi nhớ mật khẩu</label>
             </div>
         </div>
-    </div>
+        <div class="col-md-6 text-end">
+            <a href="{{ route('auth.forgot') }}">Quên mật khẩu?
+            </a>
+        </div>
+        <div class="col-12">
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+            </div>
+        </div>
+    </form>
 </div>
-<!--End Login Form -->
+@endsection
+@section('footer')
+<script>
+$(document).ready(function() {
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if ($('#show_hide_password input').attr("type") == "text") {
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass("bi-eye-slash-fill");
+            $('#show_hide_password i').removeClass("bi-eye-fill");
+        } else if ($('#show_hide_password input').attr("type") == "password") {
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass("bi-eye-slash-fill");
+            $('#show_hide_password i').addClass("bi-eye-fill");
+        }
+    });
+});
+</script>
 @endsection
