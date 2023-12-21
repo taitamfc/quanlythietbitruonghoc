@@ -35,13 +35,13 @@ return [
 
     'mailers' => [
         'smtp' => [
-            'transport' => 'smtp',
+            'transport' => env('MAIL_MAILER'),
             'url' => env('MAIL_URL'),
-            'host' => 'smtp.gmail.com',
-            'port' => 587,
-            'encryption' =>'tls',
-            'username' => 'hoangvanlong.vn1999@gmail.com',
-            'password' => 'wuxpxsarxahcktit',
+            'host' => env('MAIL_HOST'),
+            'port' => env('MAIL_PORT'),
+            'encryption' => env('MAIL_ENCRYPTION'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

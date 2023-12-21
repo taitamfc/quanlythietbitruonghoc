@@ -32,7 +32,6 @@ class StoreLoginRequest extends FormRequest
         return  [
                 'email.required' => 'Vui lòng nhập đầy đủ thông tin!',
                 'password.required' => 'Vui lòng nhập đầy đủ thông tin!',
-                         
             ];
     }
 }

@@ -17,19 +17,13 @@ use Modules\Auth\app\Http\Controllers\AuthController;
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::get('login',[AuthController::class,'login'])->name('website.login');
-    Route::post('postLogin',[AuthController::class,'postLogin'])->name('website.postLogin');
-    Route::get('logout',[AuthController::class,'Logout'])->name('website.logout');
-
-    // Register
-    Route::get('register',[AuthController::class,'register'])->name('website.register');
-    Route::post('postRegister',[AuthController::class,'postRegister'])->name('website.postRegister');
+    Route::get('login',[AuthController::class,'login'])->name('auth.login');
+    Route::post('postLogin',[AuthController::class,'postLogin'])->name('auth.postLogin');
+    Route::get('logout',[AuthController::class,'logout'])->name('auth.logout');
 
     // Forgot password
-    Route::get('/forgot',[AuthController::class,'forgot'])->name('website.forgot');
-    Route::post('/postForgot',[AuthController::class,'postForgot'])->name('website.postForgot');
-    Route::get('/resetPassword/{user}/{token}',[AuthController::class,'getReset'])->name('website.getReset');
-    Route::post('/resetPassword/{user}/{token}',[AuthController::class,'postReset'])->name('website.postReset');
+    Route::get('/forgot',[AuthController::class,'forgot'])->name('auth.forgot');
+    Route::post('/postForgot',[AuthController::class,'postForgot'])->name('auth.postForgot');
+    Route::get('/resetPassword/{user}/{token}',[AuthController::class,'getReset'])->name('auth.getReset');
+    Route::post('/resetPassword/{user}/{token}',[AuthController::class,'postReset'])->name('auth.postReset');
 });
-
-
