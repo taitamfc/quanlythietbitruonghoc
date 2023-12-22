@@ -16,7 +16,7 @@ use App\Http\Controllers\ForgotPasswordController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::prefix('admin')->group(function () {
 Route::get('/', function () {
     return view('includes.login');
 });
@@ -180,4 +180,5 @@ Route::group(['middleware' => 'auth'], function () {
 //FullCalender
 Route::group(['middleware' => 'auth'], function () {
     Route::get('fullcalendar',[\App\Http\Controllers\CalendarController::class,'index'])->name('calender.index');
+});
 });

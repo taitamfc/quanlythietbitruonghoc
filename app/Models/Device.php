@@ -34,4 +34,12 @@ class Device extends Model
     {
         return $this->belongsTo(Department::class);
     }
+    public function getDeviceTypeNameAttribute()
+    {
+        return $this->devicetype? $this->devicetype->name : '';
+    }
+    public function getDepartmentNameAttribute()
+    {
+        return $this->department? $this->department->name : '';
+    }
 }
