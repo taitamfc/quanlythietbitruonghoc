@@ -6,15 +6,37 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use App\Models\Device;
+use App\Models\DeviceType;
+use App\Models\Department;
 class DeviceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('device::index');
+        $device_types = DeviceType::all();
+        $departments = Department::all();
+        $query = Device::query();
+        $query = Device::query();
+        if($request->searchName){
+            $query->where('name','LIKE','%'.$request->searchName.'%');
+        }
+        if($request->searchDeviceType){
+            $query->where('device_type_id',$request->searchDeviceType);
+        }
+        if($request->searchDepartment){
+            $query->where('department_id',$request->searchDepartment);
+        }
+        $items = $query->paginate(5);
+        $param = [
+            'items' => $items,
+            'device_types' => $device_types,
+            'departments' => $departments,
+            'request' => $request
+        ];
+        return view('device::index',$param);
     }
 
     /**
