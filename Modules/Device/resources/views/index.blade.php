@@ -41,37 +41,39 @@
             </div>
         </form>
     </div>
-    <div class="col-8 d-flex">
-        <form class="col border rounded" action="" method="get">
-            <select class="form-control" onchange="this.form.submit()" name='searchQuantity'>
-                <option disabled selected>Tình trạng</option>
-                <option value="1"
-                    {{ isset($request->searchQuantity) && $request->searchQuantity == 1 ? "selected" : '' }}>
-                    Thiết bị còn</option>
-                <option value="0"
-                    {{ isset($request->searchQuantity) && $request->searchQuantity == 0 ? "selected" : '' }}>
-                    Thiết bị đã hết</option>
-            </select>
-        </form>
-        <form class="col border rounded" action="" method="get">
-            <select class="form-control" onchange="this.form.submit()" name='searchDeviceType'>
-                <option disabled selected>Loaị thiết bị</option>
-                @foreach($device_types as $device_type)
-                <option value="{{$device_type->id}}"
-                    {{ isset($request->searchDeviceType) && $request->searchDeviceType == $device_type->id ? "selected" : '' }}>
-                    {{ $device_type->name }}</option>
-                @endforeach
-            </select>
-        </form>
-        <form class="col border rounded" action="" method="get">
-            <select class="form-control" onchange="this.form.submit()" name='searchDepartment'>
-                <option disabled selected>Môn học</option>
-                @foreach($departments as $department)
-                <option value="{{$department->id}}"
-                    {{ isset($request->searchDepartment) && $request->searchDepartment == $department->id ? "selected" : '' }}>
-                    {{ $department->name }}</option>
-                @endforeach
-            </select>
+    <div class="col-8">
+        <form class="d-flex" action="" method="get">
+            <div class="col rounded border">
+                <select class="form-control" onchange="this.form.submit()" name='searchQuantity'>
+                    <option disabled selected>Tình trạng</option>
+                    <option value="1"
+                        {{ isset($request->searchQuantity) && $request->searchQuantity == 1 ? "selected" : '' }}>
+                        Thiết bị còn</option>
+                    <option value="0"
+                        {{ isset($request->searchQuantity) && $request->searchQuantity == 0 ? "selected" : '' }}>
+                        Thiết bị đã hết</option>
+                </select>
+            </div>
+            <div class="col rounded border">
+                <select class="form-control" onchange="this.form.submit()" name='searchDeviceType'>
+                    <option disabled selected>Loaị thiết bị</option>
+                    @foreach($device_types as $device_type)
+                    <option value="{{$device_type->id}}"
+                        {{ isset($request->searchDeviceType) && $request->searchDeviceType == $device_type->id ? "selected" : '' }}>
+                        {{ $device_type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col rounded border">
+                <select class="form-control" onchange="this.form.submit()" name='searchDepartment'>
+                    <option disabled selected>Môn học</option>
+                    @foreach($departments as $department)
+                    <option value="{{$department->id}}"
+                        {{ isset($request->searchDepartment) && $request->searchDepartment == $department->id ? "selected" : '' }}>
+                        {{ $department->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </form>
     </div>
 </div>
@@ -89,7 +91,6 @@
                             <th>Số lượng</th>
                             <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,13 +109,6 @@
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->device_type_name }}</td>
                             <td>{{ $item->department_name }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-secondary border" type="button">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                </div>
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
