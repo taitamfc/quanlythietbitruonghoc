@@ -7,6 +7,5 @@
             <div class="menu-title">Thiết Bị</div>
         </a>
     </li>
-
 </ul>
 <!--end navigation-->
