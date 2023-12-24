@@ -4,5 +4,6 @@
     "AdminUser": true,
     "User": true,
     "Device": true,
-    "Borrow": true
+    "Borrow": true,
+    "Lab": true
 }

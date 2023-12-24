@@ -13,12 +13,9 @@ class Borrow extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'name',
-        'slug',
-        'description',
-        'image',
-        'status',
-        'position'
+        'user_id',
+        'borrow_date',
+        'status'
     ];
 
     // Relationships
