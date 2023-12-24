@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Model\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -14,7 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user::index');
+        $item = Auth::user();
+        $param = [
+            'item' => $item
+        ];
+        return view('user::index',$param);
     }
 
     /**
@@ -44,17 +51,37 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit()
     {
-        return view('user::edit');
+        
+        $item = Auth::user();
+        $param = [
+            'item' => $item
+        ];
+        return view('user::edit',$param);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        //
+        $data = $request->except('_method','_token');
+        if (isset($data['image']) && $request->hasFile('image')) {
+            $path = $data['image']->store('public/users');
+            $url = Storage::url($path);
+            $data['image'] = $url;
+        }
+        if (isset($data['password']) && !empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']); // Loại bỏ trường password khỏi mảng data
+        }
+        $item = Auth::user();
+        if ($item->update($data)) {
+            return redirect()->route('website.users.index')->with('success','Cập nhập thông tin thành công');
+        }
+        return redirect()->route('website.users.index')->with('success','Cập nhập thông tin thành công');
     }
 
     /**
@@ -62,6 +89,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

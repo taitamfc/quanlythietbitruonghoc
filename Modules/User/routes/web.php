@@ -14,6 +14,8 @@ use Modules\User\app\Http\Controllers\UserController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('user', UserController::class)->names('user');
+Route::group(['prefix'=>'website','middleware'=>['auth']], function () {
+    Route::get('/users', [UserController::class,'index'])->name('website.users.index');
+    Route::get('/users/edit', [UserController::class,'edit'])->name('website.users.edit');
+    Route::post('/users/update', [UserController::class,'update'])->name('website.users.update');
 });

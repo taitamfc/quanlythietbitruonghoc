@@ -25,7 +25,7 @@
             </div>
         </div>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="javascript:;">
+            <li><a class="dropdown-item" href="{{ route('website.users.index') }}">
                     <span class="material-symbols-outlined me-2"></span>
                     <span>Trang cá nhân</span>
                 </a>
