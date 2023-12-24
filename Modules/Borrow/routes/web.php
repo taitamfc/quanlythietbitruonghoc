@@ -13,7 +13,8 @@ use Modules\Borrow\app\Http\Controllers\BorrowController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('borrow', BorrowController::class)->names('borrow');
+Route::group([
+    'middleware'=>['auth']
+], function () {
+    Route::resource('borrows', BorrowController::class)->names('website.borrows');
 });
