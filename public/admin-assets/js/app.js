@@ -33,10 +33,18 @@ function sortableTable(url,target){
 }
 
 function showAlertSuccess(msg){
-    toastr.success(msg, '')
+    Lobibox.notify('success', {
+		position: 'top right',
+		icon: 'bi bi-check-circle-fill',
+		msg: msg
+	});
 }
 function showAlertError(msg){
-    toastr.error(msg, '')
+    Lobibox.notify('error', {
+		position: 'top right',
+		icon: 'bi bi-x-circle-fill',
+		msg: msg
+	});
 }
 
 function handleDelete(url,targetElm, parentElm = '.item'){

@@ -107,17 +107,34 @@ class BorrowController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBorrowRequest $request, $id): RedirectResponse
+    public function update(StoreBorrowRequest $request, $id)
     {
         try {
             $this->model::updateItem($id,$request);
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => true,
+                    'msg' => __('sys.update_item_success'),
+                ]);
+            }
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.update_item_success'));
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.item_not_found'));
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => false,
+                    'msg' => __('sys.item_not_found'),
+                ]);
+            }
+            // return redirect()->back()->with('error', __('sys.item_not_found'));
         } catch (QueryException $e) {
             Log::error('Error in update method: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.update_item_error'));
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => false,
+                    'msg' => __('sys.update_item_error'),
+                ]);
+            }
         }
     }
 
