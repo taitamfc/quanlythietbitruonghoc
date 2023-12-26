@@ -13,6 +13,9 @@ use Modules\Device\app\Http\Controllers\DeviceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['prefix'=>'website','middleware'=>['auth']], function () {
+Route::group([
+    'prefix'=>'devices',
+    'middleware'=>['auth']
+], function () {
     Route::get('/',[DeviceController::class,'index'])->name('website.devices.index');
 });

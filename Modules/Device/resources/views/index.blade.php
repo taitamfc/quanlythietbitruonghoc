@@ -34,42 +34,36 @@
     <div class="col-4">
         <form action="" method="get">
             <div class="position-relative">
-                <input class="form-control px-5" type="search" name="searchName" placeholder="Tìm thiết bị"
-                    value="{{ $request->searchName ? $request->searchName : '' }}">
-                <span
-                    class="material-symbols-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
+                <input class="form-control" type="search" name="name" placeholder="Tìm thiết bị"
+                    value="{{ request()->name }}">
             </div>
         </form>
     </div>
     <div class="col-8">
-        <form class="d-flex" action="" method="get">
-            <div class="col rounded border">
-                <select class="form-control" onchange="this.form.submit()" name='searchQuantity'>
-                    <option disabled selected>Tình trạng</option>
-                    <option value="1"
-                        {{ isset($request->searchQuantity) && $request->searchQuantity == 1 ? "selected" : '' }}>
-                        Thiết bị còn</option>
-                    <option value="0"
-                        {{ isset($request->searchQuantity) && $request->searchQuantity == 0 ? "selected" : '' }}>
-                        Thiết bị đã hết</option>
+        <form class="row" action="" method="get">
+            <div class="col-lg-4">
+                <select class="form-control" onchange="this.form.submit()" name='qty'>
+                    <option @selected( request()->qty === '' ) value="">Tình trạng</option>
+                    <option value="1" @selected( request()->qty == 1 )> Thiết bị còn</option>
+                    <option value="0" @selected( request()->qty !== "" && request()->qty === '0' )> Thiết bị đã hết</option>
                 </select>
             </div>
-            <div class="col rounded border">
-                <select class="form-control" onchange="this.form.submit()" name='searchDeviceType'>
-                    <option disabled selected>Loaị thiết bị</option>
+            <div class="col-lg-4">
+                <select class="form-control" onchange="this.form.submit()" name='device_type_id'>
+                    <option value="">Loại thiết bị</option>
                     @foreach($device_types as $device_type)
                     <option value="{{$device_type->id}}"
-                        {{ isset($request->searchDeviceType) && $request->searchDeviceType == $device_type->id ? "selected" : '' }}>
+                        @selected($device_type->id == request()->device_type_id)>
                         {{ $device_type->name }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="col rounded border">
-                <select class="form-control" onchange="this.form.submit()" name='searchDepartment'>
-                    <option disabled selected>Môn học</option>
+            <div class="col-lg-4">
+                <select class="form-control" onchange="this.form.submit()" name='department_id'>
+                    <option value="">Môn học</option>
                     @foreach($departments as $department)
                     <option value="{{$department->id}}"
-                        {{ isset($request->searchDepartment) && $request->searchDepartment == $department->id ? "selected" : '' }}>
+                        @selected($department->id == request()->department_id)>
                         {{ $department->name }}</option>
                     @endforeach
                 </select>
@@ -87,7 +81,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>STT</th>
-                            <th>Tên thiết bị</th>
+                            <th width="300px">Tên thiết bị</th>
                             <th>Số lượng</th>
                             <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
@@ -96,16 +90,8 @@
                     <tbody>
                         @foreach($items as $key => $item )
                         <tr>
-                            <td>{{ $key }}</td>
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="product-box">
-                                        <img src=" {{ asset('asset/images/avatars/team1.jpg') }}" alt="">
-                                    </div>
-                                    {{ $item->name }}
-                                    <!-- <p class="mb-0 product-category">Category : Fashion</p> -->
-                                </div>
-                            </td>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $item->name }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->device_type_name }}</td>
                             <td>{{ $item->department_name }}</td>

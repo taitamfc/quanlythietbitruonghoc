@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class WebsiteModel extends Model
 {
@@ -22,7 +21,6 @@ class WebsiteModel extends Model
 
     public static function getItems($request = null,$limit = 20){
         $query = self::query(true);
-        $query->where('user_id',Auth::id());
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }
