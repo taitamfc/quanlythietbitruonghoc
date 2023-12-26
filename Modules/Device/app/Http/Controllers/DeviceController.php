@@ -19,17 +19,16 @@ class DeviceController extends Controller
         $device_types = DeviceType::all();
         $departments = Department::all();
         $query = Device::query();
-        $query = Device::query();
-        if($request->searchName){
-            $query->where('name','LIKE','%'.$request->searchName.'%');
+        if($request->name){
+            $query->where('name','LIKE','%'.$request->name.'%');
         }
-        if($request->searchDeviceType){
-            $query->where('device_type_id',$request->searchDeviceType);
+        if($request->device_type_id){
+            $query->where('device_type_id',$request->device_type_id);
         }
-        if($request->searchDepartment){
-            $query->where('department_id',$request->searchDepartment);
+        if($request->department_id){
+            $query->where('department_id',$request->department_id);
         }
-        $items = $query->paginate(5);
+        $items = $query->paginate(50);
         $param = [
             'items' => $items,
             'device_types' => $device_types,
