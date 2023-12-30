@@ -1,0 +1,11 @@
+{
+    "name": "AdminTaxonomy",
+    "alias": "admintaxonomy",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminTaxonomy\\app\\Providers\\AdminTaxonomyServiceProvider"
+    ],
+    "files": []
+}

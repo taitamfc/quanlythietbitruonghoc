@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/adminpost",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\AdminPost\\": "",
+            "Modules\\AdminPost\\App\\": "app/",
+            "Modules\\AdminPost\\Database\\Factories\\": "database/factories/",
+            "Modules\\AdminPost\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\AdminPost\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "AdminPost",
+    "alias": "adminpost",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminPost\\app\\Providers\\AdminPostServiceProvider"
+    ],
+    "files": []
+}
