@@ -18,7 +18,8 @@ class DeviceController extends Controller
     {
         $device_types = DeviceType::all();
         $departments = Department::all();
-        $query = Device::query();
+        $limit = $request->limit ? $request->limit : 20;
+        $query = Device::orderBy('name','ASC');
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }
@@ -28,13 +29,16 @@ class DeviceController extends Controller
         if($request->department_id){
             $query->where('department_id',$request->department_id);
         }
-        $items = $query->paginate(50);
+        $items = $query->paginate($limit);
         $param = [
             'items' => $items,
             'device_types' => $device_types,
             'departments' => $departments,
             'request' => $request
         ];
+        if( $request->ajax() ){
+            return view('device::index-ajax',$param);
+        }
         return view('device::index',$param);
     }
 

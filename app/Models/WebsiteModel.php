@@ -57,7 +57,7 @@ class WebsiteModel extends Model
         if ($request->hasFile('image')) {
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
-        self::create($data);
+        return self::create($data);
     }
     public static function updateItem($id,$request){
         $item = self::findOrFail($id);
@@ -67,6 +67,7 @@ class WebsiteModel extends Model
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
         $item->update($data);
+        return $item;
     }
     public static function deleteItem($id){
         $item = self::findItem($id);

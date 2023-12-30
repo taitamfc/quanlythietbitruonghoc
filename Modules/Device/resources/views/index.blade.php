@@ -40,7 +40,7 @@
         </form>
     </div>
     <div class="col-8">
-        <form class="row" action="" method="get">
+    <form class="row" action="" method="get">
             <div class="col-lg-4">
                 <select class="form-control" onchange="this.form.submit()" name='qty'>
                     <option @selected( request()->qty === '' ) value="">Tình trạng</option>

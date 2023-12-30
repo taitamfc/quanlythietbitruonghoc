@@ -11,6 +11,7 @@ use Modules\Borrow\app\Models\Borrow;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class BorrowController extends Controller
 {
@@ -36,13 +37,19 @@ class BorrowController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $params = [
-            'route_prefix'  => $this->route_prefix,
-            'model'         => $this->model
-        ];
-        return view($this->view_path.'create', $params);
+        try {
+            $saved = $this->model::create([
+                'user_id' => Auth::id(),
+                'borrow_date' => date('Y-m-d',strtotime('+1day')),
+                'status' => -1
+            ]);
+            return redirect()->route($this->route_prefix.'edit',$saved->id)->with('success', __('sys.store_item_success'));
+        } catch (QueryException $e) {
+            Log::error('Error in store method: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('sys.store_item_error'));
+        }
     }
 
     /**
@@ -100,17 +107,34 @@ class BorrowController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBorrowRequest $request, $id): RedirectResponse
+    public function update(StoreBorrowRequest $request, $id)
     {
         try {
             $this->model::updateItem($id,$request);
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => true,
+                    'msg' => __('sys.update_item_success'),
+                ]);
+            }
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.update_item_success'));
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.item_not_found'));
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => false,
+                    'msg' => __('sys.item_not_found'),
+                ]);
+            }
+            // return redirect()->back()->with('error', __('sys.item_not_found'));
         } catch (QueryException $e) {
             Log::error('Error in update method: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.update_item_error'));
+            if( $request->ajax() ){
+                return response()->json([
+                    'success' => false,
+                    'msg' => __('sys.update_item_error'),
+                ]);
+            }
         }
     }
 

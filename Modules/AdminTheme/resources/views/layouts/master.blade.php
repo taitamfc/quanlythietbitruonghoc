@@ -21,6 +21,8 @@
 	<script src="{{ asset('admin-assets/js/pace.min.js') }}"></script>
     <!--Styles-->
     <link href="{{ asset('admin-assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin-assets/plugins/notifications/css/lobibox.min.css') }}" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/icons.css') }}">
 
@@ -45,10 +47,12 @@
     <script src="{{ asset('admin-assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('admin-assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('admin-assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/plugins/notifications/js/lobibox.min.js') }}"></script>
 
     <!--BS Scripts-->
     <script src="{{ asset('admin-assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin-assets/js/main.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/app.js') }}"></script>
 
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-admintheme', 'resources/assets/js/app.js') }} --}}
