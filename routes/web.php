@@ -98,14 +98,14 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkE
 
 
 // Borrow
-Route::prefix('borrows')->group(function () {
-    Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
-    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
-    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
-    Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
-    Route::put('/{id}/updateBorrow', [\App\Http\Controllers\BorrowController::class, 'updateBorrow'])->name('borrows.updateBorrow');
-});
-Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
+// Route::prefix('borrows')->group(function () {
+//     Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
+//     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
+//     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
+//     Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
+//     Route::put('/{id}/updateBorrow', [\App\Http\Controllers\BorrowController::class, 'updateBorrow'])->name('borrows.updateBorrow');
+// });
+// Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
 //Export PDF
 Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');

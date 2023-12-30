@@ -1,0 +1,11 @@
+{
+    "name": "AdminImport",
+    "alias": "adminimport",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminImport\\app\\Providers\\AdminImportServiceProvider"
+    ],
+    "files": []
+}

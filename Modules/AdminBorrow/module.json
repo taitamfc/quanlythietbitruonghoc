@@ -1,0 +1,11 @@
+{
+    "name": "AdminBorrow",
+    "alias": "adminborrow",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminBorrow\\app\\Providers\\AdminBorrowServiceProvider"
+    ],
+    "files": []
+}

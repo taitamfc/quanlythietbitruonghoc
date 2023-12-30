@@ -7,5 +7,9 @@
     "Borrow": true,
     "Lab": true,
     "AdminPost": true,
-    "AdminTaxonomy": true
+    "AdminTaxonomy": true,
+    "AdminHome": true,
+    "AdminImport": true,
+    "AdminExport": true,
+    "AdminBorrow": true
 }

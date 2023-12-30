@@ -13,7 +13,11 @@ use Modules\AdminPost\app\Http\Controllers\AdminPostController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'auth'
+    ]
+], function () {
     Route::resource('adminpost', AdminPostController::class)->names('adminpost');
 });

@@ -16,5 +16,5 @@ use Modules\Borrow\app\Http\Controllers\BorrowController;
 Route::group([
     'middleware'=>['auth']
 ], function () {
-    Route::resource('borrows', BorrowController::class)->names('website.borrows');
+    Route::resource('borrows', BorrowController::class)->names('borrows');
 });

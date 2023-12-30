@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class BorrowController extends Controller
 {
     protected $view_path    = 'borrow::';
-    protected $route_prefix = 'website.borrows.';
+    protected $route_prefix = 'borrows.';
     protected $model        = Borrow::class;
     public function index(Request $request)
     {

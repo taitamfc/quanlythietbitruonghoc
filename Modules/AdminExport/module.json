@@ -1,0 +1,11 @@
+{
+    "name": "AdminExport",
+    "alias": "adminexport",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminExport\\app\\Providers\\AdminExportServiceProvider"
+    ],
+    "files": []
+}

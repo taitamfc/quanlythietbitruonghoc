@@ -4,70 +4,106 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\UploadFileTrait;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
-class WebsiteModel extends Model
+class AdminModel extends Model
 {
     use HasFactory;
-    // use UploadFileTrait;
+    use UploadFileTrait;
     const ACTIVE    = 1;
-    const INACTIVE  = 2;
+    const INACTIVE  = 0;
     const DRAFT     = -1;
 
     static $upload_dir = 'uploads';
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'image',
+        'status',
+        'position'
+    ];
+
     public static function setUploadDir( $upload_dir ){
         self::$upload_dir = $upload_dir;
     }
+    // Relations
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
-    public static function getItems($request = null,$limit = 20){
-        $query = self::query(true);
+    // Methods
+    public static function getItems($request = null,$limit = 20,$table = ''){
+        $model = new self;
+        $tableName = $model->getTable();
+        if($table){
+            $modelClass = '\App\Models\\' . $table;
+            $query = $modelClass::query(true);
+        }else{
+            $query = self::query(true);
+        }
+        if($request->type && Schema::hasColumn($tableName, 'type')){
+            $query->where('type',$request->type);
+        }
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }
-        if($request->status){
+        if($request->status !== NULL){
             $query->where('status',$request->status);
-        }
-        switch ($request->sortBy) {
-            case 'id_asc':
-                $query->orderBy('id','asc');
-                break;
-            case 'name_asc':
-                $query->orderBy('name','asc');
-                break;
-            case 'created_asc':
-                $query->orderBy('created_at','asc');
-                break;
-            default : 
-                $query->orderBy('id','desc');
-                break;
         }
         $items = $query->paginate($limit);
         return $items;
     }
-    public static function findItem($id){
-        return self::findOrFail($id);
+    public static function findItem($id,$table = ''){
+        if($table){
+            $model = '\App\Models\\' . $table;
+        }else{
+            $model = self::class;
+        }
+        return $model::findOrFail($id);
     }
-    public static function saveItem($request){
-        $data = $request->all();
+    public static function saveItem($request,$table = ''){
+        if($table){
+            $model = '\App\Models\\' . $table;
+        }else{
+            $model = self::class;
+        }
+        $data = $request->except(['_token', '_method','type']);
+
         if(!$request->slug && $request->name){
             $data['slug'] = Str::slug($request->name);
         }
         if ($request->hasFile('image')) {
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
-        self::create($data);
+        $model::create($data);
     }
-    public static function updateItem($id,$request){
-        $item = self::findOrFail($id);
+    public static function updateItem($id,$request,$table = ''){
+        if($table){
+            $model = '\App\Models\\' . $table;
+        }else{
+            $model = self::class;
+        }
+
+        $item = $model::findOrFail($id);
         $data = $request->all();
+        $data = $request->except(['_token', '_method','type']);
         if ($request->hasFile('image')) {
             self::deleteFile($item->image);
-            $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
+            $data['image'] = $model::uploadFile($request->file('image'), self::$upload_dir);
         } 
         $item->update($data);
     }
-    public static function deleteItem($id){
-        $item = self::findItem($id);
+    public static function deleteItem($id,$table = ''){
+        if($table){
+            $model = '\App\Models\\' . $table;
+        }else{
+            $model = self::class;
+        }
+        $item = $model::findItem($id);
         self::deleteFile($item->image);
         return $item->delete();
     }

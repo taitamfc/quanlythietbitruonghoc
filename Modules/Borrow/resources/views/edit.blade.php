@@ -3,7 +3,7 @@
 @include('admintheme::includes.globals.breadcrumb',[
 'page_title' => 'Tạo phiếu',
 ])
-<form id="borrow-form" action="{{ route('website.borrows.update',$item->id) }}" method="post">
+<form id="borrow-form" action="{{ route('borrows.update',$item->id) }}" method="post">
     <input type="hidden" name="task" id="task">
     @method('PUT')
     <div class="row">

@@ -14,6 +14,12 @@ use Modules\AdminTaxonomy\app\Http\Controllers\AdminTaxonomyController;
 |
 */
 
-Route::group([], function () {
+Route::group([
+        'prefix' => 'admin',
+        'middleware' => [
+            'auth'
+        ]
+    ], function () {
     Route::resource('admintaxonomy', AdminTaxonomyController::class)->names('admintaxonomy');
 });
+

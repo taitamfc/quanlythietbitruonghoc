@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'AdminPost',
+    'name'              => 'AdminPost',
+    'table'             => 'posts',
 ];

@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/adminborrow",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\AdminBorrow\\": "",
+            "Modules\\AdminBorrow\\App\\": "app/",
+            "Modules\\AdminBorrow\\Database\\Factories\\": "database/factories/",
+            "Modules\\AdminBorrow\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\AdminBorrow\\Tests\\": "tests/"
+        }
+    }
+}
