@@ -1,9 +1,9 @@
 <?php
 return [
-    'name'          => 'Name',
+    'name'          => 'Tên',
     'description'   => 'Description',
     'image'         => 'Image',
-    'status'        => 'Status',
-    'created_at'    => 'Created',
-    'action'        => 'Action',
+    'status'        => 'Trạng thái',
+    'created_at'    => 'Ngày tạo',
+    'action'        => 'Hành động',
 ];

@@ -42,30 +42,25 @@
                     <table class="table align-middle">
                         <thead class="table-light">
                             <tr>
+                                <th>STT</th>
+                                <th>Người mượn</th>
                                 <th>Ngày tạo phiếu</th>
                                 <th>Ngày dạy</th>
-                                <th>Tình trạng</th>
+                                <th>Số thiết bị</th>
                                 <th>Xét duyệt</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody>
                         @if( count( $items ) )
-                            @foreach( $items as $item )
+                            @foreach( $items as $key => $item )
                             <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="product-box">
-                                            <img src="{{ $item->image_fm }}" alt="">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:;" class="product-title">{{ $item->name }}</a>
-                                            <p class="mb-0 product-category">(0)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{!! $item->status_fm !!}</td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->created_at_fm }}</td>
+                                <td>{{ $item->borrow_date_fm }}</td>
+                                <td>{{ $item->number_devices }}</td>
+                                <td>{!! $item->status_fm !!}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"
@@ -74,8 +69,14 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
+                                                <a class="dropdown-item" href="{{ route($route_prefix.'show',$item->id) }}">
+                                                    {{ __('borrow::sys.show') }}        
+                                                </a>
+                                            </li>
+                                            @if( $item->status < 0 )
+                                            <li>
                                                 <a class="dropdown-item" href="{{ route($route_prefix.'edit',$item->id) }}">
-                                                    {{ __('sys.edit') }}        
+                                                    {{ __('borrow::sys.edit') }}     
                                                 </a>
                                             </li>
                                             <li>
@@ -83,10 +84,12 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="dropdown-item">
-                                                        {{ __('sys.delete') }}   
+                                                        {{ __('borrow::sys.delete') }} 
                                                     </button>
                                                 </form>
                                             </li>
+                                            @endif
+
                                         </ul>
                                     </div>
                                 </td>

@@ -21,7 +21,7 @@ class BorrowController extends Controller
     public function index(Request $request)
     {
         try {
-            $items = $this->model::getItems($request);
+            $items = $this->model::getItems($request,Auth::id());
             $params = [
                 'route_prefix'  => $this->route_prefix,
                 'model'         => $this->model,

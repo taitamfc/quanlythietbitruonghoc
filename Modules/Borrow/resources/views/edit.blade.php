@@ -66,7 +66,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn btn-sm btn-danger px-4 mr-2">Hủy Phiếu</button>
+                        <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="btn btn-sm btn-danger px-4 mr-2">
+                                {{ __('borrow::sys.delete') }} 
+                            </button>
+                        </form>
                         <button class="btn btn-sm btn-warning px-4 mr-2">Lưu Nháp</button>
                         <button class="btn btn-sm btn-primary px-4 ml-2">Gửi Yêu Cầu</button>
                     </div>

@@ -9,12 +9,15 @@ use Illuminate\Http\Response;
 
 class AdminImportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $view_path    = 'adminimport::';
+    protected $route_prefix = 'adminimport.';
+    public function index(Request $request)
     {
-        return view('adminimport::index');
+        $type = $request->type;
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+        ];
+        return view($this->view_path.'index', $params);
     }
 
     /**

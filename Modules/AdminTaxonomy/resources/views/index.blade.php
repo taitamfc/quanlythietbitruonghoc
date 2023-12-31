@@ -35,19 +35,21 @@
                     <table class="table align-middle">
                         <thead class="table-light">
                             <tr>
+                                <th>STT</th>
                                 <th>{{ __('admintaxonomy::table.name') }}</th>
-                                <!-- <th>{{ __('admintaxonomy::table.status') }}</th> -->
-                                <!-- <th>{{ __('admintaxonomy::table.created_at') }}</th> -->
+                                <th>{{ __('admintaxonomy::table.status') }}</th>
+                                <th>{{ __('admintaxonomy::table.created_at') }}</th>
                                 <th>{{ __('admintaxonomy::table.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                         @if( count( $items ) )
-                            @foreach( $items as $item )
+                            @foreach( $items as $key => $item )
                             <tr>
-                                <td>{!! $item->name !!}</td>
-                                <!-- <td>{!! $item->status_fm !!}</td> -->
-                                <!-- <td>{{ $item->created_at_fm }}</td> -->
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{!! $item->status_fm !!}</td>
+                                <td>{{ $item->created_at_fm }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"

@@ -9,6 +9,10 @@ class Borrow extends Model
     use HasFactory;
 
     protected $table = 'borrows';
+    const ACTIVE    = 1;
+    const INACTIVE  = 0;
+    const DRAFT     = -1;
+    const CANCELED     = -2;
     /**
      * The attributes that are mass assignable.
      */
@@ -19,10 +23,6 @@ class Borrow extends Model
     ];
 
     // Ovrride
-    public static function findItem($id){
-        $item = self::findOrFail($id);
-        return $item;
-    }
     public static function updateItem($id,$request){
         $item = self::findItem($id);
         if($request->borrow_date){
@@ -60,6 +60,13 @@ class Borrow extends Model
         }
         return $item;
     }
+    public static function deleteItem($id){
+        $item = self::findItem($id);
+        // $item->borrow_devices()->delete();
+        $item->deleted_at = date('Y-m-d H:i:s');
+        return $item->save();
+        // return self::deleteItem($id);
+    }
 
     // Relationships
     public function borrow_devices(){
@@ -68,7 +75,6 @@ class Borrow extends Model
 
     public function getBorrowItemsAttribute(){
         $item = self::findItem($this->id);
-        
         $results = [];
         if( count($item->borrow_devices) ){
             foreach( $item->borrow_devices as $borrow_device ){
@@ -77,7 +83,38 @@ class Borrow extends Model
         }
         return $results;
     }
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 
     // Attributes
+    public function getBorrowDateFmAttribute(){
+        return $this->borrow_date ?  date('d-m-Y',strtotime($this->borrow_date)) : '';
+    }
+    public function getCreatedAtFmAttribute(){
+        return $this->created_at ?  date('d-m-Y H:i',strtotime($this->created_at)) : '';
+    }
+    public function getUserNameAttribute(){
+        return $this->user->name ?? 'Chưa xác định';
+    }
+    public function getNumberDevicesAttribute(){
+        return $this->borrow_devices ? $this->borrow_devices->count() : 0;
+    }
+    public function getStatusFmAttribute(){
+        switch ($this->status) {
+            case self::DRAFT:
+                return '<span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Phiếu Nháp</span>';
+                break;
+            case self::ACTIVE:
+                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Đã Xét Duyệt</span>';
+                break;
+            case self::INACTIVE:
+                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Chờ Xét Duyệt</span>';
+                break;
+            case self::CANCELED:
+                return '<span class="lable-table bg-dark-subtle text-warning rounded border border-dark-subtle font-text2 fw-bold">Đã Hủy</span>';
+                break;
+        }
+    }
     
 }

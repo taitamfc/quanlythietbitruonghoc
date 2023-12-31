@@ -57,4 +57,20 @@
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-admintheme', 'resources/assets/js/app.js') }} --}}
     @yield('footer')
+    @if (session('success'))
+        <script>
+            jQuery(document).ready( function(){
+                let msg = "{{ session('success') }}";
+                showAlertSuccess(msg)
+            })
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            jQuery(document).ready( function(){
+                let msg = "{{ session('error') }}";
+                showAlertError(msg)
+            })
+        </script>
+    @endif
 </body>

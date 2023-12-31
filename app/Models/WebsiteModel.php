@@ -27,14 +27,19 @@ class WebsiteModel extends Model
         $items = $query->get();
         return $items;
     }
-    public static function getItems($request = null,$limit = 20){
+    public static function getItems($request = null,$user_id = 0){
+        $limit = $request->limit ? $request->limit : 20;
         $query = self::query(true);
+        $query->whereNull('deleted_at');
         $query->where('user_id',Auth::id());
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }
         if($request->status){
             $query->where('status',$request->status);
+        }
+        if($user_id){
+            $query->where('user_id',$user_id);
         }
         $items = $query->paginate($limit);
         return $items;
@@ -56,7 +61,7 @@ class WebsiteModel extends Model
         $item = self::findOrFail($id);
         $data = $request->all();
         if ($request->hasFile('image')) {
-            self::deleteFile($item->image);
+            //self::deleteFile($item->image);
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
         $item->update($data);
@@ -64,7 +69,7 @@ class WebsiteModel extends Model
     }
     public static function deleteItem($id){
         $item = self::findItem($id);
-        self::deleteFile($item->image);
+        //self::deleteFile($item->image);
         return $item->delete();
     }
 

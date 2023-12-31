@@ -20,7 +20,7 @@ class AdminPostController extends Controller
     public function index(Request $request)
     {
         $type = $request->type;
-        $items = $this->model::getItems($request,null,$type);
+        $items = $this->model::getItems($request,$type);
         $params = [
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model,

@@ -36,7 +36,8 @@ class AdminModel extends Model
     }
 
     // Methods
-    public static function getItems($request = null,$limit = 20,$table = ''){
+    public static function getItems($request = null,$table = ''){
+        $limit = $request->limit ? $request->limit : 20;
         $model = new self;
         $tableName = $model->getTable();
         if($table){

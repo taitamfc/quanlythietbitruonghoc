@@ -48,12 +48,12 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminborrow.index') }}">
                     <span class="material-symbols-outlined">arrow_right</span>Phiếu Mượn
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminborrow.index') }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị Mượn
                 </a>
             </li>
@@ -69,17 +69,17 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminpost.index',['type'=>'Device']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminpost.index',['type'=>'Asset']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tài Sản
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('admintaxonomy.index',['type'=>'Lab']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Phòng Học
                 </a>
             </li>
@@ -136,37 +136,37 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tài Sản
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Nhóm Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Room']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Room']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Lớp Học
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Department']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Department']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Bộ Môn
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Nest']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Nest']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tổ
                 </a>
             </li>
@@ -182,37 +182,37 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tài Sản
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Nhóm Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Room']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'Room']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Lớp Học
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Department']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'Department']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Bộ Môn
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'Nest']) }}">
+                <a href="{{ route('adminexport.index',['type'=>'Nest']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tổ
                 </a>
             </li>
