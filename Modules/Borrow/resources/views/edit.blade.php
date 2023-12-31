@@ -76,9 +76,11 @@
     </div>
 </form>
 <!--end row-->
-@include('borrow::includes.modal-devices')
+
 @endsection
 @section('footer')
+@include('borrow::includes.modal-devices')
+@include('borrow::includes.modal-labs')
 <script src="{{ asset('admin-assets/js/repeater.js') }}"></script>
 <script>
     var tiet_id = 0;
@@ -89,36 +91,31 @@
     var wrapperResults = '.device-table-results';
     var actionUrl = jQuery('#borrow-form').attr('action');
     jQuery(document).ready(function() {
-        $("#repeater").createRepeater({
-            showFirstItemToDefault: true,
-            isFirstItemUndeletable: true,
-            initEmpty:false
-        });
-        
-        // Get all items
-        getAjaxTable(indexUrl, wrapperResults, positionUrl, 'limit=20');
-        // Handle pagination
-        jQuery('body').on('click', ".page-link", function(e) {
-            e.preventDefault();
-            let url = jQuery(this).attr('href');
-            getAjaxTable(url, wrapperResults, positionUrl);
-        });
-        jQuery('body').on('change', '.f-filter', function() {
-            let filterData = jQuery('#form-search').serialize();
-            getAjaxTable(indexUrl, wrapperResults, positionUrl, filterData);
-        });
-        jQuery('body').on('keyup', '.f-filter-up',delay(function (e) {
-            let filterData = jQuery('#form-search').serialize();
-            getAjaxTable(indexUrl, wrapperResults, positionUrl, filterData);
-        }, 500));
-
+        //$("#repeater").createRepeater({
+          //  showFirstItemToDefault: true,
+           // isFirstItemUndeletable: true,
+            //initEmpty:false
+        //});
         // Handle show devices
         jQuery('body').on('click', ".show-devices", function(e) {
             tiet_id = jQuery(this).data('tiet-id');
             saveItem('show-devices');
         });
+        jQuery('body').on('click', ".show-labs", function(e) {
+            tiet_id = jQuery(this).data('tiet-id');
+            saveItem('show-labs');
+        });
         jQuery('body').on('click', ".add-tiet", function(e) {
             saveItem('add-tiet');
+        });
+        jQuery('body').on('click', ".delete-tiet", function(e) {
+            let ask = confirm('Bạn có chắc chắn xóa tiết dạy này không ?')
+            if( ask == true ){
+                tiet_id = jQuery(this).data('tiet-id');
+                jQuery(this).closest('.items').remove();
+                saveItem('delete-tiet');
+            }
+
         });
 
         // Handle add device
@@ -165,12 +162,14 @@
                     }else{
                         if (res.success == true) {
                             showAlertSuccess(res.msg)
-
                             if(task == 'show-devices'){
                                 jQuery('#modal-devices').modal('show');
                             }
-                            if(task == 'add-tiet'){
-                                
+                            if(task == 'add-tiet' || task == 'delete-tiet'){
+                                window.location.reload();
+                            }
+                            if(task == 'show-labs'){
+                                jQuery('#modal-labs').modal('show');
                             }
                         }else{
                             showAlertError(res.msg)

@@ -17,13 +17,13 @@
             -->
             <div class="item-content">
                 <div class="row mb-4">
-                    <div class="col col-lg-2 col-6 input-devices-{{ $tiet }}-lesson_name">
+                    <div class="col col-lg-3 col-6 input-devices-{{ $tiet }}-lesson_name">
                         <label class="form-label">Tên bài dạy</label>
                         <input type="text" class="form-control" id="devices_{{ $tiet }}_lesson_name"
                             data-name="lesson_name" name="devices[{{ $tiet }}][lesson_name]" value="{{ $borrow['lesson_name'] }}">
                         <span class="input-error text-danger"></span>
                     </div>
-                    <div class="col col-lg-2 col-6">
+                    <div class="col col-lg-1 col-6">
                         <label class="form-label">Buổi</label>
                         <select data-name="session" name="devices[{{ $tiet }}][session]" id="devices_{{ $tiet }}_session"
                             class="form-control">
@@ -40,9 +40,10 @@
                     <div class="col col-lg-2 col-6">
                         <label class="form-label">Lớp</label>
                         <select data-name="room_id"  name="devices[{{ $tiet }}][room_id]" id="devices_{{ $tiet }}_room_id"
-                            class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            class="form-control select2">
+                            @foreach($rooms as $room)
+                            <option value="{{ $room->id }}">{{ $room->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col col-lg-1 col-6">
@@ -59,7 +60,7 @@
                     <div class="col col-lg-3 col-6">
                         <div><label class="form-label">Phòng bộ môn</label></div>
                         <input data-name="lab_id" name="devices[{{ $tiet }}][lab_id]" id="devices_{{ $tiet }}_lab_id" type="hidden">
-                        <button class="btn btn-sm btn-info px-4 mt-1">Chọn</button>
+                        <button type="button" class="btn btn-sm btn-info px-4 mt-1 show-labs">Chọn</button>
                     </div>
                 </div>
                 <div class="row mb-4">
@@ -85,10 +86,10 @@
                                 <tbody class="tiet_devices">
                                     @foreach($borrow_items as $key => $borrow_item)
                                     <tr class="device_item">
-                                        <td>{{ $key + 1 }}<input data-name="device_id" name="devices[0][device_id]" type="hidden" value="{{ $borrow_item->device_id }}"></td>
+                                        <td>{{ $key + 1 }}<input data-name="device_id" name="devices[{{ $tiet }}][device_id]" type="hidden" value="{{ $borrow_item->device_id }}"></td>
                                         <td>{{ $borrow_item->device->name }}</td>
                                         <td width="100px">
-                                            <input data-name="quantity" name="devices[0][quantity]" type="number" min="1" value="{{ $borrow_item->quantity }}" class="form-control">
+                                            <input data-name="quantity" name="devices[{{ $tiet }}][quantity]" type="number" min="1" value="{{ $borrow_item->quantity }}" class="form-control">
                                         </td>
                                         <td>{{ $borrow_item->device->devicetype->name }}</td>
                                         <td>{{ $borrow_item->device->department->name }}</td>
@@ -105,7 +106,7 @@
             </div>
             <!-- Repeater Remove Btn -->
             <div class="repeater-remove-btn">
-                <button class="btn btn-danger btn-sm remove-btn px-4">
+                <button class="btn btn-danger btn-sm remove-btn px-4 delete-tiet" data-tiet-id="{{ $tiet }}">
                     Xóa tiết dạy này
                 </button>
             </div>

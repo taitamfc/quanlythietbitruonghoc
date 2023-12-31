@@ -15,5 +15,5 @@ use Modules\Lab\app\Http\Controllers\LabController;
 */
 
 Route::group([], function () {
-    Route::resource('lab', LabController::class)->names('lab');
+    Route::get('labs', [LabController::class,'index'])->name('labs.index');
 });

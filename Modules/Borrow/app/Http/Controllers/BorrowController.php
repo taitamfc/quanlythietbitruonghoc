@@ -91,11 +91,13 @@ class BorrowController extends Controller
     public function edit($id)
     {
         try {
+            $rooms = \App\Models\Room::getAll();
             $item = $this->model::findItem($id);
             $params = [
                 'route_prefix'  => $this->route_prefix,
                 'model'         => $this->model,
-                'item' => $item
+                'item'          => $item,
+                'rooms'         => $rooms,
             ];
             return view($this->view_path.'edit', $params);
         } catch (ModelNotFoundException $e) {

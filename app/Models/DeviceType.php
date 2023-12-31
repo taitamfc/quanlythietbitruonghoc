@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DeviceType extends Model
+class DeviceType extends WebsiteModel
 {
     use HasFactory, SoftDeletes;
     protected $table = "device_types";

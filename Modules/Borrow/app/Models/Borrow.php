@@ -30,12 +30,16 @@ class Borrow extends Model
         }
         $item->save();
 
-        if( $request->task == 'add-tiet' ){
-
-        }
+        
         // Remove all borrow_devices
+        if( $request->task == 'delete-tiet' ){
+            $item->borrow_devices()->delete();
+        }
+        
         if( $request->devices ){
+            $index = 0;
             foreach( $request->devices as $tiet => $device ){
+                $tiet = $index;
                 $device['borrow_date'] = $item->borrow_date;
                 if(!empty($device['device_id'])){
                     $device['tiet'] = $tiet;
@@ -46,7 +50,13 @@ class Borrow extends Model
                     ->delete();
                     $item->borrow_devices()->create($device);
                 }
+                $index++;
             }
+        }
+        if( $request->devices && $request->task == 'add-tiet' ){
+            $new_device = $device;
+            $new_device['tiet'] = $tiet + 1;
+            $item->borrow_devices()->create($new_device);
         }
         return $item;
     }
