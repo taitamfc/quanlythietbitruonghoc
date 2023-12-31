@@ -17,6 +17,7 @@ use Modules\AdminHome\app\Http\Controllers\AdminHomeController;
 Route::group([
     'prefix' => 'admin',
     'middleware' => [
+        'systeminit',
         'auth'
     ]
 ], function () {

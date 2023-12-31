@@ -31,7 +31,6 @@ class WebsiteModel extends Model
         $limit = $request->limit ? $request->limit : 20;
         $query = self::query(true);
         $query->whereNull('deleted_at');
-        $query->where('user_id',Auth::id());
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }
@@ -41,6 +40,7 @@ class WebsiteModel extends Model
         if($user_id){
             $query->where('user_id',$user_id);
         }
+        $query->orderBy('id','DESC');
         $items = $query->paginate($limit);
         return $items;
     }

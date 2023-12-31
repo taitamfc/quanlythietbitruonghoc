@@ -20,18 +20,13 @@ class BorrowController extends Controller
     protected $model        = Borrow::class;
     public function index(Request $request)
     {
-        try {
-            $items = $this->model::getItems($request,Auth::id());
-            $params = [
-                'route_prefix'  => $this->route_prefix,
-                'model'         => $this->model,
-                'items'         => $items
-            ];
-            return view($this->view_path.'index', $params);
-        } catch (QueryException $e) {
-            Log::error('Error in index method: ' . $e->getMessage());
-            return redirect()->back()->with('error',  __('sys.get_items_error'));
-        }
+        $items = $this->model::getItems($request,Auth::id());
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'items'         => $items
+        ];
+        return view($this->view_path.'index', $params);
     }
 
     /**
@@ -43,26 +38,12 @@ class BorrowController extends Controller
             $saved = $this->model::create([
                 'user_id' => Auth::id(),
                 'borrow_date' => date('Y-m-d',strtotime('+1day')),
-                'status' => -1
+                'status' => $this->model::DRAFT
             ]);
             return redirect()->route($this->route_prefix.'edit',$saved->id)->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
             return redirect()->back()->with('error', __('sys.store_item_error'));
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBorrowRequest $request): RedirectResponse
-    {
-        try {
-            $this->model::saveItem($request);
-            return redirect()->route($this->route_prefix.'index')->with('success', __('sys.store_item_success'));
-        } catch (QueryException $e) {
-            Log::error('Error in store method: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.item_not_found'));
         }
     }
 

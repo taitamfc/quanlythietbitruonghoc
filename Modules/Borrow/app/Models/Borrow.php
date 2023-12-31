@@ -28,6 +28,9 @@ class Borrow extends Model
         if($request->borrow_date){
             $item->borrow_date = $request->borrow_date;
         }
+        if($request->status !== ''){
+            $item->status = $request->status;
+        }
         $item->save();
 
         
@@ -99,6 +102,15 @@ class Borrow extends Model
     }
     public function getNumberDevicesAttribute(){
         return $this->borrow_devices ? $this->borrow_devices->count() : 0;
+    }
+    public function getLabNamesAttribute(){
+        $labs = $this->borrow_devices->pluck('lab_id');
+        $names = '';
+        if($labs){
+            $labs = $labs->toArray();
+            $names = implode(',',$labs);
+        }
+        return $names;
     }
     public function getStatusFmAttribute(){
         switch ($this->status) {

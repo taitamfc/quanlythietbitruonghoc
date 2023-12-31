@@ -7,6 +7,8 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,43 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        $this->routes(function () {
+            Route::middleware('web')
+                ->domain('{subdomain}.' . config('app.url'))
+                ->namespace($this->namespace)
+                ->group(function () {
+                    $databaseName = $this->getDatabaseName();
+                    $databaseExists = $this->checkDatabaseExist($databaseName);
+                    if (!$databaseExists) {
+                        abort(403);
+                    }else{
+                        config(['database.connections.mysql.database' => $databaseName]);
+                        \DB::reconnect('mysql');
+
+                        
+                        require base_path('routes/web.php');
+                    }
+                });
+        });
+    }
+
+    public function getDatabaseName(){
+        $url = request()->url();
+        $parsedUrl = parse_url($url);
+        $host = $parsedUrl['host'];
+        $exploded = explode('.', $host);
+        $subdomain = $exploded[0];
+        $databaseName = $subdomain;
+        return $databaseName;
+    }
+    public function checkDatabaseExist($databaseName){
+        try {
+            $connection = DB::connection()->getPdo();
+            $databases = $connection->query("SHOW DATABASES")->fetchAll(\PDO::FETCH_COLUMN);
+            return in_array($databaseName,$databases);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

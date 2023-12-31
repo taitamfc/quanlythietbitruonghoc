@@ -53,7 +53,11 @@ class AdminModel extends Model
             $query->where('name','LIKE','%'.$request->name.'%');
         }
         if($request->status !== NULL){
-            $query->where('status',$request->status);
+            if( is_array($request->status) ){
+                $query->whereIn('status',$request->status);
+            }else{
+                $query->where('status',$request->status);
+            }
         }
         $items = $query->paginate($limit);
         return $items;
@@ -111,16 +115,10 @@ class AdminModel extends Model
 
     // Attributes
     public function getStatusFmAttribute(){
-        switch ($this->status) {
-            case self::DRAFT:
-                return '<span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">'.__('sys.draf').'</span>';
-                break;
-            case self::ACTIVE:
-                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">'.__('sys.active').'</span>';
-                break;
-            case self::INACTIVE:
-                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">'.__('sys.inactive').'</span>';
-                break;
+        if ($this->deleted_at) {
+            return '<span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">'.__('sys.draf').'</span>';
+        }else{
+            return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">'.__('sys.active').'</span>';
         }
     }
     public function getCreatedAtFmAttribute(){

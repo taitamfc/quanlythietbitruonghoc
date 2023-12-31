@@ -13,11 +13,14 @@ use Modules\AdminBorrow\app\Http\Controllers\AdminBorrowController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group([
-    'prefix' => 'admin',
-    'middleware' => [
-        'auth'
-    ]
-], function () {
-Route::resource('adminborrow', AdminBorrowController::class)->names('adminborrow');
-});
+// Route::domain('{subdomain}.' . config('app.url'))->group(function () {
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => [
+            'systeminit',
+            'auth'
+        ]
+    ], function () {
+        Route::resource('adminborrow', AdminBorrowController::class)->names('adminborrow');
+    });
+// });

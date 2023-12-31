@@ -10,8 +10,9 @@
                 @csrf
                 <input type="hidden" name="type" value="{{ request()->type }}">
                 <div class="mb-4">
-                    <h5 class="mb-1">Bạn đang chuẩn bị nhập dữ liệu vào: {{ __(request()->type) }}</h5>
-                    <p class="mb-4">Dữ liệu trùng lặp sẽ được cập nhật lại.</p>
+                    <h5 class="mb-4">Bạn đang chuẩn bị nhập dữ liệu vào: {{ __(request()->type) }}</h5>
+                    <p class="mb-0">Dữ liệu mới sẽ được thêm vào, dữ liệu trùng lặp sẽ được cập nhật lại.</p>
+                    <p class="mt-0">Nhấn vào <a href="#">đây</a> để tải tệp nhập liệu mẫu </p>
                 </div>
                 <div class="form-group mb-4">
                     <label class="form-label">Chọn Tệp</label>

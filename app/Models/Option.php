@@ -9,6 +9,13 @@ class Option extends Model
 {
     use HasFactory;
     protected $table ='options';
+    protected $fillable = [
+        'option_value',
+        'option_name',
+        'option_label',
+        'option_group'
+    ];
+
     public $timestamps = false;
 
 }

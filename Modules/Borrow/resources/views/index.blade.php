@@ -10,28 +10,33 @@
 
     <!-- Item actions -->
     <form action="{{ route($route_prefix.'index') }}" method="get">
-        <div class="row g-3">
-            <div class="col-auto flex-grow-1">
-                <div class="position-relative">
-                    <input class="form-control" name="name" type="text" placeholder="Search name">
-                </div>
-            </div>
-            <div class="col-auto">
-                <x-admintheme::form-status model="{{ $model }}" status="{{ request()->status }}" showAll="1"/>
-            </div>
-            <div class="col-auto">
-                <select class="form-control dropdown-toggle" name="sortBy">
-                    <option value="" @selected( request()->sortBy == '' )>{{ __('sys.sort_default') }}</option>
-                    <option value="id_asc" @selected( request()->sortBy == 'id_asc' )>{{ __('sys.id_asc') }}</option>
-                    <option value="name_asc" @selected( request()->sortBy == 'name_asc' )>{{ __('sys.name_asc') }}</option>
-                    <option value="created_asc" @selected( request()->sortBy == 'created_asc' )>{{ __('sys.created_asc') }}</option>
+        <div class="row">
+            <div class="col col-xs-6">
+                <label class="form-label fw-bold">Buổi</label>
+                <select name="session" class="form-control" onchange="this.form.submit()">
+                    <option value="">---</option>
+                    <option @selected(request()->session == 'AM') value="AM">Sáng</option>
+                    <option @selected(request()->session == 'PM') value="PM">Chiều</option>
                 </select>
             </div>
-            <div class="col-auto">
-                <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                    <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Search</button>
-                </div>
+            <div class="col col-xs-6">
+                <label class="form-label fw-bold">Ngày dạy : Tuần</label>
+                <input type="week" min="2022-W01" max="{{ date('Y') }}-W99" name="week" class="form-control" value="{{ request()->week }}" onchange="this.form.submit()">
             </div>
+            <div class="col col-xs-6">
+                <label class="form-label fw-bold">Ngày dạy : Năm</label>
+                <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}" autoSubmit="true"/>
+            </div>
+            <div class="col col-xs-6">
+                <label class="form-label fw-bold">Trạng thái</label>
+                <select name="status" class="form-control" onchange="this.form.submit()">
+                    <option value="">---</option>
+                    <option @selected(request()->status == $model::ACTIVE) value="{{ $model::ACTIVE   }}">Duyệt</option>
+                    <option @selected(request()->status != '' && request()->status == $model::INACTIVE) value="{{ $model::INACTIVE }}">Chờ</option>
+                    <option @selected(request()->status == $model::CANCELED) value="{{ $model::CANCELED }}">Hủy</option>
+                </select>
+            </div>
+            
         </div>
     </form>
 
@@ -42,24 +47,26 @@
                     <table class="table align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>STT</th>
+                                <th>Mã</th>
                                 <th>Người mượn</th>
                                 <th>Ngày tạo phiếu</th>
                                 <th>Ngày dạy</th>
                                 <th>Số thiết bị</th>
-                                <th>Xét duyệt</th>
-                                <th>Chức năng</th>
+                                <th>Phòng bộ môn</th>
+                                <th>Trạng thái</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         @if( count( $items ) )
                             @foreach( $items as $key => $item )
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td>#{{ $item->id }}</td>
                                 <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->created_at_fm }}</td>
                                 <td>{{ $item->borrow_date_fm }}</td>
                                 <td>{{ $item->number_devices }}</td>
+                                <td>{{ $item->name_labs }}</td>
                                 <td>{!! $item->status_fm !!}</td>
                                 <td>
                                     <div class="dropdown">

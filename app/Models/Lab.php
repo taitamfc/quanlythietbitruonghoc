@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Lab extends WebsiteModel
 {
     use HasFactory;
+    protected $fillable = ['id','name', 'quantity','department_id'];
+
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');

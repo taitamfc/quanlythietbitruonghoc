@@ -228,16 +228,20 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('system.index',['type'=>'general']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Đơn Vị
                 </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('system.index',['type'=>'borrow']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Mượn Thiết Bị
                 </a>
             </li>
-            
+            <li>
+                <a href="{{ route('system.index',['type'=>'update']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Cập Nhật
+                </a>
+            </li>    
         </ul>
     </li>
     <!-- <li class="menu-label">Hướng Dẫn Sử Dụng</li> -->
