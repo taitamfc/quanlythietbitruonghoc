@@ -2,9 +2,17 @@
 <ul class="metismenu" id="menu">
     <li class="menu-label">Giáo Viên</li>
     <li>
+        <a href="{{ route('borrows.create') }}">
+            <div class="parent-icon">
+                <span class="material-symbols-outlined">dashboard</span>
+            </div>
+            <div class="menu-title">Trang Chủ</div>
+        </a>
+    </li>
+    <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">receipt_long</span>
             </div>
             <div class="menu-title">Mượn Thiết Bị</div>
         </a>
@@ -22,11 +30,19 @@
         </ul>
     </li>
     <li class="menu-label">Quản Lý</li>
+    <li>
+        <a href="{{ route('borrows.create') }}">
+            <div class="parent-icon">
+                <span class="material-symbols-outlined">dashboard</span>
+            </div>
+            <div class="menu-title">Trang Tổng Quan</div>
+        </a>
+    </li>
     <!-- <li class="menu-label">Quản Lý Mượn Thiết Bị</li> -->
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">backup_table</span>
             </div>
             <div class="menu-title">Quản Lý Mượn</div>
         </a>
@@ -47,7 +63,7 @@
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">home</span>
             </div>
             <div class="menu-title">Trường Học</div>
         </a>
@@ -114,7 +130,7 @@
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">swipe_up</span>
             </div>
             <div class="menu-title">Nhập Dữ Liệu</div>
         </a>
@@ -160,7 +176,7 @@
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">swipe_down</span>
             </div>
             <div class="menu-title">Xuất Dữ Liệu</div>
         </a>
@@ -206,7 +222,7 @@
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">settings_applications</span>
             </div>
             <div class="menu-title">Cấu Hình</div>
         </a>
@@ -228,7 +244,7 @@
     <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon">
-                <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined">shop</span>
             </div>
             <div class="menu-title">Hướng Dẫn</div>
         </a>

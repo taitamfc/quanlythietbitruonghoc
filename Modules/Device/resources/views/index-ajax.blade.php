@@ -1,4 +1,4 @@
-<form class="row" action="{{ route('website.devices.index') }}" id="form-search" method="get">
+<form class="row form-search" action="{{ route('website.devices.index') }}" method="get">
     <div class="col-6 col-lg-3">
         <input type="text" name="name" class="form-control f-filter-up" placeholder="Tên thiết bị" value="{{ request()->name }}">
     </div>

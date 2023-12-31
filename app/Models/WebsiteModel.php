@@ -11,7 +11,7 @@ class WebsiteModel extends Model
     use HasFactory;
     // use UploadFileTrait;
     const ACTIVE    = 1;
-    const INACTIVE  = 2;
+    const INACTIVE  = 0;
     const DRAFT     = -1;
 
     static $upload_dir = 'uploads';
@@ -20,6 +20,13 @@ class WebsiteModel extends Model
         self::$upload_dir = $upload_dir;
     }
 
+    public static function getAll($request = null){
+        $query = self::query(true);
+        $query->whereNull('deleted_at');
+        $query->orderBy('name');
+        $items = $query->get();
+        return $items;
+    }
     public static function getItems($request = null,$limit = 20){
         $query = self::query(true);
         $query->where('user_id',Auth::id());
@@ -28,20 +35,6 @@ class WebsiteModel extends Model
         }
         if($request->status){
             $query->where('status',$request->status);
-        }
-        switch ($request->sortBy) {
-            case 'id_asc':
-                $query->orderBy('id','asc');
-                break;
-            case 'name_asc':
-                $query->orderBy('name','asc');
-                break;
-            case 'created_asc':
-                $query->orderBy('created_at','asc');
-                break;
-            default : 
-                $query->orderBy('id','desc');
-                break;
         }
         $items = $query->paginate($limit);
         return $items;

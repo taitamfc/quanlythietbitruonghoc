@@ -14,12 +14,15 @@ class DeviceController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $view_path    = 'device::';
+    protected $route_prefix = 'device.';
+    protected $model        = Device::class;
     public function index(Request $request)
     {
-        $device_types = DeviceType::all();
-        $departments = Department::all();
+        $device_types = DeviceType::getAll();
+        $departments = Department::getAll();
         $limit = $request->limit ? $request->limit : 20;
-        $query = Device::orderBy('name','ASC');
+        $query = $this->model::orderBy('name','ASC');
         if($request->name){
             $query->where('name','LIKE','%'.$request->name.'%');
         }

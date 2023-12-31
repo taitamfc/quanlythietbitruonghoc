@@ -4,7 +4,6 @@ $(function() {
 
 
 // app dropdown
-new PerfectScrollbar(".app-container")
 new PerfectScrollbar(".header-notifications-list")
 
 

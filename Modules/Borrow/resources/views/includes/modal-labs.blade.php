@@ -1,11 +1,11 @@
-<div class="modal fade" id="modal-devices" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal-labs" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title fw-bold">DANH SÁCH THIẾT BỊ HIỆN CÓ</div>
+                <div class="modal-title fw-bold">DANH SÁCH PHÒNG HỌC HIỆN CÓ</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body device-table-results">
+            <div class="modal-body lab-table-results">
                 <div class="text-center pt-5 pb-5">{{ __('sys.loading_data') }}</div>
             </div>
             <div class="modal-footer">
@@ -17,10 +17,10 @@
 <script>
     
     jQuery(document).ready(function() {
-        let indexUrl = "{{ route('website.devices.index') }}";
+        let indexUrl = "{{ route('labs.index') }}";
         let positionUrl = "";
         let params = <?= json_encode(request()->query()); ?>;
-        let wrapperResults = '.device-table-results';
+        let wrapperResults = '.lab-table-results';
         // Get all items
         getAjaxTable(indexUrl, wrapperResults, positionUrl, 'limit=20');
 
