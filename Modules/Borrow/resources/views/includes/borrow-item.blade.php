@@ -12,9 +12,6 @@
     <input type="hidden" data-name="tiet" name="devices[{{ $tiet }}][tiet]" name="devices[{{ $tiet }}][tiet]" value="{{ $tiet }}">
     <div class="card">
         <div class="card-body">
-            <!-- Repeater Content 
-            Tên bài dạy	Buổi	Tiêt PPCT	Lớp	Tiết TKB
-            -->
             <div class="item-content">
                 <div class="row mb-4">
                     <div class="col col-lg-3 col-6 input-devices-{{ $tiet }}-lesson_name">
@@ -42,7 +39,7 @@
                         <select data-name="room_id"  name="devices[{{ $tiet }}][room_id]" id="devices_{{ $tiet }}_room_id"
                             class="form-control select2">
                             @foreach($rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->name }}</option>
+                            <option @selected($borrow['room_id'] == $room->id) value="{{ $room->id }}">{{ $room->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -50,11 +47,11 @@
                         <label class="form-label">Tiết TKB</label>
                         <select data-name="lecture_number" data-name="devices[{{ $tiet }}][lecture_number]" name="devices[{{ $tiet }}][lecture_number]"
                             id="devices_{{ $tiet }}_lecture_number" class="form-control">
-                            <option @selected($borrow['session'] == 1) value="1">1</option>
-                            <option @selected($borrow['session'] == 2) value="2">2</option>
-                            <option @selected($borrow['session'] == 3) value="3">3</option>
-                            <option @selected($borrow['session'] == 4) value="4">4</option>
-                            <option @selected($borrow['session'] == 5) value="5">5</option>
+                            <option @selected($borrow['lecture_number'] == 1) value="1">1</option>
+                            <option @selected($borrow['lecture_number'] == 2) value="2">2</option>
+                            <option @selected($borrow['lecture_number'] == 3) value="3">3</option>
+                            <option @selected($borrow['lecture_number'] == 4) value="4">4</option>
+                            <option @selected($borrow['lecture_number'] == 5) value="5">5</option>
                         </select>
                     </div>
                     <div class="col col-lg-3 col-6 lab-choiced">
@@ -99,7 +96,7 @@
                                         <td>{{ $key + 1 }}<input data-name="device_id" name="devices[{{ $tiet }}][device_id]" type="hidden" value="{{ $borrow_item->device_id }}"></td>
                                         <td>{{ $borrow_item->device->name }}</td>
                                         <td width="100px">
-                                            <input data-name="quantity" name="devices[{{ $tiet }}][quantity]" type="number" min="1" value="{{ $borrow_item->quantity }}" class="form-control">
+                                            <input data-device-id="{{ $borrow_item->device_id }}" data-tiet-id="{{ $tiet }}" name="devices[{{ $tiet }}][quantity]" type="number" min="1" value="{{ $borrow_item->quantity }}" class="form-control change-qty-device">
                                         </td>
                                         <td>{{ @$borrow_item->device->devicetype->name }}</td>
                                         <td>{{ @$borrow_item->device->department->name }}</td>

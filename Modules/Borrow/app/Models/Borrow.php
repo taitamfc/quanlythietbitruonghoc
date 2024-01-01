@@ -41,6 +41,17 @@ class Borrow extends Model
         }
 
         // Xóa thiết bị
+        if( $request->task == 'change-qty-device' && $request->tiet !== NULL && $request->device_id !== NULL ){
+            $qty = $request->qty;
+            $tiet = $request->tiet;
+            $device_id = $request->device_id;
+            $borrow_devices = $item->borrow_devices()
+            ->where('tiet',$tiet)
+            ->where('device_id',$device_id)
+            ->update([
+                'quantity' => $qty
+            ]);
+        }
         if( $request->task == 'delete-device' && $request->tiet !== NULL && $request->device_id !== NULL ){
             $tiet = $request->tiet;
             $device_id = $request->device_id;
@@ -54,6 +65,27 @@ class Borrow extends Model
             }
         }
         // Chọn phòng bộ môn
+        if( $request->devices && in_array($request->task,['add-lab']) ){
+            foreach( $request->devices as $tiet => $device ){
+                $borrow_devices = $item->borrow_devices()->where('tiet',$tiet);
+                // Nếu có thiết bị thì cập nhật phòng, không thì tạo mới thiết bị rỗng
+                if($borrow_devices->count()){
+                    $borrow_devices->update([
+                        'lab_id' => $device['lab_id']
+                    ]);
+                }else{
+                    $borrow_devices->create([
+                        'lesson_name' => $device['lesson_name'],
+                        'session' => $device['session'],
+                        'lecture_name' => $device['lecture_name'],
+                        'room_id' => $device['room_id'],
+                        'lecture_number' => $device['lecture_number'],
+                        'lab_id' => $device['lab_id']
+                    ]);
+                }
+            }
+        }
+
         // Thêm thiết bị
         if( $request->devices && in_array($request->task,['add-device']) ){
             $index = 0;
@@ -87,6 +119,18 @@ class Borrow extends Model
                     'lecture_number' => $device['lecture_number'],
                     'lab_id' => $device['lab_id']
                 ]);
+            }
+
+            // Xử lý phiếu có thiết bị + phòng bộ môn
+            if( count($active_tiets) ){
+                foreach( $active_tiets as $active_tiet ){
+                    $number_devices = $item->borrow_devices()
+                    ->where('tiet',$tiet)
+                    ->count();
+                    if( $number_devices > 1 ){
+                        $item->borrow_devices()->where('tiet',$tiet)->where('device_id',0)->delete();
+                    }
+                }
             }
         }
         // Thêm tiết dạy mới

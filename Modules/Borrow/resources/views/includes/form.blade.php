@@ -28,15 +28,6 @@
     </div>
 </div>
 <div id="repeater">
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-                <p class="mb-0">Giáo viên có thể thêm nhiều tiết dạy, mỗi tiết dạy không yêu cầu thêm thiết bị.</p>
-                <button type="button" class="btn btn-sm btn-primary repeater-add-btn add-tiet px-4">Thêm Tiết Dạy</button>
-            </div>
-        </div>
-    </div>
-
     @if( count( $item->borrow_items ) )
         @foreach( $item->borrow_items as $tiet =>  $borrow_items )
             @include('borrow::includes.borrow-item',[ 
@@ -52,4 +43,14 @@
             'borrow' => null,
         ])
     @endif
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-0">Giáo viên có thể thêm nhiều tiết dạy, mỗi tiết dạy không yêu cầu thêm thiết bị.</p>
+                <button type="button" class="btn btn-sm btn-primary repeater-add-btn add-tiet px-4">Thêm Tiết Dạy</button>
+            </div>
+        </div>
+    </div>
+
 </div>

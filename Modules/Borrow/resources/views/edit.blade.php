@@ -10,6 +10,7 @@
             <input type="hidden" name="task" id="task">
             <input type="hidden" name="tiet" id="tiet">
             <input type="hidden" name="device_id" id="device_id">
+            <input type="hidden" name="qty" id="qty">
             <input type="hidden" name="status" id="status" value="{{ $item->status }}">
             @csrf
             @method('PUT')
@@ -76,6 +77,14 @@
                 jQuery(this).closest('.device_item').remove();
                 saveItem('delete-device');
             });
+            jQuery('body').on('change', ".change-qty-device", function(e) {
+                tiet_id = jQuery(this).data('tiet-id');
+                device_id = jQuery(this).data('device-id');
+                jQuery('#tiet').val(tiet_id);
+                jQuery('#device_id').val(device_id);
+                jQuery('#qty').val(jQuery(this).val());
+                saveItem('change-qty-device');
+            });
             jQuery('body').on('click', ".add-tiet", function(e) {
                 saveItem('add-tiet');
             });
@@ -110,7 +119,7 @@
                 jQuery('.items[data-tiet="'+tiet_id+'"]').find('[data-name="lab_id"]').val(lab_id);
                 jQuery('.items[data-tiet="'+tiet_id+'"]').find('.show-labs').html(lab_name);
                 jQuery('.items[data-tiet="'+tiet_id+'"]').find('.delete-lab').removeClass('d-none');
-                jQuery('#modal-labs').modal('hide');
+                saveItem('add-lab');
             });
 
             // Handle add device
@@ -157,18 +166,22 @@
                             showAlertError('Vui lòng điền vào các trường bắt buộc !')
                         }else{
                             if (res.success == true) {
-                                showAlertSuccess(res.msg)
                                 if(task == 'show-devices'){
                                     jQuery('#modal-devices').modal('show');
                                 }
                                 if(task == 'save-draft' || task == 'add-tiet' || task == 'delete-tiet'){
+                                    showAlertSuccess(res.msg)
                                     window.location.reload();
                                 }
                                 if(task == 'show-labs'){
                                     jQuery('#modal-labs').modal('show');
                                 }
                                 if( task == 'save-form' ){
+                                    showAlertSuccess(res.msg)
                                     window.location.href = indexUrl;
+                                }
+                                if( task == 'add-lab' ){
+                                    jQuery('#modal-labs').modal('hide');
                                 }
                             }else{
                                 showAlertError(res.msg)
