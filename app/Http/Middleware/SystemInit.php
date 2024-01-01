@@ -40,7 +40,7 @@ class SystemInit
         return $isLastVersion;
     }
     public function checkAppInstalled(){
-        $tables = [
+        $need_tables = [
             'assets',
             'borrow_devices',
             'borrows',
@@ -59,14 +59,27 @@ class SystemInit
             'rooms',
             'users'
         ];
-        $current_tables = DB::select('SHOW TABLES');
+        $current_tables = [];
+        $all_tables = DB::select('SHOW TABLES');
+        if($all_tables){
+            foreach($all_tables as $all_table){
+                $all_table = (array)$all_table;
+                $all_table = array_values($all_table);
+                $current_tables[] = current($all_table);
+            }
+        }
         if( !count($current_tables) ){
             return false;
         }
         $installed = true;
-        foreach( $current_tables as $current_table ){
-            if( !in_array($current_table,$tables) ){
-                $installed = false;
+        // Ver 1.0 number tables smaller than new 
+        if( count($current_tables) >= count($need_tables)  ){
+
+        }else{
+            foreach( $current_tables as $current_table ){
+                if( !in_array($current_table,$need_tables) ){
+                    $installed = false;
+                }
             }
         }
         return $installed;

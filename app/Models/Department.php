@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Department extends WebsiteModel
 {
     use HasFactory;
-    use SoftDeletes;
+    
     protected $table = "departments";
     protected $fillable = [
         'name',

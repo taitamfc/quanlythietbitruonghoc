@@ -10,11 +10,11 @@ class BorrowDevice extends Model
 {
     use HasFactory;
     protected $table ='borrow_devices';
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $fillable = ['id', 'borrow_id', 'device_id','room_id','quantity','borrow_date','return_date','lecture_name','lesson_name','session','image_last','image_first','status','lecture_number'];
     public function borrow()
     {
-        return $this->belongsTo(Borrow::class, 'borrow_id', 'id')->withoutTrashed();
+        return $this->belongsTo(Borrow::class, 'borrow_id', 'id');
     }
 
     public function device()

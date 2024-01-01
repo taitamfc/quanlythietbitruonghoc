@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\AdminBorrow\app\Http\Controllers\AdminBorrowController;
+use Modules\AdminBorrow\app\Http\Controllers\AdminBorrowDeviceController;
+use Modules\AdminBorrow\app\Http\Controllers\AdminBorrowLabController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +15,26 @@ use Modules\AdminBorrow\app\Http\Controllers\AdminBorrowController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::domain('{subdomain}.' . config('app.url'))->group(function () {
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'systeminit',
+        'auth'
+    ]
+], function () {
     Route::group([
-        'prefix' => 'admin',
-        'middleware' => [
-            'systeminit',
-            'auth'
-        ]
+        'prefix' => 'adminborrow',
     ], function () {
-        Route::resource('adminborrow', AdminBorrowController::class)->names('adminborrow');
+        Route::get('devices', [AdminBorrowDeviceController::class,'devices'])->name('adminborrow.devices');
+        Route::get('exportBorrowDeviceByUser', [AdminBorrowDeviceController::class,'exportBorrowDeviceByUser'])->name('adminborrow.exportBorrowDeviceByUser');
+        Route::get('exportBorrowDeviceByNest', [AdminBorrowDeviceController::class,'exportBorrowDeviceByNest'])->name('adminborrow.exportBorrowDeviceByNest');
     });
-// });
+    Route::group([
+        'prefix' => 'adminborrow',
+    ], function () {
+        Route::get('labs', [AdminBorrowLabController::class,'labs'])->name('adminborrow.labs');
+        Route::get('exportBorrowLabByUser', [AdminBorrowLabController::class,'exportBorrowLabByUser'])->name('adminborrow.exportBorrowLabByUser');
+        Route::get('exportBorrowLabByNest', [AdminBorrowLabController::class,'exportBorrowLabByNest'])->name('adminborrow.exportBorrowDeviceByNest');
+    });
+    Route::resource('adminborrow', AdminBorrowController::class)->names('adminborrow');
+});

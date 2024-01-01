@@ -10,7 +10,7 @@ class Borrow extends Model
 {
     use HasFactory;
     protected $table ='borrows';
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $fillable = ['id', 'user_id', 'borrow_date','created_at','updated_at','deleted_at','borrow_note','status','approved'];
 
     public function user()

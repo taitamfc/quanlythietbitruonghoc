@@ -8,10 +8,10 @@ use Modules\AdminBorrow\Database\factories\BorrowDeviceFactory;
 use App\Models\Device;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-class BorrowDevice extends Model
+class BorrowLab extends Model
 {
     use HasFactory;
-
+    protected $table = 'borrow_devices';
     /**
      * The attributes that are mass assignable.
      */
@@ -68,47 +68,15 @@ class BorrowDevice extends Model
             $query->whereBetween('borrow_date', $startDateEndDate);
         }
         $query->orderBy('borrow_date','asc');
+        $query->orderBy('session','desc');
+        $query->orderBy('lecture_number','asc');
         $items = $query->get();
         $nitems = [];
         foreach( $items as $BorrowDevice ){
-            $nitems[$BorrowDevice->borrow_date.'-'.$BorrowDevice->room_id.'-'.Str::slug($BorrowDevice->lesson_name).'-'.$BorrowDevice->session.'-'.$BorrowDevice->lecture_number][] = $BorrowDevice;
+            if(!$BorrowDevice->lab_id) continue;
+            $nitems[$BorrowDevice->borrow_date.'-'.$BorrowDevice->lab_id][] = $BorrowDevice;
         }
-        $items = [];
-        foreach( $nitems as $item ){
-            $departmentName = '';
-            $lab_name = '';
-            if( empty($item[0]) ){
-                continue;
-            }
-            $device_names = [];
-            foreach( $item as $key => $device_item ){
-                if(empty($lab_name)){
-                    $lab_name = $device_item->lab->name ?? '';
-                }
-                $device_names[$key] = '- '.$device_item->device->name . ' ('. $device_item->quantity .')';
-                if (empty($departmentName)) {
-                    $departmentName = $device_item->device->department->name;
-                }
-            }
-            $device_names = implode(' <br> ', $device_names);
-            $items[] = [
-                'borrow_date' => $item[0]->borrow ? date('d/m/Y',strtotime($item[0]->borrow->borrow_date)) : '',
-                'return_date' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->return_date)) : '',
-                'created_at' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->created_at)) : '',
-                'device_name' => $device_names,
-                'quantity' => $item[0]->quantity,
-                'session' => $item[0]->session,
-                'lecture_name' => $item[0]->lecture_name,
-                'lesson_name' => $item[0]->lesson_name,
-                'lecture_number' => $item[0]->lecture_number,
-                'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
-                'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
-                'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
-                'department'    => $departmentName, // Sử dụng giá trị đơn lẻ
-                'lab_name'      => $lab_name, // Sử dụng giá trị đơn lẻ
-            ];
-        }
-        return $items;
+        return $nitems;
     }
     public function room()
     {

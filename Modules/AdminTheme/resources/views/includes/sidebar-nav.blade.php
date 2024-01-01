@@ -2,7 +2,7 @@
 <ul class="metismenu" id="menu">
     <li class="menu-label">Giáo Viên</li>
     <li>
-        <a href="{{ route('borrows.create') }}">
+        <a href="{{ route('home') }}">
             <div class="parent-icon">
                 <span class="material-symbols-outlined">dashboard</span>
             </div>
@@ -31,7 +31,7 @@
     </li>
     <li class="menu-label">Quản Lý</li>
     <li>
-        <a href="{{ route('borrows.create') }}">
+        <a href="{{ route('admin.home') }}">
             <div class="parent-icon">
                 <span class="material-symbols-outlined">dashboard</span>
             </div>
@@ -53,8 +53,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminborrow.index') }}">
+                <a href="{{ route('adminborrow.devices') }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị Mượn
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminborrow.labs') }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Phòng Mượn
                 </a>
             </li>
         </ul>
@@ -224,21 +229,21 @@
             <div class="parent-icon">
                 <span class="material-symbols-outlined">settings_applications</span>
             </div>
-            <div class="menu-title">Cấu Hình</div>
+            <div class="menu-title">Hệ Thống</div>
         </a>
         <ul class="mm-collapse">
             <li>
                 <a href="{{ route('system.index',['type'=>'general']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Đơn Vị
+                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Chung
                 </a>
             </li>
             <li>
                 <a href="{{ route('system.index',['type'=>'borrow']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Mượn Thiết Bị
+                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Mượn Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('system.index',['type'=>'update']) }}">
+                <a href="{{ route('system.update.index') }}">
                     <span class="material-symbols-outlined">arrow_right</span>Cập Nhật
                 </a>
             </li>    

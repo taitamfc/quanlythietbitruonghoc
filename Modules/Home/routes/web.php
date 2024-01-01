@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\AdminHome\app\Http\Controllers\AdminHomeController;
+use Modules\Home\app\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +14,6 @@ use Modules\AdminHome\app\Http\Controllers\AdminHomeController;
 |
 */
 
-Route::group([
-    'prefix' => 'admin',
-    'middleware' => [
-        // 'systeminit',
-        'auth'
-    ]
-], function () {
-    Route::get('/', [AdminHomeController::class,'index'])->name('admin.home');
+Route::group([], function () {
+    Route::get('/', [HomeController::class,'index'])->name('home');
 });

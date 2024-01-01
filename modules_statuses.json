@@ -12,5 +12,6 @@
     "AdminImport": true,
     "AdminExport": true,
     "AdminBorrow": true,
-    "System": true
+    "System": true,
+    "Home": true
 }

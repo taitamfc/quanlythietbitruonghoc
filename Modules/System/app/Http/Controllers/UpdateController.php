@@ -36,16 +36,20 @@ class UpdateController extends Controller
         }
 
         if($updated){
-            \App\Models\Option::updateOrCreate([
-                'option_value' => $this->lastVersion,
-                'option_name' => 'app_verison',
-                'option_label' => 'Phiên bản phần mềm',
-                'option_group' => 'system',
-                'option_group_name' => 'Hệ Thống',
-            ],[
-                'option_name' => 'app_verison'
-            ]);
-            
+            \App\Models\Option::where('option_name','app_verison')->delete();
+            $option = \App\Models\Option::where('option_name','app_verison')->first();
+            if($option){
+                $option->option_value = $this->lastVersion;
+                $option->save();
+            }else{
+                \App\Models\Option::create([
+                    'option_value' => $this->lastVersion,
+                    'option_name' => 'app_verison',
+                    'option_label' => 'Phiên bản phần mềm',
+                    'option_group' => 'system',
+                    'option_group_name' => 'Hệ Thống',
+                ]);
+            }
             return redirect()->back()->with('success','Cập nhật thành công !');
         }else{
             return redirect()->back()->with('error','Cập nhật không thành công !');

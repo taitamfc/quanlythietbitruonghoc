@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends WebsiteModel
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $table = "rooms";
     protected $fillable = [
         'name',

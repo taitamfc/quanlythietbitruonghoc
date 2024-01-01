@@ -15,12 +15,14 @@ class Ver20 extends Model
         try {
             self::createLabTable();
             self::updateBorrowDeviceTable();
+            self::updateBorrowDeviceData();
             self::insertDataForLabTable();
+            self::updateBorrowDeviceLabData();
+
             DB::commit();
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return false;
         }
     }
@@ -49,6 +51,37 @@ class Ver20 extends Model
                 $table->unsignedBigInteger('lab_id');
             });
         }
+    }
+    public static function updateBorrowDeviceData(){
+        $searchBorrowDevices = \App\Models\BorrowDevice::whereNull('borrow_date')->get();
+        if( $searchBorrowDevices ){
+            foreach($searchBorrowDevices as $borrowDevice){
+                if($borrowDevice->borrow && $borrowDevice->borrow->borrow_date){
+                    $borrowDevice->borrow_date = $borrowDevice->borrow->borrow_date;
+                    $borrowDevice->save();
+                }
+            }
+        }
+    }
+    public static function updateBorrowDeviceLabData(){
+        $searchLabs = \App\Models\Device::select(['id'])->where('name','LIKE','%phòng%');
+        if($searchLabs){
+            $labs = \App\Models\Lab::pluck('id','name')->toArray();
+            $lab_ids = $searchLabs->pluck('id')->toArray();
+
+            $searchBorrowDevices = \App\Models\BorrowDevice::whereIn('device_id',$lab_ids)->get();
+            if( $searchBorrowDevices ){
+                foreach($searchBorrowDevices as $borrowDevice){
+                    $deviceName = $borrowDevice->device->name;
+                    $lab_id = @$labs[$deviceName];
+                    if($lab_id){
+                        $borrowDevice->lab_id = $lab_id;
+                        $borrowDevice->save();
+                    }
+                }
+            }
+        }
+        
     }
 
     public static function insertDataForLabTable(){
