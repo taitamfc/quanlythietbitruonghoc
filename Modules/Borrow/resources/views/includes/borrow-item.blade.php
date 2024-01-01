@@ -57,10 +57,17 @@
                             <option @selected($borrow['session'] == 5) value="5">5</option>
                         </select>
                     </div>
-                    <div class="col col-lg-3 col-6">
-                        <div><label class="form-label">Phòng bộ môn</label></div>
-                        <input data-name="lab_id" name="devices[{{ $tiet }}][lab_id]" id="devices_{{ $tiet }}_lab_id" type="hidden">
-                        <button type="button" class="btn btn-sm btn-info px-4 mt-1 show-labs">Chọn</button>
+                    <div class="col col-lg-3 col-6 lab-choiced">
+                        <div>
+                            <label class="form-label">Phòng bộ môn</label>
+                            <span title="Xóa phòng bộ môn" class="float-end ml-1 delete-lab x{{ $borrow_items[0]->lab_id ?? 'd-none' }}" data-tiet-id="{{ $tiet }}">Xóa</span>
+                        </div>
+                        <div class="">
+                            <input data-name="lab_id" name="devices[{{ $tiet }}][lab_id]" id="devices_{{ $tiet }}_lab_id" type="hidden" value="{{ $borrow_items[0]->lab_id ?? 0 }}">
+                            <button title="Nhấn để chọn lại Phòng Bộ Môn" type="button" class="btn btn-sm btn-info mt-1 show-labs" data-tiet-id="{{ $tiet }}">
+                                {{ $borrow_items[0]->lab->name ?? 'Chọn' }}
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-4">
@@ -85,16 +92,19 @@
                                 </thead>
                                 <tbody class="tiet_devices">
                                     @foreach($borrow_items as $key => $borrow_item)
+                                    @if( !$borrow_item->device_id )
+                                        @continue
+                                    @endif
                                     <tr class="device_item">
                                         <td>{{ $key + 1 }}<input data-name="device_id" name="devices[{{ $tiet }}][device_id]" type="hidden" value="{{ $borrow_item->device_id }}"></td>
                                         <td>{{ $borrow_item->device->name }}</td>
                                         <td width="100px">
                                             <input data-name="quantity" name="devices[{{ $tiet }}][quantity]" type="number" min="1" value="{{ $borrow_item->quantity }}" class="form-control">
                                         </td>
-                                        <td>{{ $borrow_item->device->devicetype->name }}</td>
-                                        <td>{{ $borrow_item->device->department->name }}</td>
+                                        <td>{{ @$borrow_item->device->devicetype->name }}</td>
+                                        <td>{{ @$borrow_item->device->department->name }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger">Xóa</button>
+                                            <button type="button" class="btn btn-sm btn-danger delete-device" data-device-id="{{ $borrow_item->device_id }}" data-tiet-id="{{ $tiet }}">Xóa</button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -106,7 +116,7 @@
             </div>
             <!-- Repeater Remove Btn -->
             <div class="repeater-remove-btn">
-                <button class="btn btn-danger btn-sm remove-btn px-4 delete-tiet" data-tiet-id="{{ $tiet }}">
+                <button type="button" class="btn btn-danger btn-sm remove-btn px-4 delete-tiet" data-tiet-id="{{ $tiet }}">
                     Xóa tiết dạy này
                 </button>
             </div>

@@ -106,6 +106,26 @@ class Borrow extends Model
     public function getNumberDevicesAttribute(){
         return $this->borrow_devices ? $this->borrow_devices->count() : 0;
     }
+    public function getLabNamesAttribute(){
+        $lab_ids = $this->borrow_devices->pluck('lab_id','lab_id');
+        $names = '';
+        if($lab_ids){
+            $lab_ids = $lab_ids->toArray();
+            $labs = \App\Models\Lab::whereIn('id',$lab_ids)->pluck('name')->toArray();
+            $names = implode('<br>',$labs);
+        }
+        return $names;
+    }
+    public function getDeviceNamesAttribute(){
+        $device_ids = $this->borrow_devices->pluck('device_id','device_id');
+        $names = '';
+        if($device_ids){
+            $device_ids = $device_ids->toArray();
+            $labs = \App\Models\Device::whereIn('id',$device_ids)->pluck('name')->toArray();
+            $names = implode('<br>',$labs);
+        }
+        return $names;
+    }
     public function getStatusFmAttribute(){
         switch ($this->status) {
             case self::DRAFT:

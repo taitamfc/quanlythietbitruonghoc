@@ -61,7 +61,7 @@
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->department->name }}</td>
                 <td>-</td>
-                <td> <button data-device-id="{{ $item->id }}" class="btn btn-sm btn-primary add-device">Thêm</button> </td>
+                <td> <button data-lab-id="{{ $item->id }}" data-name="{{ $item->name }}" class="btn btn-sm btn-primary add-lab">Thêm</button> </td>
             </tr>
             @endforeach
         </tbody>

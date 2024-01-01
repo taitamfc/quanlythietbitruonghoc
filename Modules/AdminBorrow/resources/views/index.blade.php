@@ -57,12 +57,11 @@
                         <thead class="table-light">
                             <tr>
                                 <th>Mã</th>
-                                <th>Người mượn</th>
-                                <th>Ngày tạo phiếu</th>
-                                <th>Ngày dạy</th>
-                                <th>Số thiết bị</th>
-                                <th>Phòng bộ môn</th>
-                                <th>Trạng thái</th>
+                                <th width="20%">Người mượn</th>
+                                <th width="10%">Ngày dạy</th>
+                                <th>Thiết bị</th>
+                                <th width="20%">Phòng bộ môn</th>
+                                <th width="15%">Trạng thái</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -71,11 +70,13 @@
                             @foreach( $items as $key => $item )
                             <tr>
                                 <td>#{{ $item->id }}</td>
-                                <td>{{ $item->user_name }}</td>
-                                <td>{{ $item->created_at_fm }}</td>
+                                <td>
+                                    {{ $item->user_name }}
+                                    <p class="mb-0 product-category">{{ $item['created_at_fm'] }}</p>
+                                </td>
                                 <td>{{ $item->borrow_date_fm }}</td>
-                                <td>{{ $item->number_devices }}</td>
-                                <td>{{ $item->name_labs }}</td>
+                                <td>{!! $item->device_names !!}</td>
+                                <td>{!! $item->lab_names !!}</td>
                                 <td>{!! $item->status_fm !!}</td>
                                 <td>
                                     <div class="dropdown">

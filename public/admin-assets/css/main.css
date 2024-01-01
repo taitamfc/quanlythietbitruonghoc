@@ -1860,3 +1860,11 @@ a {
 		display: none
 	}
 }
+.delete-lab {
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.show-labs {
+	width: 100%;
+}

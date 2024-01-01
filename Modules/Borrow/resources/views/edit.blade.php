@@ -8,6 +8,8 @@
     <div class="col-12 col-lg-12">
         <form id="borrow-form" action="{{ route('borrows.update',$item->id) }}" method="post">
             <input type="hidden" name="task" id="task">
+            <input type="hidden" name="tiet" id="tiet">
+            <input type="hidden" name="device_id" id="device_id">
             <input type="hidden" name="status" id="status" value="{{ $item->status }}">
             @csrf
             @method('PUT')
@@ -58,18 +60,28 @@
             // Handle show devices
             jQuery('body').on('click', ".show-devices", function(e) {
                 tiet_id = jQuery(this).data('tiet-id');
+                jQuery('#tiet').val(tiet_id);
                 saveItem('show-devices');
             });
             jQuery('body').on('click', ".show-labs", function(e) {
                 tiet_id = jQuery(this).data('tiet-id');
+                jQuery('#tiet').val(tiet_id);
                 saveItem('show-labs');
+            });
+            jQuery('body').on('click', ".delete-device", function(e) {
+                tiet_id = jQuery(this).data('tiet-id');
+                device_id = jQuery(this).data('device-id');
+                jQuery('#tiet').val(tiet_id);
+                jQuery('#device_id').val(device_id);
+                jQuery(this).closest('.device_item').remove();
+                saveItem('delete-device');
             });
             jQuery('body').on('click', ".add-tiet", function(e) {
                 saveItem('add-tiet');
             });
             jQuery('body').on('click', "#save_draft", function(e) {
                 jQuery('#borrow-form').find('#status').val('{{ $model::DRAFT }}');
-                saveItem('save-form');
+                saveItem('save-draft');
             });
             jQuery('body').on('click', "#submit_request", function(e) {
                 jQuery('#borrow-form').find('#status').val('{{ $model::INACTIVE }}');
@@ -79,9 +91,26 @@
                 let ask = confirm('Bạn có chắc chắn xóa tiết dạy này không ?')
                 if( ask == true ){
                     tiet_id = jQuery(this).data('tiet-id');
+                    jQuery('#tiet').val(tiet_id);
                     jQuery(this).closest('.items').remove();
                     saveItem('delete-tiet');
                 }
+            });
+            // Xử lý thêm phòng bộ môn
+            jQuery('body').on('click', ".delete-lab", function(e) {
+                let lab_choiced = jQuery(this).closest('.lab-choiced');
+                lab_choiced.find('[data-name="lab_id"]').val(0);
+                lab_choiced.find('.show-labs').html('Chọn');
+                lab_choiced.find('.delete-lab').addClass('d-none');
+            })
+            jQuery('body').on('click', ".add-lab", function(e) {
+                tiet_id = jQuery('#tiet').val();
+                let lab_name = jQuery(this).data('name');
+                let lab_id = jQuery(this).data('lab-id');
+                jQuery('.items[data-tiet="'+tiet_id+'"]').find('[data-name="lab_id"]').val(lab_id);
+                jQuery('.items[data-tiet="'+tiet_id+'"]').find('.show-labs').html(lab_name);
+                jQuery('.items[data-tiet="'+tiet_id+'"]').find('.delete-lab').removeClass('d-none');
+                jQuery('#modal-labs').modal('hide');
             });
 
             // Handle add device
@@ -105,7 +134,7 @@
                     </tr>
                 `;
                 jQuery('.items[data-tiet="'+tiet_id+'"]').find('.tiet_devices').append(device_html);
-                saveItem();
+                saveItem('add-device');
             });
 
             function saveItem(task = 'show-devices'){
@@ -119,6 +148,7 @@
                     dataType:'json',
                     data: jQuery('#borrow-form').serialize(),
                     success: function (res) {
+                        jQuery('.input-error').empty();
                         if (res.has_errors) {
                             for (const key in res.errors) {
                                 let keyClass = key.replaceAll('.','-');
@@ -131,7 +161,7 @@
                                 if(task == 'show-devices'){
                                     jQuery('#modal-devices').modal('show');
                                 }
-                                if(task == 'add-tiet' || task == 'delete-tiet'){
+                                if(task == 'save-draft' || task == 'add-tiet' || task == 'delete-tiet'){
                                     window.location.reload();
                                 }
                                 if(task == 'show-labs'){

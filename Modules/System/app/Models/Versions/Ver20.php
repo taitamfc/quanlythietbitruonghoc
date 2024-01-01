@@ -11,18 +11,16 @@ use Illuminate\Support\Facades\Artisan;
 class Ver20 extends Model
 {
     public static function doUpdate(){
-        DB::beginTransaction();
+        
         try {
             self::createLabTable();
             self::updateBorrowDeviceTable();
             self::updateBorrowDeviceData();
+            self::updateBorrowData();
             self::insertDataForLabTable();
             self::updateBorrowDeviceLabData();
-
-            DB::commit();
             return true;
         } catch (\Exception $e) {
-            DB::rollBack();
             return false;
         }
     }
@@ -48,7 +46,15 @@ class Ver20 extends Model
         if( !Schema::hasColumn('borrow_devices','lab_id') ){
             Schema::table('borrow_devices', function (Blueprint $table) {
                 $table->integer('tiet')->default(0);
-                $table->unsignedBigInteger('lab_id');
+                $table->unsignedBigInteger('lab_id')->default(0);
+                $table->unsignedBigInteger('device_id')->default(0)->change();
+                $table->unsignedBigInteger('room_id')->default(0)->change();
+            });
+        }else{
+            Schema::table('borrow_devices', function (Blueprint $table) {
+                $table->unsignedBigInteger('borrow_id')->default(0)->change();
+                $table->unsignedBigInteger('device_id')->default(0)->change();
+                $table->unsignedBigInteger('room_id')->default(0)->change();
             });
         }
     }
@@ -73,10 +79,13 @@ class Ver20 extends Model
             if( $searchBorrowDevices ){
                 foreach($searchBorrowDevices as $borrowDevice){
                     $deviceName = $borrowDevice->device->name;
-                    $lab_id = @$labs[$deviceName];
-                    if($lab_id){
-                        $borrowDevice->lab_id = $lab_id;
-                        $borrowDevice->save();
+                    $lab_name = strtolower($deviceName);
+                    if( strpos($lab_name,'phòng') !== false ){
+                        $lab_id = @$labs[$deviceName];
+                        if($lab_id){
+                            $borrowDevice->lab_id = $lab_id;
+                            $borrowDevice->save();
+                        }
                     }
                 }
             }
@@ -88,16 +97,26 @@ class Ver20 extends Model
         $searchLabs = \App\Models\Device::where('name','LIKE','%phòng%')->get();
         if($searchLabs){
             foreach($searchLabs as $searchLab){
-                $labData = [
-                    'name' => $searchLab->name,
-                    'name' => $searchLab->name,
-                    'department_id' => $searchLab->department_id,
-                ];
-
-                \App\Models\Lab::updateOrCreate($labData,[
-                    'name' => $searchLab->name
-                ]);
+                $lab_name = strtolower($searchLab->name);
+                if( strpos($lab_name,'phòng') !== false ){
+                    $labData = [
+                        'name' => $searchLab->name,
+                        'department_id' => $searchLab->department_id,
+                    ];
+                    \App\Models\Lab::updateOrCreate([
+                        'name' => $searchLab->name
+                    ],$labData);
+                    // remove old
+                    // $searchLab->delete();
+                }
+                
             }
         }
+    }
+
+    public static function updateBorrowData(){
+        \App\Models\Borrow::where('status',0)->update([
+            'status' => 1
+        ]);
     }
 }

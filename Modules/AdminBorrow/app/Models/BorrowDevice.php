@@ -85,9 +85,11 @@ class BorrowDevice extends Model
                 if(empty($lab_name)){
                     $lab_name = $device_item->lab->name ?? '';
                 }
-                $device_names[$key] = '- '.$device_item->device->name . ' ('. $device_item->quantity .')';
+                if(@$device_item->device->name){
+                    $device_names[$key] = '- '.@$device_item->device->name . ' ('. $device_item->quantity .')';
+                }
                 if (empty($departmentName)) {
-                    $departmentName = $device_item->device->department->name;
+                    $departmentName = @$device_item->device->department->name;
                 }
             }
             $device_names = implode(' <br> ', $device_names);

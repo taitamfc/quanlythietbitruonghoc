@@ -19,6 +19,14 @@ class StoreBorrowRequest extends FormRequest
             'devices.*.lecture_name' => 'required',
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'borrow_date.required' => 'Trường yêu cầu',
+            'devices.*.lesson_name.required' => 'Trường yêu cầu',
+            'devices.*.lecture_name.required' => 'Trường yêu cầu',
+        ];
+    }
 
     /**
      * Determine if the user is authorized to make this request.

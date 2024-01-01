@@ -34,32 +34,72 @@ class Borrow extends Model
         $item->save();
 
         
-        // Remove all borrow_devices
-        if( $request->task == 'delete-tiet' ){
-            $item->borrow_devices()->delete();
+        // Xóa tiết dạy
+        if( $request->task == 'delete-tiet' && $request->tiet !== NULL ){
+            $tiet = $request->tiet;
+            $item->borrow_devices()->where('tiet',$tiet)->delete();
         }
-        
-        if( $request->devices ){
+
+        // Xóa thiết bị
+        if( $request->task == 'delete-device' && $request->tiet !== NULL && $request->device_id !== NULL ){
+            $tiet = $request->tiet;
+            $device_id = $request->device_id;
+            $borrow_devices = $item->borrow_devices()->where('tiet',$tiet);
+            if($borrow_devices->count() > 1){
+                $borrow_devices->where('device_id',$device_id)->delete();
+            }else{
+                $borrow_devices->update([
+                    'device_id' => 0
+                ]);
+            }
+        }
+        // Chọn phòng bộ môn
+        // Thêm thiết bị
+        if( $request->devices && in_array($request->task,['add-device']) ){
             $index = 0;
             foreach( $request->devices as $tiet => $device ){
                 $tiet = $index;
                 $device['borrow_date'] = $item->borrow_date;
-                if(!empty($device['device_id'])){
-                    $device['tiet'] = $tiet;
-                    $item->borrow_devices()
-                    ->where('device_id',$device['device_id'])
-                    ->where('tiet',$tiet)
-                    ->where('borrow_id',$id)
-                    ->delete();
-                    $item->borrow_devices()->create($device);
+                $device['tiet'] = $tiet;
+                $item->borrow_devices()->updateOrCreate([
+                    'tiet' => $tiet,
+                    'device_id' => $device['device_id'] ?? 0,
+                ],$device);
+                if( !empty($device['lab_id']) ){
+                    $item->borrow_devices()->where('tiet',$tiet)->update([
+                        'lab_id' => $device['lab_id']
+                    ]);
                 }
                 $index++;
             }
         }
+        // Lưu yêu cầu
+        if( $request->devices && in_array($request->task,['save-form','save-draft']) ){
+            $number_tiets = range(1, 10);
+            $active_tiets = [];
+            foreach( $request->devices as $tiet => $device ){
+                $active_tiets[] = $tiet;
+                $item->borrow_devices()->where('tiet',$tiet)->update([
+                    'lesson_name' => $device['lesson_name'],
+                    'session' => $device['session'],
+                    'lecture_name' => $device['lecture_name'],
+                    'room_id' => $device['room_id'],
+                    'lecture_number' => $device['lecture_number'],
+                    'lab_id' => $device['lab_id']
+                ]);
+            }
+        }
+        // Thêm tiết dạy mới
         if( $request->devices && $request->task == 'add-tiet' ){
-            $new_device = $device;
-            $new_device['tiet'] = $tiet + 1;
-            $item->borrow_devices()->create($new_device);
+            $request_arr = $request->toArray();
+            $request_devices = $request_arr['devices'];
+            $tiet = end($request_devices)['tiet'];
+            $borrow_devices = $item->borrow_devices()->where('tiet',$tiet)->get()->toArray();
+            foreach( $borrow_devices as $borrow_device ){
+                unset($borrow_device['id']);
+                $borrow_device['tiet'] = $tiet + 1;
+                $item->borrow_devices()->create($borrow_device);
+            }
         }
         return $item;
     }
@@ -104,11 +144,22 @@ class Borrow extends Model
         return $this->borrow_devices ? $this->borrow_devices->count() : 0;
     }
     public function getLabNamesAttribute(){
-        $labs = $this->borrow_devices->pluck('lab_id');
+        $lab_ids = $this->borrow_devices->pluck('lab_id','lab_id');
         $names = '';
-        if($labs){
-            $labs = $labs->toArray();
-            $names = implode(',',$labs);
+        if($lab_ids){
+            $lab_ids = $lab_ids->toArray();
+            $labs = \App\Models\Lab::whereIn('id',$lab_ids)->pluck('name')->toArray();
+            $names = implode('<br>',$labs);
+        }
+        return $names;
+    }
+    public function getDeviceNamesAttribute(){
+        $device_ids = $this->borrow_devices->pluck('device_id','device_id');
+        $names = '';
+        if($device_ids){
+            $device_ids = $device_ids->toArray();
+            $labs = \App\Models\Device::whereIn('id',$device_ids)->pluck('name')->toArray();
+            $names = implode('<br>',$labs);
         }
         return $names;
     }
