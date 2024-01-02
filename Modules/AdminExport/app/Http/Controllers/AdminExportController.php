@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class AdminExportController extends Controller
 {
@@ -20,7 +21,10 @@ class AdminExportController extends Controller
             'route_prefix'  => $this->route_prefix,
             'templateFile'  => $type_slug.'.xlsx',
         ];
-        return view($this->view_path.'types.'.$type_slug, $params);
+        if($type){
+            return view($this->view_path.'types.'.$type_slug, $params);
+        }
+        return view($this->view_path.'index');
     }
     /**
      * Store a newly created resource in storage.
@@ -29,14 +33,24 @@ class AdminExportController extends Controller
     {
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminExport\app\Exports\\' . $type.'Export';
-        try {
-            $import = new $modelClass();
-            dd($import);
-            // Excel::import($import, request()->file('file'));
-            return redirect()->back()->with('success', 'Nhập dữ liệu thành công');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Nhập dữ liệu thất bại');
+        $export = new $modelClass();
+        $rules = $export->rules;
+        $messages = $export->messages;
+        if($rules){
+            $validator = Validator::make($request->all(),$rules,$messages);
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->with('error','Vui lòng nhập các trường bắt buộc')
+                            ->withErrors($validator)
+                            ->withInput();
+            }
         }
-        
+        try {
+            $export->handle($request);
+            return redirect()->back()->with('success', 'Xuất dữ liệu thành công');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Xuất dữ liệu thất bại');
+        }
     }
 }

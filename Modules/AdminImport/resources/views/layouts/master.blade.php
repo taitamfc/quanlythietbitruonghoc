@@ -18,6 +18,7 @@
                 <div class="form-group mb-4">
                     <label class="form-label">Chọn Tệp</label>
                     <input type="file" name="file" class="form-control">
+                    <x-admintheme::form-input-error field="file"/>
                 </div>
                 <div class="mb-4">
                     <div class="d-md-flex d-grid align-items-center gap-3">

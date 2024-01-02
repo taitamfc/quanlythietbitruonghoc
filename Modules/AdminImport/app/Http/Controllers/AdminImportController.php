@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class AdminImportController extends Controller
 {
@@ -13,12 +14,16 @@ class AdminImportController extends Controller
     protected $route_prefix = 'adminimport.';
     public function index(Request $request)
     {
-        $type = $request->type;
+        $type = $request->type ?? '';
+        $type_slug = strtolower($type);
         $params = [
             'route_prefix'  => $this->route_prefix,
-            'templateFile'  => strtolower($type).'.xlsx',
+            'templateFile'  => $type_slug.'.xlsx',
         ];
-        return view($this->view_path.'types.'.strtolower($type), $params);
+        if($type){
+            return view($this->view_path.'types.'.$type_slug, $params);
+        }
+        return view($this->view_path.'index');
     }
     /**
      * Store a newly created resource in storage.
@@ -27,14 +32,30 @@ class AdminImportController extends Controller
     {
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminImport\app\Imports\\' . $type.'Import';
+        $import = new $modelClass();
+        $rules = $import->rules ?? [];
+        $messages = $import->messages ?? [];
+        $rules = array_merge($rules,[
+            'file' => 'required'
+        ]);
+        $messages = array_merge($messages,[
+            'required' => 'Trường yêu cầu'
+        ]);
+        if( count($rules) ){
+            $validator = Validator::make($request->all(),$rules,$messages);
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->with('error','Vui lòng nhập các trường bắt buộc')
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+        }
         try {
-            $import = new $modelClass();
-            dd($import);
-            // Excel::import($import, request()->file('file'));
+            Excel::import($import, request()->file('file'));
             return redirect()->back()->with('success', 'Nhập dữ liệu thành công');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Nhập dữ liệu thất bại');
         }
-        
     }
 }

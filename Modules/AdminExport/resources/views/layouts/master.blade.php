@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
-        'page_title' => 'Export: '.request()->type,
+        'page_title' => 'Xuất: '.__(request()->type),
         'actions' => []
     ])
     <div class="card mt-4">
@@ -17,7 +17,7 @@
                 @yield('form-fields')
                 <div class="mb-4">
                     <div class="d-md-flex d-grid align-items-center gap-3">
-                        <a href="{{ route('adminimport.index',[ 'type'=> request()->type ]) }}" class="btn btn-dark">Quay lại</a>
+                        <a href="{{ route('adminexport.index',[ 'type'=> request()->type ]) }}" class="btn btn-dark">Quay lại</a>
                         <button class="btn btn-primary px-4">Tiến Hành</button>
                     </div>
                 </div>
