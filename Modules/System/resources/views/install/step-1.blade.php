@@ -32,4 +32,8 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ route('admin.home') }}" type="submit" class="btn btn-warning">Hủy cài đặt</a>
+    </div>
 @endsection
