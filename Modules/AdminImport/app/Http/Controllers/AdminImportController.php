@@ -16,8 +16,9 @@ class AdminImportController extends Controller
         $type = $request->type;
         $params = [
             'route_prefix'  => $this->route_prefix,
+            'templateFile'  => strtolower($type).'.xlsx',
         ];
-        return view($this->view_path.'index', $params);
+        return view($this->view_path.'types.'.strtolower($type), $params);
     }
     /**
      * Store a newly created resource in storage.

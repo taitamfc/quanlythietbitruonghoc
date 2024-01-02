@@ -187,40 +187,26 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
+                <a href="{{ route('adminexport.index',['type'=>'BorrowDevicesNest']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Tổ
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Tài Sản
+                <a href="{{ route('adminexport.index',['type'=>'BorrowDevicesUser']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Giáo Viên
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
+                <a href="{{ route('adminexport.index',['type'=>'BorrowLabs']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Phiếu Báo Mượn Phòng Bộ Môn
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminexport.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Nhóm Thiết Bị
+                <a href="{{ route('adminexport.index',['type'=>'BorrowDetail']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Phiếu Báo Mượn
                 </a>
             </li>
-            <li>
-                <a href="{{ route('adminexport.index',['type'=>'Room']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Lớp Học
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminexport.index',['type'=>'Department']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Bộ Môn
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminexport.index',['type'=>'Nest']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Tổ
-                </a>
-            </li>
+            
         </ul>
     </li>
     <!-- <li class="menu-label">Cấu Hình Hệ Thống</li> -->
