@@ -16,8 +16,8 @@
                 </div>
                 @yield('form-fields')
                 <div class="form-group mb-4">
-                    <label class="form-label">Chọn Tệp</label>
-                    <input type="file" name="file" class="form-control">
+                    <label class="form-label">Chọn Tệp (đuôi .xls, .xlsx)</label>
+                    <input type="file" name="file" class="form-control" accept=".xls, .xlsx">
                     <x-admintheme::form-input-error field="file"/>
                 </div>
                 <div class="mb-4">

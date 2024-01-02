@@ -36,10 +36,11 @@ class AdminImportController extends Controller
         $rules = $import->rules ?? [];
         $messages = $import->messages ?? [];
         $rules = array_merge($rules,[
-            'file' => 'required'
+            'file' => 'required|mimes:xlsx, xls'
         ]);
         $messages = array_merge($messages,[
-            'required' => 'Trường yêu cầu'
+            'required' => 'Trường yêu cầu',
+            'mimes' => 'Định dạng tệp không hỗ trợ',
         ]);
         if( count($rules) ){
             $validator = Validator::make($request->all(),$rules,$messages);
