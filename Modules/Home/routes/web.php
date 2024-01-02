@@ -13,7 +13,12 @@ use Modules\Home\app\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
+Route::group([
+    'middleware' => [
+        'systeminit',
+        'auth.custom'
+    ]
+], function () {
     Route::get('/', [HomeController::class,'index'])->name('home');
 });
+

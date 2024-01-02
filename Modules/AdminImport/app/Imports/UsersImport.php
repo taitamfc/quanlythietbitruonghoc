@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Imports;
+namespace Modules\AdminImport\app\Imports;
 
 use App\Models\User;
 use App\Models\Group;

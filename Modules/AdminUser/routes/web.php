@@ -29,9 +29,15 @@ Route::group(['prefix'=>'admin'], function () {
         Route::get('resetPass',[AdminAuthController::class,'resetPass'])->name('adminuser.resetPass');
         Route::post('postResetPass',[AdminAuthController::class,'postResetPass'])->name('adminuser.postResetPass');
     });
-
-    Route::group(['middleware'=>['auth']], function () {
-        Route::resource('adminuser', AdminUserController::class)->names('adminuser');
-    });
-    
 });
+
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'systeminit',
+        'auth.custom'
+    ]
+], function () {
+    Route::resource('adminuser', AdminUserController::class)->names('adminuser');
+});
+

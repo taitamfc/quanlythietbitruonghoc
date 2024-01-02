@@ -13,7 +13,13 @@ use Modules\AdminExport\app\Http\Controllers\AdminExportController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('adminexport', AdminExportController::class)->names('adminexport');
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'systeminit',
+        'auth.custom'
+    ]
+], function () {
+    Route::get('adminexport', [AdminExportController::class,'index'])->name('adminexport.index');
+    Route::post('adminexport', [AdminExportController::class,'store'])->name('adminexport.store');
 });

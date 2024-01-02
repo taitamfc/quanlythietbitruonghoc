@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Imports;
+namespace Modules\AdminImport\app\Imports;
 
 use App\Models\Device;
 use App\Models\DeviceType;

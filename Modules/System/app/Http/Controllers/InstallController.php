@@ -16,4 +16,9 @@ class InstallController extends Controller
     {
         return view('system::install.index');
     }
+    public function doInstall()
+    {
+        $step = request()->step ?? 1;
+        return view('system::install.step-'.$step);
+    }
 }

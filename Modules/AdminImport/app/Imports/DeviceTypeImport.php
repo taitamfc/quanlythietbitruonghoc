@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Imports;
+namespace Modules\AdminImport\app\Imports;
 
 use App\Models\DeviceType;
 use Illuminate\Support\Collection;

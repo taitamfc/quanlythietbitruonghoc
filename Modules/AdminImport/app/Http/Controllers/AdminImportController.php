@@ -19,52 +19,21 @@ class AdminImportController extends Controller
         ];
         return view($this->view_path.'index', $params);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('adminimport::create');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse
     {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('adminimport::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('adminimport::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $type = $request->type ?? '';
+        $modelClass = '\Modules\AdminImport\app\Imports\\' . $type.'Import';
+        try {
+            $import = new $modelClass();
+            dd($import);
+            // Excel::import($import, request()->file('file'));
+            return redirect()->back()->with('success', 'Nhập dữ liệu thành công');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Nhập dữ liệu thất bại');
+        }
+        
     }
 }

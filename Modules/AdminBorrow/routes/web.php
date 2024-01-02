@@ -19,7 +19,7 @@ Route::group([
     'prefix' => 'admin',
     'middleware' => [
         'systeminit',
-        'auth'
+        'auth.custom'
     ]
 ], function () {
     Route::group([

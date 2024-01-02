@@ -141,17 +141,17 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Device']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Asset']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Tài Sản
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
+                <a href="{{ route('adminimport.index',['type'=>'Lab']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
                 </a>
             </li>

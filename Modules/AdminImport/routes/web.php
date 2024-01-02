@@ -13,7 +13,13 @@ use Modules\AdminImport\app\Http\Controllers\AdminImportController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('adminimport', AdminImportController::class)->names('adminimport');
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'systeminit',
+        'auth.custom'
+    ]
+], function () {
+    Route::get('adminimport', [AdminImportController::class,'index'])->name('adminimport.index');
+    Route::post('adminimport', [AdminImportController::class,'store'])->name('adminimport.store');
 });

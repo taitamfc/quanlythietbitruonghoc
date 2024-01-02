@@ -18,7 +18,10 @@ use Modules\System\app\Http\Controllers\InstallController;
 
 Route::group([], function () {
     Route::get('system/',[SystemController::class,'index'])->name('system.index');
+    // Update
     Route::get('system/update',[UpdateController::class,'index'])->name('system.update.index');
     Route::post('system/doUpdate',[UpdateController::class,'doUpdate'])->name('system.update.doUpdate');
+    // Install
     Route::get('system/install',[InstallController::class,'index'])->name('system.install.index');
+    Route::get('system/doInstall',[InstallController::class,'doInstall'])->name('system.install.doInstall');
 });
