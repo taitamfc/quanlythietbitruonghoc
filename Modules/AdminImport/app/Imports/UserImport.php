@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
-class UsersImport implements ToCollection
+class UserImport implements ToCollection
 {
     /**
      * 
