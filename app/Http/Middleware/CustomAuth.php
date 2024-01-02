@@ -17,7 +17,7 @@ class CustomAuth
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('staff.login');
+            return redirect()->route('login');
         }else{
             return $next($request);
         }

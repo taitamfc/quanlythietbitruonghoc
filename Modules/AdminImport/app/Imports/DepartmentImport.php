@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
-class DepartmentsImport implements ToCollection
+class DepartmentImport implements ToCollection
 {
     /**
     * @param array $row
