@@ -26,13 +26,13 @@ use Illuminate\Support\Facades\DB;
 class BorrowDevicesUserExport {
     protected $templateFile = '';
     public $rules = [
-        'week' => 'required_without_all:school_years|nullable',
-        'school_years' => 'required_without_all:week|nullable',
+        // 'week' => 'required_without_all:school_years|nullable',
+        // 'school_years' => 'required_without_all:week|nullable',
         'user_id' => 'required',
     ];
     public $messages = [
-        'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy',
-        'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy',
+        // 'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy',
+        // 'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy',
         'user_id.required' => 'Trường tổ là bắt buộc',
     ];
     public function handle($request = null){
@@ -47,6 +47,15 @@ class BorrowDevicesUserExport {
             $startWeek = Carbon::parse(request()->week)->startOfWeek()->format('Y-m-d');
             $endWeek = Carbon::parse(request()->week)->endOfWeek()->format('Y-m-d');
             $query = $query->whereBetween('borrow_date', [$startWeek, $endWeek]);
+        }
+        if(request()->school_years){
+            // Lấy giá trị năm bắt đầu và kết thúc từ chuỗi '2022-2023'
+            $yearRange = explode('-', request()->school_years);
+            $startYear = $yearRange[0].'-1-1';
+            $endYear = $yearRange[1].'-1-1';
+            
+            $query->whereDate('borrow_date', '>', $startYear)
+            ->whereDate('borrow_date', '<=', $endYear);
         }
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
@@ -75,7 +84,7 @@ class BorrowDevicesUserExport {
                 $sheet->setCellValue('E' . $index, $borrow->borrow_date);
                 $sheet->setCellValue('F' . $index, $device->device->name ?? '');
                 $sheet->setCellValue('G' . $index, $device->quantity);
-                $sheet->setCellValue('H' . $index, $device->tiet);
+                $sheet->setCellValue('H' . $index, $device->lecture_number);
                 $sheet->setCellValue('I' . $index, $device->lesson_name);
                 $sheet->setCellValue('J' . $index, $device->room->name ?? '');
                 $sheet->setCellValue('K' . $index, $borrow->borrow_note ?? '');
