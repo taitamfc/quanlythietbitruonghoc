@@ -74,6 +74,9 @@ class BorrowController extends Controller
         try {
             $rooms = \App\Models\Room::getAll();
             $item = $this->model::findItem($id);
+            if( $item->user_id != Auth::id() || $item->status >= 0 ){
+                abort(403);
+            }
             $params = [
                 'route_prefix'  => $this->route_prefix,
                 'model'         => $this->model,

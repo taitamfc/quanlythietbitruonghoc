@@ -18,11 +18,18 @@
     
     jQuery(document).ready(function() {
         let indexUrl = "{{ route('labs.index') }}";
+        
         let positionUrl = "";
         let params = <?= json_encode(request()->query()); ?>;
         let wrapperResults = '.lab-table-results';
+
         // Get all items
-        getAjaxTable(indexUrl, wrapperResults, positionUrl, 'limit=20');
+        jQuery('#modal-labs').on('show.bs.modal', function () {
+            let item_id = jQuery('#item_id').val();
+            let tiet = jQuery('#tiet').val();
+            console.log(item_id,tiet);
+            getAjaxTable(indexUrl, wrapperResults, positionUrl, 'limit=30&item_id='+item_id+'&tiet='+tiet);
+        })
 
         // Handle pagination
         jQuery('body').on('click', wrapperResults + ' .page-link', function(e) {
