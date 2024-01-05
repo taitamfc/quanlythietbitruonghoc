@@ -29,12 +29,12 @@ class AdminExportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminExport\app\Exports\\' . $type.'Export';
         $export = new $modelClass();
-        $rules = $export->rules;
+        $rules = $export->rules();
         $messages = $export->messages;
         if($rules){
             $validator = Validator::make($request->all(),$rules,$messages);
@@ -47,8 +47,8 @@ class AdminExportController extends Controller
             }
         }
         try {
-            $export->handle($request);
-            return redirect()->back()->with('success', 'Xuất dữ liệu thành công');
+            $newFilePath = $export->handle($request);
+            return response()->download($newFilePath)->deleteFileAfterSend(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Xuất dữ liệu thất bại');
         }
