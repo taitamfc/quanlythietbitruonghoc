@@ -23,15 +23,35 @@ use App\Models\User;
 
 class BorrowDevicesNestExport
 {
-    public $rules = [
-        'week' => 'required_without_all:school_years,nest_id',
-        'school_years' => 'required_without_all:week,nest_id',
-        'nest_id' => 'required_without_all:week,school_years',
-    ];
+    public function rules(): array
+    {
+        $rules = [
+            'week' => 'required',
+            'school_years' => 'required',
+            'nest_id' => 'required',
+            ];
+        if (request()->week) {
+            $rules = [
+                'week' => 'required',
+            ];
+        } elseif (request()->school_years) {
+            $rules = [
+                'school_years' => 'required',
+            ];
+        } elseif (request()->nest_id) {
+            $rules = [
+                'nest_id' => 'required',
+            ];
+        }
+        
+        return $rules;
+    }
+
     public $messages = [
-        'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy hoặc tổ',
-        'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy hoặc tổ',
-        'nest_id.required_without_all' => 'Trường tổ là bắt buộc nếu không có tuần dạy hoặc năm dạy',
+        'error.required_without_all' => 'Chỉ được điền một trong hai trường "Tuần" hoặc "Năm học"',
+        'week.required' => 'Trường Tuần là bắt buộc',
+        'school_years.required' => 'Trường Năm học là bắt buộc',
+        'nest_id.required' => 'Trường nest_id là bắt buộc',
     ];
     
     public function handle()
