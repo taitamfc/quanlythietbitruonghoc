@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->date('borrow_date');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->date('borrow_date')->nullable();
+            $table->integer('status')->default(0)->nullable();
+            $table->string('approved')->nullable();
+            $table->text('borrow_note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

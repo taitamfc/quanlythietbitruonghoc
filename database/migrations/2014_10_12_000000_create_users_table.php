@@ -15,8 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('password')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->unsignedBigInteger('nest_id')->nullable();
+            $table->string('token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
