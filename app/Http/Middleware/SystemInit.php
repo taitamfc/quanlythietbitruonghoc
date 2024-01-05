@@ -29,9 +29,8 @@ class SystemInit
         return $next($request);
     }
     public function checkIsLastVersion(){
-        $option = \App\Models\Option::where('option_name','app_verison')->first();
         $lastVersion    = $this->lastVersion;
-        $currentVersion = $option->option_value ?? '1.0';
+        $currentVersion = \App\Models\Option::get_option('system','app_verison','1.0');
 
         $isLastVersion = true;
         if($lastVersion != $currentVersion){

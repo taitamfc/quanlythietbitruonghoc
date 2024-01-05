@@ -9,6 +9,7 @@
         <form id="borrow-form" action="{{ route('borrows.update',$item->id) }}" method="post">
             <input type="hidden" name="task" id="task">
             <input type="hidden" name="tiet" id="tiet">
+            <input type="hidden" name="item_id" id="item_id" value="{{ $item->id }}">
             <input type="hidden" name="device_id" id="device_id">
             <input type="hidden" name="qty" id="qty">
             <input type="hidden" name="status" id="status" value="{{ $item->status }}">
@@ -107,10 +108,17 @@
             });
             // Xử lý thêm phòng bộ môn
             jQuery('body').on('click', ".delete-lab", function(e) {
+                tiet_id = jQuery(this).data('tiet-id');
+                jQuery('#tiet').val(tiet_id);
                 let lab_choiced = jQuery(this).closest('.lab-choiced');
-                lab_choiced.find('[data-name="lab_id"]').val(0);
+                lab_id = lab_choiced.find('[data-name="lab_id"]').val();
                 lab_choiced.find('.show-labs').html('Chọn');
                 lab_choiced.find('.delete-lab').addClass('d-none');
+
+                tiet_id = jQuery(this).data('tiet-id');
+                jQuery('#tiet').val(tiet_id);
+
+                saveItem('delete-lab');
             })
             jQuery('body').on('click', ".add-lab", function(e) {
                 tiet_id = jQuery('#tiet').val();

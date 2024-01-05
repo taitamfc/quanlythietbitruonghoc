@@ -219,13 +219,18 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('system.index',['type'=>'general']) }}">
+                <a href="{{ route('system.options.index',['type'=>'general']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Chung
                 </a>
             </li>
             <li>
-                <a href="{{ route('system.index',['type'=>'borrow']) }}">
+                <a href="{{ route('system.options.index',['type'=>'borrow_device']) }}">
                     <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Mượn Thiết Bị
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('system.options.index',['type'=>'borrow_lab']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Mượn Phòng
                 </a>
             </li>
             <li>

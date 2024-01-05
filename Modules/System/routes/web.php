@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\System\app\Http\Controllers\SystemController;
 use Modules\System\app\Http\Controllers\UpdateController;
 use Modules\System\app\Http\Controllers\InstallController;
+use Modules\System\app\Http\Controllers\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ use Modules\System\app\Http\Controllers\InstallController;
 
 Route::group([], function () {
     Route::get('system/',[SystemController::class,'index'])->name('system.index');
+    // Option
+    Route::get('options',[OptionController::class,'index'])->name('system.options.index');
+    Route::post('options/update',[OptionController::class,'update'])->name('system.options.update');
     // Update
     Route::get('system/update',[UpdateController::class,'index'])->name('system.update.index');
     Route::post('system/doUpdate',[UpdateController::class,'doUpdate'])->name('system.update.doUpdate');

@@ -40,7 +40,7 @@ class Borrow extends Model
             $item->borrow_devices()->where('tiet',$tiet)->delete();
         }
 
-        // Xóa thiết bị
+        // Thay đổi số lượng thiết bị
         if( $request->task == 'change-qty-device' && $request->tiet !== NULL && $request->device_id !== NULL ){
             $qty = $request->qty;
             $tiet = $request->tiet;
@@ -52,6 +52,7 @@ class Borrow extends Model
                 'quantity' => $qty
             ]);
         }
+        // Xóa thiết bị
         if( $request->task == 'delete-device' && $request->tiet !== NULL && $request->device_id !== NULL ){
             $tiet = $request->tiet;
             $device_id = $request->device_id;
@@ -65,13 +66,19 @@ class Borrow extends Model
             }
         }
         // Chọn phòng bộ môn
-        if( $request->devices && in_array($request->task,['add-lab']) ){
+        if( $request->devices && in_array($request->task,['add-lab','show-labs']) ){
             foreach( $request->devices as $tiet => $device ){
                 $borrow_devices = $item->borrow_devices()->where('tiet',$tiet);
-                // Nếu có thiết bị thì cập nhật phòng, không thì tạo mới thiết bị rỗng
+                // Nếu có phòng thì cập nhật phòng, không thì tạo mới thiết bị rỗng
                 if($borrow_devices->count()){
                     $borrow_devices->update([
-                        'lab_id' => $device['lab_id']
+                        'lab_id' => $device['lab_id'] ?? 0,
+                        'lesson_name' => $device['lesson_name'],
+                        'session' => $device['session'],
+                        'lecture_name' => $device['lecture_name'],
+                        'room_id' => $device['room_id'],
+                        'lecture_number' => $device['lecture_number'],
+                        'borrow_date' => $item->borrow_date,
                     ]);
                 }else{
                     $borrow_devices->create([
@@ -80,9 +87,30 @@ class Borrow extends Model
                         'lecture_name' => $device['lecture_name'],
                         'room_id' => $device['room_id'],
                         'lecture_number' => $device['lecture_number'],
-                        'lab_id' => $device['lab_id']
+                        'lab_id' => $device['lab_id'],
+                        'borrow_date' => $item->borrow_date,
                     ]);
                 }
+            }
+        
+        }
+        // Xóa phòng bộ môn
+        if( $request->devices && in_array($request->task,['delete-lab']) ){
+            $tiet   = $request->tiet;
+            $borrow_devices = $item->borrow_devices()->where('tiet',$tiet)->update([
+                'lab_id' => 0
+            ]);
+        }
+        // Thêm tiết dạy mới
+        if( $request->devices && $request->task == 'add-tiet' ){
+            $request_arr = $request->toArray();
+            $request_devices = $request_arr['devices'];
+            $tiet = end($request_devices)['tiet'];
+            $borrow_devices = $item->borrow_devices()->where('tiet',$tiet)->get()->toArray();
+            foreach( $borrow_devices as $borrow_device ){
+                unset($borrow_device['id']);
+                $borrow_device['tiet'] = $tiet + 1;
+                $item->borrow_devices()->create($borrow_device);
             }
         }
 
@@ -102,6 +130,10 @@ class Borrow extends Model
                         'lab_id' => $device['lab_id']
                     ]);
                 }
+                // Nếu thêm thiết bị thì xóa dữ liệu phòng bộ môn
+                if( !empty($device['device_id']) ){
+                    $item->borrow_devices()->where('tiet',$tiet)->where('device_id',0)->delete();
+                }
                 $index++;
             }
         }
@@ -117,7 +149,8 @@ class Borrow extends Model
                     'lecture_name' => $device['lecture_name'],
                     'room_id' => $device['room_id'],
                     'lecture_number' => $device['lecture_number'],
-                    'lab_id' => $device['lab_id']
+                    'lab_id' => $device['lab_id'],
+                    'borrow_date' => $item->borrow_date
                 ]);
             }
 
@@ -133,26 +166,15 @@ class Borrow extends Model
                 }
             }
         }
-        // Thêm tiết dạy mới
-        if( $request->devices && $request->task == 'add-tiet' ){
-            $request_arr = $request->toArray();
-            $request_devices = $request_arr['devices'];
-            $tiet = end($request_devices)['tiet'];
-            $borrow_devices = $item->borrow_devices()->where('tiet',$tiet)->get()->toArray();
-            foreach( $borrow_devices as $borrow_device ){
-                unset($borrow_device['id']);
-                $borrow_device['tiet'] = $tiet + 1;
-                $item->borrow_devices()->create($borrow_device);
-            }
-        }
+        
         return $item;
     }
     public static function deleteItem($id){
         $item = self::findItem($id);
-        // $item->borrow_devices()->delete();
-        $item->deleted_at = date('Y-m-d H:i:s');
-        return $item->save();
-        // return self::deleteItem($id);
+        $item->borrow_devices()->delete();
+        // $item->deleted_at = date('Y-m-d H:i:s');
+        // return $item->save();
+        return self::deleteItem($id);
     }
 
     // Relationships
