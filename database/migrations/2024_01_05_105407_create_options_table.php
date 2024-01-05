@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groups_roles', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('group_id');
-            $table->foreign('group_id')->references('id')->on('groups');
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->string('option_name', 255)->nullable();
+            $table->string('option_label', 255)->nullable();
+            $table->text('option_value')->nullable();
+            $table->string('option_group', 255)->nullable();
+            $table->string('option_group_name', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups_roles');
+        Schema::dropIfExists('options');
     }
 };

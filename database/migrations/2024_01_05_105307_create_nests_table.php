@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('borrow_devices', function (Blueprint $table) {
-            $table->integer('lecture_number')->nullable();
-        
+        Schema::create('nests', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 255)->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('nests');
     }
 };

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('borrows', function (Blueprint $table) {
-            $table->string('status')->nullable()->default(null);
-            $table->string('approved')->nullable()->default(null);
+        Schema::create('groups', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 255)->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('borrows', function (Blueprint $table) {
-            $table->dropColumn(['status', 'approved']);
-        });
+        Schema::dropIfExists('groups');
     }
 };
