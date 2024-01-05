@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.auth')
 @section('content')
-    <h4 class="fw-bold text-center">Cài Đặt Cơ Sở Dữ Liệu</h4>
-    <!-- <p class="mb-2 text-center">Chức năng chưa chạy được, hehe</p> -->
+    <h4 class="fw-bold text-center">Cài đặt thông tin quản trị</h4>
+    <p class="mb-2 text-center">Chức năng chưa chạy được, hehe</p>
     <div class="separator section-padding">
         <div class="line"></div>
     </div>
@@ -42,22 +42,22 @@
     jQuery( document ).ready( function(){
         let urlInstall = '{{ route($route_prefix."doInstall") }}';
         let step = '{{ $step }}';
-        jQuery.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: urlInstall,
-            type: "GET",
-            dataType:'json',
-            data: {
-                'step' : step
-            },
-            success: function (res) {
-                if( res.success ){
-                    window.location.href = res.redirect;
-                }
-            }
-        });
+        // jQuery.ajax({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     },
+        //     url: urlInstall,
+        //     type: "GET",
+        //     dataType:'json',
+        //     data: {
+        //         'step' : step
+        //     },
+        //     success: function (res) {
+        //         if( res.success ){
+        //             window.location.href = res.redirect;
+        //         }
+        //     }
+        // });
     })
 </script>
 @endsection
