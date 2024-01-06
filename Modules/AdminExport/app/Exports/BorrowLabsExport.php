@@ -95,7 +95,7 @@ class BorrowLabsExport {
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('system/uploads/'.$type.$user->id.'.xlsx');
+        $newFilePath = public_path('system/tmp/'.$type.$user->id.'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);

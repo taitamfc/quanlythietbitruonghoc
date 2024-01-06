@@ -25,16 +25,29 @@ use Illuminate\Support\Facades\DB;
 
 class BorrowDevicesUserExport {
     protected $templateFile = '';
-    public $rules = [
-        'week' => 'required_without_all:school_years|nullable',
-        'school_years' => 'required_without_all:week|nullable',
-        'user_id' => 'required',
-    ];
     public $messages = [
-        'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy',
-        'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy',
-        'user_id.required' => 'Trường tổ là bắt buộc',
+        'required' => 'Trường là bắt buộc',
     ];
+    public function rules(): array
+    {
+        $rules = [
+            'week' => 'required',
+            'school_years' => 'required',
+            'user_id' => 'required',
+        ];
+        // nếu đã chọn school_years thì không yêu cầu week
+        if(request()->school_years){
+            unset($rules['week']);
+        }
+        // nếu đã chọn week thì không yêu cầu school_years
+        if(request()->week){
+            unset($rules['school_years']);
+        }
+        // if (request()->week && request()->school_years) {
+        //     // trả về thông báo chỉ được nhập 1 trong 2
+        // }
+        return $rules;
+    }
     public function handle($request = null){
         // $id = request()->id;
         $type = request()->type;
@@ -44,18 +57,14 @@ class BorrowDevicesUserExport {
         $query = Borrow::query();
         $query = $query->where('user_id', request()->user_id);
         if (request()->week) {
-            $startWeek = Carbon::parse(request()->week)->startOfWeek()->format('Y-m-d');
-            $endWeek = Carbon::parse(request()->week)->endOfWeek()->format('Y-m-d');
-            $query = $query->whereBetween('borrow_date', [$startWeek, $endWeek]);
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
         }
         if(request()->school_years){
-            // Lấy giá trị năm bắt đầu và kết thúc từ chuỗi '2022-2023'
-            $yearRange = explode('-', request()->school_years);
-            $startYear = $yearRange[0].'-1-1';
-            $endYear = $yearRange[1].'-1-1';
-            
-            $query->whereDate('borrow_date', '>', $startYear)
-            ->whereDate('borrow_date', '<=', $endYear);
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
         }
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
@@ -95,7 +104,7 @@ class BorrowDevicesUserExport {
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('system/uploads/'.$type.$user->id.'.xlsx');
+        $newFilePath = public_path('system/tmp/'.$type.$user->id.'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);
