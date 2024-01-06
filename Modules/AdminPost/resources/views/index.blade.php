@@ -83,6 +83,7 @@
                                                 <form action="{{ route($route_prefix.'destroy',['adminpost'=>$item->id,'type'=>request()->type]) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <input type="hidden" name="type" value="{{ request()->type }}">
                                                     <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="dropdown-item">
                                                         {{ __('sys.delete') }}   
                                                     </button>

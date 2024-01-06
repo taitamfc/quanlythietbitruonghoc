@@ -47,11 +47,11 @@
                 <table class="table align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th>STT</th>
                             <th>Tên</th>
                             <th>Số lượng</th>
                             <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
+                            <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -59,11 +59,11 @@
                         @if( count( $items ) )
                             @foreach( $items as $key => $item )
                             <tr>
-                                <td>{{ $key + 1 }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->devicetype->name ?? '' }}</td>
                                 <td>{{ $item->department->name ?? '' }}</td>
+                                <td>{!! $item->status_fm !!}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"

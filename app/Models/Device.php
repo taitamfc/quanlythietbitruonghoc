@@ -6,12 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Device extends Model
+class Device extends AdminModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table ='devices';
     use HasFactory;
-    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id','price','country','year','unit','note'];
+    protected $fillable = [
+        'id',
+        'device_type_id',
+        'name',
+        'quantity',
+        'image',
+        'department_id',
+        'price',
+        'country_name',
+        'year',
+        'unit',
+        'note',
+        'deleted_at'
+    ];
 
     public function borrows()
     {

@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Lab extends WebsiteModel
+class Lab extends AdminModel
 {
-    use HasFactory, SoftDeletes;
-    protected $fillable = ['id','name', 'quantity','department_id'];
+    use HasFactory;
+    protected $fillable = ['id','name', 'quantity','department_id','deleted_at'];
 
     public function department()
     {

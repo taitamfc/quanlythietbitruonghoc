@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Department extends WebsiteModel
+class Department extends AdminModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     
     protected $table = "departments";
     protected $fillable = [
-        'name',
+        'name','deleted_at'
         // các thuộc tính fillable khác
     ];
 

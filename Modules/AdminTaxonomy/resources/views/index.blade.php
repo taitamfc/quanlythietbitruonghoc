@@ -35,7 +35,6 @@
                     <table class="table align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>STT</th>
                                 <th>{{ __('admintaxonomy::table.name') }}</th>
                                 <th>{{ __('admintaxonomy::table.status') }}</th>
                                 <th>{{ __('admintaxonomy::table.created_at') }}</th>
@@ -44,10 +43,9 @@
                         </thead>
                         <tbody>
                         @if( count( $items ) )
-                            @foreach( $items as $key => $item )
+                            @foreach( $items as $item )
                             <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $item->name }}</td>
+                                <td>{!! $item->name !!}</td>
                                 <td>{!! $item->status_fm !!}</td>
                                 <td>{{ $item->created_at_fm }}</td>
                                 <td>
@@ -66,6 +64,7 @@
                                                 <form action="{{ route($route_prefix.'destroy',['type'=>request()->type,'admintaxonomy'=>$item->id]) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <input type="hidden" name="type" value="{{ request()->type }}">
                                                     <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="dropdown-item">
                                                         {{ __('sys.delete') }}   
                                                     </button>

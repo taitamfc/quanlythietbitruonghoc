@@ -32,4 +32,5 @@ return [
     'name_asc' => 'Name Asc',
     'created_asc' => 'Created Asc',
     'search_name' => 'Search name',
+    'add_new' => 'Thêm mới',
 ];
