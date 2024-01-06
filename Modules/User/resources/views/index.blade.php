@@ -17,22 +17,16 @@
 <div class="row">
     <div class="col-12 col-lg-8 col-xl-12">
         <div class="card overflow-hidden">
-            <div class="profile-cover bg-light position-relative mb-4">
+            <!-- <div class="profile-cover bg-light position-relative mb-4">
                 <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
                     <img src="{{ asset($item->image) }}" alt="...">
                 </div>
-            </div>
+            </div> -->
             <div class="card-body">
-                <div class="mt-5 d-flex align-items-start justify-content-between">
+                <div class="mt-2 d-flex align-items-start justify-content-between">
                     <div class="">
                         <h3 class="mb-2">{{ $item->name }}</h3>
-                        <!-- <p class="mb-1">{{ $item->group->name}}</p>
-                        <p>{{$item->nest->name}}</p> -->
-                        <!-- <div class="">
-                            <span class="badge rounded-pill bg-primary">UX Research</span>
-                            <span class="badge rounded-pill bg-primary">CX Strategy</span>
-                            <span class="badge rounded-pill bg-primary">Project Management</span>
-                        </div> -->
+                       
                     </div>
                     <a href="{{route('website.users.edit') }}" class="btn btn-primary">Thay đổi thông tin</a>
                 </div>
@@ -75,11 +69,11 @@
                             </tr>
                             <tr>
                                 <th>Chức vụ</th>
-                                <td>{{ $item->group->name }}</td>
+                                <td>{{ $item->group->name ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Tổ</th>
-                                <td>{{ $item->nest->name }}</td>
+                                <td>{{ $item->nest->name ?? ''}}</td>
                             </tr>
                         </table>
                     </div>

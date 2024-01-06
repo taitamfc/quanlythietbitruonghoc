@@ -913,7 +913,7 @@ a {
 
 .customer-table table tbody,
 .product-table table tbody {
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .product-table .product-tags {
