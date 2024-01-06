@@ -72,16 +72,18 @@ class Notification extends Model
         }
         return $item_icon;
     }
-    function getItemLinkAttribute(){
-        $item_link = '';
-        switch ($this->type) {
-            case 'new_borrow':
-                $item_link = route('borrows.index');
-                break;
-            default:
-                # code...
-                break;
-        }
-        return $item_link;
+    public function getItemLinkAttribute()
+{
+    $itemLink = '';
+    switch ($this->type) {
+        case 'new_borrow':
+            $itemLink = route('adminborrow.index', ['notiid' => $this->id]);
+            break;
+        default:
+         
+            break;
     }
+    return $itemLink;
+}
+    
 }

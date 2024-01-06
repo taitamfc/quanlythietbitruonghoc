@@ -25,6 +25,5 @@ Route::group([
         dd($notifications);
     });
     Route::get('/is-read', [HomeController::class,'is_read'])->name('is_read');
-
 });
 

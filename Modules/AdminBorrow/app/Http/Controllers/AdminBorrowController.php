@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\AdminBorrow\app\Models\Borrow;
 use App\Policies\BorrowPolicy;
+use App\Models\Notification;
 
 
 class AdminBorrowController extends Controller
@@ -19,6 +20,10 @@ class AdminBorrowController extends Controller
     {
         $this->authorize('viewAny', Borrow::class);
         try {
+            $notiid = $request->notiid;
+            if($notiid){
+                Notification::deleteNotification($notiid);
+            }
             $items = $this->model::getItems($request);
             $params = [
                 'route_prefix'  => $this->route_prefix,
