@@ -7,7 +7,7 @@ use App\Models\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     /**
@@ -66,11 +66,17 @@ class HomeController extends Controller
         //
     }
 
-    public function markAllAsRead(Request $request)
-{
-    $type = $request->input('type', 1);
-    Notification::where('type', 0)->update(['type' => $type]);
-    return redirect()->back()->with('success', 'Đã đánh dấu tất cả là đã đọc.');
-}
-
+        public function is_read(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            DB::table('notifications')->where('is_read', 0)->update(['is_read' => 1]);
+            DB::commit();
+            $unreadCount = DB::table('notifications')->where('is_read', 0)->count();
+            return redirect()->back()->with('success', 'Đã đánh dấu tất cả là đã đọc.')->with('unreadCount', $unreadCount);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Có lỗi xảy ra.');
+        }
+    }
 }

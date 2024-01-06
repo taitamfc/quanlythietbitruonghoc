@@ -19,12 +19,28 @@
             </li>
 
             @include('admintheme::includes.notifications')
-            
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="offcanvas" href="#ThemeCustomizer"><span
-                        class="material-symbols-outlined">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="material-symbols-outlined">
                         settings
-                    </span></a>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                    <a class="dropdown-item" href="{{ route('website.users.index') }}">
+                        <span class="material-symbols-outlined me-2"></span>
+                        <span>Profile</span>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <span class="material-symbols-outlined me-2"></span>
+                        <span>Logout</span>
+                    </a>
+                </div>
+                <style>
+                .dropdown-toggle::after {
+                    content: none;
+                }
+                </style>
             </li>
         </ul>
     </nav>
