@@ -10,8 +10,6 @@ class AdminUser extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    const ACTIVE = 1;
-    const INACTIVE = 1;
     /**
      * The attributes that are mass assignable.
      */

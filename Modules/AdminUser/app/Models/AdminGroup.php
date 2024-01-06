@@ -21,7 +21,7 @@ class AdminGroup extends Model
     }
 
     public function getUserCountAttribute(){
-        return $this->users->where('status',AdminUser::ACTIVE)->count() ?? 0;
+        return $this->users->whereNull('deleted_at')->count() ?? 0;
     }
 
     public function users(){
