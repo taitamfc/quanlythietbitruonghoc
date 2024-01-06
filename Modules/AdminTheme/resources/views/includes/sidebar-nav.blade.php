@@ -121,7 +121,7 @@
         <ul class="mm-collapse">
             <li>
                 <a href="{{ route('adminuser.index') }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Người Dùng 
+                    <span class="material-symbols-outlined">arrow_right</span>Người Dùng
                 </a>
             </li>
             <a href="{{ route('adminuser.index') }}">
@@ -141,28 +141,8 @@
         </a>
         <ul class="mm-collapse">
             <li>
-                <a href="{{ route('adminimport.index',['type'=>'Device']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminimport.index',['type'=>'Asset']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Tài Sản
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminimport.index',['type'=>'Lab']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Nhóm Thiết Bị
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('adminimport.index',['type'=>'Room']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Lớp Học
+                <a href="{{ route('adminimport.index',['type'=>'Nest']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Tổ
                 </a>
             </li>
             <li>
@@ -171,8 +151,28 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminimport.index',['type'=>'Nest']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Tổ
+                <a href="{{ route('adminimport.index',['type'=>'Room']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Lớp Học
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminimport.index',['type'=>'DeviceType']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Nhóm Thiết Bị
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminimport.index',['type'=>'Lab']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Phòng Thực Hành
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminimport.index',['type'=>'Asset']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Tài Sản
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminimport.index',['type'=>'Device']) }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Thiết Bị
                 </a>
             </li>
         </ul>
@@ -206,7 +206,7 @@
                     <span class="material-symbols-outlined">arrow_right</span>Phiếu Báo Mượn
                 </a>
             </li>
-            
+
         </ul>
     </li>
     <!-- <li class="menu-label">Cấu Hình Hệ Thống</li> -->
@@ -220,53 +220,17 @@
         <ul class="mm-collapse">
             <li>
                 <a href="{{ route('system.options.index',['type'=>'general']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Chung
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('system.options.index',['type'=>'borrow_device']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Mượn Thiết Bị
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('system.options.index',['type'=>'borrow_lab']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình Mượn Phòng
+                    <span class="material-symbols-outlined">arrow_right</span>Cấu Hình
                 </a>
             </li>
             <li>
                 <a href="{{ route('system.update.index') }}">
                     <span class="material-symbols-outlined">arrow_right</span>Cập Nhật
                 </a>
-            </li>    
-        </ul>
-    </li>
-    <!-- <li class="menu-label">Hướng Dẫn Sử Dụng</li> -->
-    <li>
-        <a class="has-arrow" href="javascript:;">
-            <div class="parent-icon">
-                <span class="material-symbols-outlined">shop</span>
-            </div>
-            <div class="menu-title">Hướng Dẫn</div>
-        </a>
-        <ul class="mm-collapse">
-            <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Cài Đặt
-                </a>
             </li>
             <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Giáo Viên
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Nhân Viên Thiết Bị
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admintaxonomy.index',['type'=>'DeviceType']) }}">
-                    <span class="material-symbols-outlined">arrow_right</span>Quản Trị Viên
+                <a target="_blank" href="https://huongdan.quanlythietbitruonghoc.com/">
+                    <span class="material-symbols-outlined">arrow_right</span>Hướng Dẫn
                 </a>
             </li>
         </ul>
