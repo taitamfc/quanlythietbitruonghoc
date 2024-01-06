@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Room extends WebsiteModel
+class Room extends AdminModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = "rooms";
     protected $fillable = [
         'name',
@@ -18,4 +18,5 @@ class Room extends WebsiteModel
     // {
     //     return $this->belongsToMany(Borrow::class,'borrow_devices','room_id','borrow_id');
     // }
+    
 }

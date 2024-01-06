@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DeviceType extends WebsiteModel
+class DeviceType extends AdminModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = "device_types";
     protected $fillable = [
-        'name',
+        'id','name','deleted_at'
     ];
     public function devices()
     {

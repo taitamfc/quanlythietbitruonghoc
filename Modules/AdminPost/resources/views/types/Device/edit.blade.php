@@ -1,4 +1,4 @@
-@extends('adminpost::create')
+@extends('adminpost::edit')
 
 @section('custom-fields-left')
     @include('adminpost::types.Device.includes.form-left')

@@ -24,7 +24,8 @@ class AdminModel extends Model
         'description',
         'image',
         'status',
-        'position'
+        'position',
+        'deleted_at'
     ];
 
     public static function setUploadDir( $upload_dir ){
@@ -53,13 +54,20 @@ class AdminModel extends Model
             $query->where('name','LIKE','%'.$request->name.'%');
         }
         if($request->status !== NULL){
-            if( is_array($request->status) ){
-                $query->whereIn('status',$request->status);
-            }else{
-                $query->where('status',$request->status);
+            if($request->status == 0){
+                $query->whereNotNull('deleted_at');
             }
         }
         $items = $query->paginate($limit);
+        return $items;
+    }
+    public static function getAll($activeOnly = false){
+        $query = self::query(true);
+        if($activeOnly){
+            $query->whereNull('deleted_at');
+        }
+        $query->orderBy('name');
+        $items = $query->get();
         return $items;
     }
     public static function findItem($id,$table = ''){
@@ -68,7 +76,9 @@ class AdminModel extends Model
         }else{
             $model = self::class;
         }
-        return $model::findOrFail($id);
+        $item = $model::findOrFail($id);
+        $item->status = $item->deleted_at ? 0 : 1;
+        return $item;
     }
     public static function saveItem($request,$table = ''){
         if($table){
@@ -77,10 +87,8 @@ class AdminModel extends Model
             $model = self::class;
         }
         $data = $request->except(['_token', '_method','type']);
-
-        if(!$request->slug && $request->name){
-            $data['slug'] = Str::slug($request->name);
-        }
+        $data['deleted_at'] = $request->status == 1 ? NULL : date('Y-m-d H:i:s');
+        unset($data['status']);
         if ($request->hasFile('image')) {
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
@@ -96,9 +104,10 @@ class AdminModel extends Model
         $item = $model::findOrFail($id);
         $data = $request->all();
         $data = $request->except(['_token', '_method','type']);
+        $data['deleted_at'] = $request->status == 1 ? NULL : date('Y-m-d H:i:s');
+        unset($data['status']);
         if ($request->hasFile('image')) {
-            self::deleteFile($item->image);
-            $data['image'] = $model::uploadFile($request->file('image'), self::$upload_dir);
+            $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
         $item->update($data);
         return $item;
@@ -109,9 +118,10 @@ class AdminModel extends Model
         }else{
             $model = self::class;
         }
-        $item = $model::findItem($id);
-        self::deleteFile($item->image);
-        return $item->delete();
+        $item = $model::findItem($id,$table);
+        unset($item->status);
+        $item->deleted_at = date('Y-m-d H:i:s');
+        return $item->save();
     }
 
     // Attributes

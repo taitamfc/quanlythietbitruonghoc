@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Nest extends Model
+class Nest extends AdminModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = "nests";
     protected $fillable = [
-        'name',
+        'name','deleted_at'
     ];
     public function users()
     {

@@ -13,7 +13,7 @@
     <div class="ms-auto">
         @if( !empty($actions) )
             @foreach( $actions as $action_name => $route_link )
-            <a href="{{ $route_link }}" class="btn btn-primary px-4">{{ __($action_name) }}</a>
+            <a href="{{ $route_link }}" class="btn btn-primary px-4">{{ __('sys.'.$action_name) }}</a>
             @endforeach
         @endif
         <!-- <div class="btn-group">

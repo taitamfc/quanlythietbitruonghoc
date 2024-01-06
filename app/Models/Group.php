@@ -10,7 +10,7 @@ class Group extends Model
     use HasFactory;
     protected $table ='groups';
     protected $fillable = [
-        'name',
+        'name','deleted_at'
     ];
 
     public function users()
