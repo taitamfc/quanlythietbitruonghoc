@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\AdminUser\app\Http\Controllers\AdminAuthController;
 use Modules\AdminUser\app\Http\Controllers\AdminUserController;
+use Modules\AdminUser\app\Http\Controllers\AdminGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::group(['prefix'=>'admin'], function () {
     });
 });
 
+Route::put('admingroup-update/{id}',[AdminGroupController::class,'saveRoles'])->name('admingroup.saveRoles');
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => [
@@ -39,5 +42,6 @@ Route::group([
     ]
 ], function () {
     Route::resource('adminuser', AdminUserController::class)->names('adminuser');
+    Route::resource('admingroup', AdminGroupController::class)->names('admingroup');
 });
 

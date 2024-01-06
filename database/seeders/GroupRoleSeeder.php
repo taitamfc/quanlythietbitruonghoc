@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Modules\AdminUser\app\Models\GroupRoleModel;
 
 class GroupRoleSeeder extends Seeder
 {
@@ -25,7 +26,7 @@ class GroupRoleSeeder extends Seeder
 
                 if($check){
                     $role_id = $check->id;
-                    DB::table('groups_roles')->insert([
+                    DB::table('group_roles')->insert([
                         'group_id' => 1,
                         'role_id' => $role_id,
                     ]);
@@ -57,7 +58,7 @@ class GroupRoleSeeder extends Seeder
 
             if($check){
                 $role_id = $check->id;
-                DB::table('groups_roles')->insert([
+                DB::table('group_roles')->insert([
                     'group_id' => 1,
                     'role_id' => $role_id,
                 ]);
