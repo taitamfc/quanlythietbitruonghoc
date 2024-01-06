@@ -6,17 +6,17 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="">
-                        <p class="mb-1">Total Orders</p>
-                        <h4 class="mb-0 text-primary">248</h4>
+                        <p class="mb-1">Đã phê duyệt</p>
+                        <h4 class="mb-0 text-primary">{{ $count_approved }}</h4>
                     </div>
                     <div class="ms-auto widget-icon bg-primary text-white">
                         <i class="bi bi-basket2-fill"></i>
                     </div>
                 </div>
-                <div class="progress mt-3" style="height: 4.5px;">
+                <!-- <div class="progress mt-3" style="height: 4.5px;">
                     <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75"
                         aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -25,17 +25,17 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="">
-                        <p class="mb-1">Total Revenue</p>
-                        <h4 class="mb-0 text-success">$1,245</h4>
+                        <p class="mb-1">Chưa phê duyệt</p>
+                        <h4 class="mb-0 text-success">{{ $count_inapproved }}</h4>
                     </div>
                     <div class="ms-auto widget-icon bg-success text-white">
                         <i class="bi bi-currency-dollar"></i>
                     </div>
                 </div>
-                <div class="progress mt-3" style="height: 4.5px;">
+                <!-- <div class="progress mt-3" style="height: 4.5px;">
                     <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75"
                         aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -44,17 +44,17 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="">
-                        <p class="mb-1">Bounce Rate</p>
-                        <h4 class="mb-0 text-danger">24.25%</h4>
+                        <p class="mb-1">Thiết bị mượn</p>
+                        <h4 class="mb-0 text-danger">{{ $count_devides }}</h4>
                     </div>
                     <div class="ms-auto widget-icon bg-danger text-white">
                         <i class="bi bi-graph-down-arrow"></i>
                     </div>
                 </div>
-                <div class="progress mt-3" style="height: 4.5px;">
+                <!-- <div class="progress mt-3" style="height: 4.5px;">
                     <div class="progress-bar bg-danger" role="progressbar" style="width: 75%;" aria-valuenow="75"
                         aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -63,17 +63,17 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="">
-                        <p class="mb-1">New Users</p>
-                        <h4 class="mb-0 text-warning">214</h4>
+                        <p class="mb-1">Phòng học mượn</p>
+                        <h4 class="mb-0 text-warning">{{ $count_labs }}</h4>
                     </div>
                     <div class="ms-auto widget-icon bg-warning text-dark">
                         <i class="bi bi-people-fill"></i>
                     </div>
                 </div>
-                <div class="progress mt-3" style="height: 4.5px;">
+                <!-- <div class="progress mt-3" style="height: 4.5px;">
                     <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="75"
                         aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -109,8 +109,8 @@
                 <div class="team-list">
                     <div class="d-flex align-items-center gap-3">
                         <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/01.png" alt="" width="50" height="50"
-                                class="rounded-circle">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/01.png" alt=""
+                                width="50" height="50" class="rounded-circle">
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">John Michael</h6>
@@ -124,8 +124,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt="" width="50" height="50"
-                                class="rounded-circle">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt=""
+                                width="50" height="50" class="rounded-circle">
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">Samantha Ivy</h6>
@@ -139,8 +139,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/03.png" alt="" width="50" height="50"
-                                class="rounded-circle">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/03.png" alt=""
+                                width="50" height="50" class="rounded-circle">
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">Alex Smith</h6>
@@ -154,8 +154,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/04.png" alt="" width="50" height="50"
-                                class="rounded-circle">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/04.png" alt=""
+                                width="50" height="50" class="rounded-circle">
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">Alex Smith</h6>
@@ -169,8 +169,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt="" width="50" height="50"
-                                class="rounded-circle">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt=""
+                                width="50" height="50" class="rounded-circle">
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">Samantha</h6>
@@ -299,7 +299,8 @@
                 <div class="team-list">
                     <div class="d-flex align-items-center gap-3">
                         <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/apple.png" alt="" width="30">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/apple.png" alt=""
+                                width="30">
                         </div>
                         <div class="flex-grow-1">
                             <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
@@ -312,7 +313,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/bootstrap.png" alt="" width="30">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/bootstrap.png" alt=""
+                                width="30">
                         </div>
                         <div class="flex-grow-1">
                             <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
@@ -325,7 +327,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/google-2.png" alt="" width="30">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/google-2.png" alt=""
+                                width="30">
                         </div>
                         <div class="flex-grow-1">
                             <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
@@ -338,7 +341,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/spotify.png" alt="" width="30">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/spotify.png" alt=""
+                                width="30">
                         </div>
                         <div class="flex-grow-1">
                             <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
@@ -351,7 +355,8 @@
                     <hr>
                     <div class="d-flex align-items-center gap-3">
                         <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/outlook.png" alt="" width="30">
+                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/outlook.png" alt=""
+                                width="30">
                         </div>
                         <div class="flex-grow-1">
                             <p class="mb-2 fw-bold">Angular 12 Dashboard</p>

@@ -22,17 +22,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             GroupSeeder::class,
-            NestSeeder::class,
-            UserSeeder::class,
-            BorrowSeeder::class,
-            RoomSeeder::class,
+            // NestSeeder::class,
+            // UserSeeder::class,
+            // BorrowSeeder::class,
+            // RoomSeeder::class,
             RoleSeeder::class,
             GroupRoleSeeder::class,
-            BorrowDevicesSeeder::class,
-            OptionSeeder::class,
-            DeviceTypeSeeder::class,
-            DepartmentSeeder::class,
-            DeviceSeeder::class
+            // BorrowDevicesSeeder::class,
+            // OptionSeeder::class,
+            // DeviceTypeSeeder::class,
+            // DepartmentSeeder::class,
+            // DeviceSeeder::class
         ]);
     }
 }
