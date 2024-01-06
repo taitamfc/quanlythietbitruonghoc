@@ -10,9 +10,12 @@ use Modules\AdminUser\app\Models\AdminUser;
 use Illuminate\Support\Facades\Auth;
 use Modules\AdminUser\app\Http\Requests\StoreAdminUserRequest;
 use Illuminate\Support\Facades\Log;
+use Modules\AdminUser\app\Models\Group;
+use App\Models\Nest;
+
 class AdminUserController extends Controller
 {
-    protected $view_path    = 'adminuser::';
+    protected $view_path    = 'adminuser::adminuser.';
     protected $route_prefix = 'adminuser.';
     protected $model        = AdminUser::class;
     /**
@@ -41,9 +44,14 @@ class AdminUserController extends Controller
     public function create(Request $request)
     {
         $type = $request->type ?? '';
+        $groups = Group::all();
+        $nests = Nest::all();
         $params = [
             'route_prefix'  => $this->route_prefix,
-            'model'         => $this->model
+            'model'         => $this->model,
+            'item'=> '',
+            'groups' => $groups,
+            'nests' => $nests,
         ];
         if ($type) {
             return view($this->view_path.'types.'.$type.'.create', $params);

@@ -16,6 +16,7 @@ class AdminBorrowLabController extends Controller
     protected $model        = BorrowLab::class;
     public function labs(Request $request)
     {
+        
         if( !$request->week ){
             $currentWeek    = Carbon::now()->format('Y-\WW');
             $startDateEndDate = $this->model::getStartEndDateFromWeek($currentWeek);
