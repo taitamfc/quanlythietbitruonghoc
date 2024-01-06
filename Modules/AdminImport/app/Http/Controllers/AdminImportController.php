@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\AdminUser\app\Models\Group;
+use App\Policies\GroupPolicy;
 class AdminImportController extends Controller
 {
     protected $view_path    = 'adminimport::';
     protected $route_prefix = 'adminimport.';
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $type_slug = strtolower($type);
         $params = [
@@ -30,6 +33,7 @@ class AdminImportController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminImport\app\Imports\\' . $type.'Import';
         $import = new $modelClass();

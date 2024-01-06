@@ -2,7 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
+use Modules\AdminUser\app\Models\Group;
+// use Modules\AdminUser\app\Models\User;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 

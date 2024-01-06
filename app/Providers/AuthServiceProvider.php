@@ -13,11 +13,12 @@ use App\Policies\DevicePolicy;
 use App\Policies\DeviceTypePolicy;
 use App\Policies\RoomPolicy;
 use App\Policies\DepartmentPolicy;
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 
 use App\Models\User;
+use Modules\AdminUser\app\Models\Group;
 use App\Policies\UserPolicy;
-
+use App\Policies\GroupPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -35,6 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Room::class => RoomPolicy::class,
         User::class => UserPolicy::class,
         Department::class => DepartmentPolicy::class,
+        Group::class => GroupPolicy::class,
     ];
 
 
@@ -44,5 +46,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+        Gate::policy(Group::class, GroupPolicy::class);
     }
 }

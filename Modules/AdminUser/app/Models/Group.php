@@ -5,11 +5,12 @@ namespace Modules\AdminUser\app\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AdminModel as Model;
 use Illuminate\Support\Str;
-
+use App\Policies\GroupPolicy;
 class Group extends Model
 {
     use HasFactory;
     protected $table ='groups';
+    protected $policy = GroupPolicy::class;
     protected $fillable = [
         'name',
     ];
