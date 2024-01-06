@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\Role;
+use Modules\AdminUser\app\Models\Role;
 
 trait HasPermissions
 {

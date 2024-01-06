@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\AdminUser\app\Models\Group;
 use Modules\AdminUser\app\Models\Role;
 use Modules\AdminUser\app\Http\Requests\GroupRequest;
+use Illuminate\Support\Facades\Auth;
+use Modules\AdminUser\app\Models\Group;
+use App\Policies\GroupPolicy;
 
 
 class AdminGroupController extends Controller
@@ -22,6 +24,7 @@ class AdminGroupController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', $this->model);
         $type = $request->type ?? '';
         try {
             $items = $this->model::getItems($request);
@@ -59,6 +62,7 @@ class AdminGroupController extends Controller
      */
     public function store(GroupRequest $request): RedirectResponse
     {
+        $this->authorize('create', $this->model);
         $type = $request->type;
         try {
             $this->model::saveItem($request,$type);
@@ -74,6 +78,8 @@ class AdminGroupController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', $this->model::find($id));
+
         $type = $request->type ?? '';
 
         $item = $this->model::find($id);
@@ -105,7 +111,6 @@ class AdminGroupController extends Controller
      */
     public function edit($id)
     {
-
         $type = $request->type ?? '';
         $item = Group::findOrFail($id);
         $params = [
@@ -124,6 +129,7 @@ class AdminGroupController extends Controller
      */
     public function update(GroupRequest $request, $id): RedirectResponse
     {
+        $this->authorize('update', $this->model::find($id));
         $type = $request->type;
         try {
             $this->model::updateItem($id,$request,$type);
@@ -142,6 +148,7 @@ class AdminGroupController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', $this->model::find($id));
         try {
             $this->model::deleteItem($id);
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.destroy_item_success'));

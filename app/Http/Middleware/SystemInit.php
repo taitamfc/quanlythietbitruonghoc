@@ -48,7 +48,7 @@ class SystemInit
             'devices',
             'failed_jobs',
             'groups',
-            'groups_roles',
+            'group_roles',
             'migrations',
             'nests',
             'options',

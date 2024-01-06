@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-
+use Modules\AdminUser\app\Models\Group;
+use App\Policies\GroupPolicy;
 class AdminExportController extends Controller
 {
     protected $view_path    = 'adminexport::';
     protected $route_prefix = 'adminexport.';
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $type_slug = Str::slug($type);
         $params = [
@@ -31,6 +33,7 @@ class AdminExportController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminExport\app\Exports\\' . $type.'Export';
         $export = new $modelClass();
