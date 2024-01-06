@@ -16,7 +16,6 @@ class AdminImportController extends Controller
     protected $route_prefix = 'adminimport.';
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $type_slug = strtolower($type);
         $params = [
@@ -33,7 +32,6 @@ class AdminImportController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize('viewAny', Group::class);
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminImport\app\Imports\\' . $type.'Import';
         $import = new $modelClass();

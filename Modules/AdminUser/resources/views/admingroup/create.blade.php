@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <div class="mb-4">
-            <form action="{{route($route_prefix.'store',['type'=>request()->type])}}" method="post">
+            <form action="{{route($route_prefix.'store')}}" method="post">
                 @csrf
                 <label class="mb-3">{{ __('adminpost::form.name') }}</label>
                 <input type="text" class="form-control" name="name" value="{{ $item->name ?? old('name') }}">

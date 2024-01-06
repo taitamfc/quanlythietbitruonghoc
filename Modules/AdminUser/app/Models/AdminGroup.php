@@ -6,12 +6,10 @@ use App\Models\AdminModel as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AdminUser\Database\factories\AdminUserFactory;
 
-class AdminUser extends Model
+class AdminGroup extends Model
 {
     use HasFactory;
-    protected $table = 'users';
-    const ACTIVE = 1;
-    const INACTIVE = 1;
+    protected $table = 'groups';
     /**
      * The attributes that are mass assignable.
      */
@@ -20,5 +18,13 @@ class AdminUser extends Model
     protected static function newFactory(): AdminUserFactory
     {
         //return AdminUserFactory::new();
+    }
+
+    public function getUserCountAttribute(){
+        return $this->users->where('status',AdminUser::ACTIVE)->count() ?? 0;
+    }
+
+    public function users(){
+        return $this->hasMany(AdminUser::class,'group_id');
     }
 }

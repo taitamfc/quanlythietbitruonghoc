@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use Modules\AdminUser\app\Models\Role;
-
 trait HasPermissions
 {
     protected $permissionList = null;

@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\AdminUser\app\Models\Role;
+use Modules\AdminUser\app\Models\AdminRole;
 use Modules\AdminUser\app\Http\Requests\GroupRequest;
 use Illuminate\Support\Facades\Auth;
-use Modules\AdminUser\app\Models\Group;
-use App\Policies\GroupPolicy;
+use Modules\AdminUser\app\Models\AdminGroup;
 
 
 class AdminGroupController extends Controller
@@ -18,13 +17,12 @@ class AdminGroupController extends Controller
 
     protected $view_path    = 'adminuser::admingroup.';
     protected $route_prefix = 'admingroup.';
-    protected $model        = Group::class;
+    protected $model        = AdminGroup::class;
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', $this->model);
         $type = $request->type ?? '';
         try {
             $items = $this->model::getItems($request);
@@ -62,7 +60,6 @@ class AdminGroupController extends Controller
      */
     public function store(GroupRequest $request): RedirectResponse
     {
-        $this->authorize('create', $this->model);
         $type = $request->type;
         try {
             $this->model::saveItem($request,$type);
@@ -78,21 +75,15 @@ class AdminGroupController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', $this->model::find($id));
-
         $type = $request->type ?? '';
 
         $item = $this->model::find($id);
-        $roles = Role::all();
-        $active_roles = $item->roles->pluck('id')->toArray();
-        // dd($active_roles);
+        $roles = AdminRole::getAll();
+        $active_roles = [];
         $all_roles = [];
         foreach ($roles as $role) {
             $all_roles[$role['group_name']][] = $role;
         }
-        // $params['all_roles'] = $all_roles;
-        // $params['group'] = $item;
-        // $params['active_roles'] = $active_roles;
         $params = [
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model,
@@ -129,7 +120,6 @@ class AdminGroupController extends Controller
      */
     public function update(GroupRequest $request, $id): RedirectResponse
     {
-        $this->authorize('update', $this->model::find($id));
         $type = $request->type;
         try {
             $this->model::updateItem($id,$request,$type);
@@ -148,7 +138,6 @@ class AdminGroupController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $this->model::find($id));
         try {
             $this->model::deleteItem($id);
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.destroy_item_success'));

@@ -6,12 +6,10 @@ use App\Models\AdminModel as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AdminUser\Database\factories\AdminUserFactory;
 
-class AdminUser extends Model
+class AdminRole extends Model
 {
     use HasFactory;
-    protected $table = 'users';
-    const ACTIVE = 1;
-    const INACTIVE = 1;
+    protected $table = 'roles';
     /**
      * The attributes that are mass assignable.
      */
@@ -21,4 +19,11 @@ class AdminUser extends Model
     {
         //return AdminUserFactory::new();
     }
+
+    // public static function getAll(){
+    //     return [
+    //         'manage-admin-borrows',
+    //         'view-admin-borrow'
+    //     ];
+    // }
 }
