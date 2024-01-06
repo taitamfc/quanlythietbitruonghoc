@@ -34,7 +34,7 @@ class AdminExportController extends Controller
         $type = $request->type ?? '';
         $modelClass = '\Modules\AdminExport\app\Exports\\' . $type.'Export';
         $export = new $modelClass();
-        $rules = $export->rules();
+        $rules = $export->rules;
         $messages = $export->messages;
         if($rules){
             $validator = Validator::make($request->all(),$rules,$messages);
