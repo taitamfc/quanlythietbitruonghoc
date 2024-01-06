@@ -18,47 +18,47 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 
 use App\Models\Borrow;
-use App\Models\User;
+use App\Models\Lab;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class BorrowDevicesUserExport {
-    protected $templateFile = '';
+class BorrowLabsExport {
     public $rules = [
-        'week' => 'required_without_all:school_years|nullable',
-        'school_years' => 'required_without_all:week|nullable',
-        'user_id' => 'required',
+        // 'week' => 'required_without_all:school_years|nullable',
+        // 'school_years' => 'required_without_all:week|nullable',
+        // 'user_id' => 'required',
     ];
     public $messages = [
-        'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy',
-        'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy',
-        'user_id.required' => 'Trường tổ là bắt buộc',
+        // 'week.required_without_all' => 'Trường tuần dạy là bắt buộc nếu không có năm dạy',
+        // 'school_years.required_without_all' => 'Trường năm dạy là bắt buộc nếu không có tuần dạy',
+        // 'user_id.required' => 'Trường tổ là bắt buộc',
     ];
     public function handle($request = null){
         // $id = request()->id;
         $type = request()->type;
         // Lấy thông tin người dùng và mượn thiết bị
         // $borrow = Borrow::find($id);
-        $user = User::find(request()->user_id);
+        $lab = Lab::all();
         $query = Borrow::query();
-        $query = $query->where('user_id', request()->user_id);
-        if (request()->week) {
-            $startWeek = Carbon::parse(request()->week)->startOfWeek()->format('Y-m-d');
-            $endWeek = Carbon::parse(request()->week)->endOfWeek()->format('Y-m-d');
-            $query = $query->whereBetween('borrow_date', [$startWeek, $endWeek]);
-        }
-        if(request()->school_years){
-            // Lấy giá trị năm bắt đầu và kết thúc từ chuỗi '2022-2023'
-            $yearRange = explode('-', request()->school_years);
-            $startYear = $yearRange[0].'-1-1';
-            $endYear = $yearRange[1].'-1-1';
+        // $query = $query->where('user_id', request()->user_id);
+        // if (request()->week) {
+        //     $startWeek = Carbon::parse(request()->week)->startOfWeek()->format('Y-m-d');
+        //     $endWeek = Carbon::parse(request()->week)->endOfWeek()->format('Y-m-d');
+        //     $query = $query->whereBetween('borrow_date', [$startWeek, $endWeek]);
+        // }
+        // if(request()->school_years){
+        //     // Lấy giá trị năm bắt đầu và kết thúc từ chuỗi '2022-2023'
+        //     $yearRange = explode('-', request()->school_years);
+        //     $startYear = $yearRange[0].'-1-1';
+        //     $endYear = $yearRange[1].'-1-1';
             
-            $query->whereDate('borrow_date', '>', $startYear)
-            ->whereDate('borrow_date', '<=', $endYear);
-        }
+        //     $query->whereDate('borrow_date', '>', $startYear)
+        //     ->whereDate('borrow_date', '<=', $endYear);
+        // }
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
+        dd($lab);
         $templatePath = public_path('system/export/'.$type.'.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
