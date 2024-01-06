@@ -124,7 +124,7 @@
                     <span class="material-symbols-outlined">arrow_right</span>Người Dùng
                 </a>
             </li>
-            <a href="{{ route('adminuser.index') }}">
+            <a href="{{ route('admingroup.index') }}">
                 <span class="material-symbols-outlined">arrow_right</span>Nhóm Người Dùng
             </a>
         </ul>

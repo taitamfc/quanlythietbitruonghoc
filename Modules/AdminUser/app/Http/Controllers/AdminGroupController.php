@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\AdminUser\app\Models\AdminUser;
-use Illuminate\Support\Facades\Auth;
-use Modules\AdminUser\app\Http\Requests\StoreAdminUserRequest;
-use Illuminate\Support\Facades\Log;
-class AdminUserController extends Controller
+use Modules\AdminUser\app\Models\Group;
+use Modules\AdminUser\app\Models\Role;
+use Modules\AdminUser\app\Http\Requests\GroupRequest;
+
+
+class AdminGroupController extends Controller
 {
-    protected $view_path    = 'adminuser::';
-    protected $route_prefix = 'adminuser.';
-    protected $model        = AdminUser::class;
+
+    protected $view_path    = 'adminuser::admingroup.';
+    protected $route_prefix = 'admingroup.';
+    protected $model        = Group::class;
     /**
      * Display a listing of the resource.
      */
@@ -28,11 +30,12 @@ class AdminUserController extends Controller
                 'model'         => $this->model,
                 'items'         => $items
             ];
-            return view($this->view_path.'index', $params);
+            return view($this->view_path.'index',$params);
         } catch (QueryException $e) {
             Log::error('Error in index method: ' . $e->getMessage());
             return redirect()->route( $this->route_prefix.'index' )->with('error',  __('sys.get_items_error'));
         }
+        
     }
 
     /**
@@ -54,15 +57,11 @@ class AdminUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdminUserRequest $request): RedirectResponse
+    public function store(GroupRequest $request): RedirectResponse
     {
         $type = $request->type;
         try {
-            $item = $this->model::saveItem($request,$type);
-            // Hook xử lý sự kiện sau khi user tạo thành công
-            if($request->task == 'save-form'){
-                \App\Events\UserCreated::dispatch($item);
-            }
+            $this->model::saveItem($request,$type);
             return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
@@ -73,37 +72,32 @@ class AdminUserController extends Controller
     /**
      * Show the specified resource.
      */
-    public function showCVs(Request $request)
+    public function show($id)
     {
-        $type = $request->type;
-        try {
-            $items = $this->model::showUserCVs($request,null,$type);
-            $params = [
-                'route_prefix'  => $this->route_prefix,
-                'model'         => $this->model,
-                'items'         => $items
-            ];
-            return view($this->view_path.'showCVs', $params);
-        } catch (QueryException $e) {
-            Log::error('Error in index method: ' . $e->getMessage());
-            return redirect()->route( $this->route_prefix.'index' )->with('error',  __('sys.get_items_error'));
+        $type = $request->type ?? '';
+
+        $item = $this->model::find($id);
+        $roles = Role::all();
+        $active_roles = $item->roles->pluck('id')->toArray();
+        // dd($active_roles);
+        $all_roles = [];
+        foreach ($roles as $role) {
+            $all_roles[$role['group_name']][] = $role;
         }
-    }
-    public function showCV(Request $request)
-    {
-        $type = $request->type;
-        try {
-            $item = $this->model::showCV($request,$type);
-            $params = [
-                'route_prefix'  => $this->route_prefix,
-                'model'         => $this->model,
-                'item'         => $item
-            ];
-            return view($this->view_path.'showCV', $params);
-        } catch (QueryException $e) {
-            Log::error('Error in index method: ' . $e->getMessage());
-            return redirect()->route( $this->route_prefix.'index' )->with('error',  __('sys.get_items_error'));
+        // $params['all_roles'] = $all_roles;
+        // $params['group'] = $item;
+        // $params['active_roles'] = $active_roles;
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'all_roles'         => $all_roles,
+            'group'         => $item,
+            'active_roles'         => $active_roles,
+        ];
+        if ($type) {
+            return view($this->view_path.'types.'.$type.'.show', $params);
         }
+        return view($this->view_path.'show', $params);
     }
 
     /**
@@ -111,13 +105,24 @@ class AdminUserController extends Controller
      */
     public function edit($id)
     {
-        return view($this->view_path.'edit');
+
+        $type = $request->type ?? '';
+        $item = Group::findOrFail($id);
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'item'         => $item,
+        ];
+        if ($type) {
+            return view($this->view_path.'types.'.$type.'.edit', $params);
+        }
+        return view($this->view_path.'edit', $params);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreAdminUserRequest $request, $id): RedirectResponse
+    public function update(GroupRequest $request, $id): RedirectResponse
     {
         $type = $request->type;
         try {
@@ -148,5 +153,24 @@ class AdminUserController extends Controller
             return redirect()->route( $this->route_prefix.'index' )->with('error', __('sys.destroy_item_error'));
         }
     }
-    
+
+    public function saveRoles(Request $request)
+    {
+        $type = $request->type ?? '';
+        $group = $this->model::find($request->id);
+        $group->roles()->detach();
+        $group->roles()->attach($request->roles);
+        return redirect()->route($this->route_prefix.'index')->with('success', 'Cấp quyền thành công!');
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'item'         => $item,
+        ];
+        if ($type) {
+            return view($this->view_path.'types.'.$type.'.index', $params);
+        }
+        return redirect()->route($this->route_prefix.'index', $params)->with('success', 'Cấp quyền thành công!');
+
+    }
 }
+
