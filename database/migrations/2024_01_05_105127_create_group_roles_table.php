@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_roles', function (Blueprint $table) {
+        Schema::create('groups_roles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id')->nullable();
             $table->unsignedBigInteger('role_id')->nullable();

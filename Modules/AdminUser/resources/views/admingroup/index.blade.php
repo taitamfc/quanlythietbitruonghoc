@@ -30,20 +30,20 @@
                 <table class="table align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th>Mã</th>
                             <th>Tên</th>
-                            <th>Số thành viên trong nhóm</th>
-                            <th>{{ __('adminpost::table.created_at') }}</th>
-                            <th>{{ __('adminpost::table.action') }}</th>
+                            <th>Người Dùng</th>
+                            <th>Trạng Thái</th>
+                            <th>Ngày Tạo</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @if( count( $items ) )
                         @foreach( $items as $item )
                         <tr>
-                            <td>#{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
-                            <td>{{$item->users->count()}} thành viên</td>
+                            <td>{{ $item->user_count }} thành viên</td>
+                            <td>{!! $item->status_fm !!}</td>
                             <td>{{ $item->created_at_fm }}</td>
                             <td>
                                 <div class="dropdown">

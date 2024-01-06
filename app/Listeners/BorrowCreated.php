@@ -26,6 +26,9 @@ class BorrowCreated
         if($auto_approved){
             $event->item->status = 1;
             $event->item->save();
+
+            // Gửi tới nhân viên quản lý thiết bị
+            \App\Models\Notification::addNotification(1, 'new_borrow', 'site_to_user', $event->item->id);
         }
     }
 }
