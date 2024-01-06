@@ -7,14 +7,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Modules\AdminHome\App\Models\AdminHome;
+
 class AdminHomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $view_path    = 'adminhome::';
+    protected $route_prefix = 'adminhome.';
+    protected $model = AdminHome::class;
     public function index()
     {
-        return view('adminhome::index');
+        $count_statis = $this->model::getApprovedOnWeek('Borrow');
+        return view($this->view_path.'index',$count_statis);
     }
 
     /**
@@ -22,7 +28,7 @@ class AdminHomeController extends Controller
      */
     public function create()
     {
-        return view('adminhome::create');
+        return view($this->view_path.'create');
     }
 
     /**
@@ -38,7 +44,7 @@ class AdminHomeController extends Controller
      */
     public function show($id)
     {
-        return view('adminhome::show');
+        return view($this->view_path.'show');
     }
 
     /**
@@ -46,7 +52,7 @@ class AdminHomeController extends Controller
      */
     public function edit($id)
     {
-        return view('adminhome::edit');
+        return view($this->view_path.'edit');
     }
 
     /**
