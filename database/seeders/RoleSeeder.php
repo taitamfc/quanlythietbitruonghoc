@@ -13,7 +13,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $groups = ['Device', 'Group', 'BorrowDevice', 'Borrow', 'User', 'Room', 'Role','DeviceType','Nest','Department','Asset'];
+        $groups = ['Device', 'Group', 'BorrowDevice', 'Borrow', 'User', 'Room', 'Role','DeviceType','Nest','Department','Asset','AdminPost'];
         $actions = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete', 'trash'];
         foreach ($groups as $group) {
             foreach ($actions as $action) {

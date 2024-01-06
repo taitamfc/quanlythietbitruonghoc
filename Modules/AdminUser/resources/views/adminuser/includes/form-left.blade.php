@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-body">
+        <div class="mb-4">
+            <label class="mb-3">{{ __('admintaxonomy::form.name') }}</label>
+            <input type="text" class="form-control" name="name" value="{{ $item->name ?? old('name') }}" placeholder="Nhập tên...">
+            <x-admintheme::form-input-error field="name"/>
+        </div>
+        <div class="row">
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Email</label>
+                <input type="text" class="form-control" name="email" value="{{ $item->email ?? old('email') }}" placeholder="Nhập Email...">
+                <x-admintheme::form-input-error field="email"/>
+            </div>
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Mật khẩu</label>
+                <input type="text" class="form-control" name="password" value="{{ $item->password ?? old('password') }}" placeholder="Nhập mật khẩu...">
+                <x-admintheme::form-input-error field="password"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Địa chỉ</label>
+                <input type="text" class="form-control" name="address" value="{{ $item->address ?? old('address') }}" placeholder="Nhập địa chỉ...">
+                <x-admintheme::form-input-error field="address"/>
+            </div>
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Số điện thoại</label>
+                <input type="number" class="form-control" name="phone" value="{{ $item->phone ?? old('phone') }}" placeholder="Nhập số điện thoại...">
+                <x-admintheme::form-input-error field="phone"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Giới tính</label>
+                <input type="text" class="form-control" name="gender" value="{{ $item->gender ?? old('gender') }}" placeholder="Nhập giới tính...">
+                <x-admintheme::form-input-error field="gender"/>
+            </div>
+            <div class="mb-4 col-lg-6">
+                <label class="mb-3">Ngày sinh</label>
+                <input type="date" class="form-control" name="birthday" value="{{ $item->birthday ?? old('birthday') }}" placeholder="Nhập ngày sinh...">
+                <x-admintheme::form-input-error field="birthday"/>
+            </div>
+        </div>  
+    </div>
+</div>
+
+@yield('form-left')

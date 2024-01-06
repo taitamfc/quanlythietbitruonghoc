@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\AdminBorrow\app\Models\Borrow;
+use App\Policies\BorrowPolicy;
 
 
 class AdminBorrowController extends Controller
@@ -16,6 +17,7 @@ class AdminBorrowController extends Controller
     protected $model        = Borrow::class;
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Borrow::class);
         try {
             $items = $this->model::getItems($request);
             $params = [
@@ -35,6 +37,7 @@ class AdminBorrowController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Borrow::find($id));
         try {
             $item = $this->model::findItem($id);
             $params = [
@@ -75,6 +78,7 @@ class AdminBorrowController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update', Borrow::find($id));
         try {
             $this->model::updateItem($id,$request);
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.update_item_success'));
@@ -104,6 +108,7 @@ class AdminBorrowController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Borrow::find($id));
         try {
             $this->model::deleteItem($id);
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.destroy_item_success'));

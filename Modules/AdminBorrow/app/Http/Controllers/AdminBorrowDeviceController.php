@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\AdminBorrow\app\Models\BorrowDevice;
 use Carbon\Carbon;
+use App\Policies\BorrowDevicePolicy;
 
 class AdminBorrowDeviceController extends Controller
 {
