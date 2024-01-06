@@ -3,6 +3,7 @@
 namespace Modules\Home\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -64,4 +65,12 @@ class HomeController extends Controller
     {
         //
     }
+
+    public function markAllAsRead(Request $request)
+{
+    $type = $request->input('type', 1);
+    Notification::where('type', 0)->update(['type' => $type]);
+    return redirect()->back()->with('success', 'Đã đánh dấu tất cả là đã đọc.');
+}
+
 }
