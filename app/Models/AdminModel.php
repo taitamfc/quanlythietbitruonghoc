@@ -84,7 +84,7 @@ class AdminModel extends Model
         if ($request->hasFile('image')) {
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
-        $model::create($data);
+        return $model::create($data);
     }
     public static function updateItem($id,$request,$table = ''){
         if($table){
@@ -101,6 +101,7 @@ class AdminModel extends Model
             $data['image'] = $model::uploadFile($request->file('image'), self::$upload_dir);
         } 
         $item->update($data);
+        return $item;
     }
     public static function deleteItem($id,$table = ''){
         if($table){

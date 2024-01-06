@@ -165,6 +165,11 @@ class Borrow extends Model
                     }
                 }
             }
+
+            // Hook xử lý sự kiện sau khi phiếu mượn tạo thành công
+            if($request->task == 'save-form'){
+                \App\Events\BorrowCreated::dispatch($item);
+            }
         }
         
         return $item;

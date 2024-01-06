@@ -28,103 +28,96 @@ class BorrowDevicesNestExport
         $rules = [
             'week' => 'required',
             'school_years' => 'required',
-            'nest_id' => 'required',
-            ];
-        if (request()->week) {
-            $rules = [
-                'week' => 'required',
-            ];
-        } elseif (request()->school_years) {
-            $rules = [
-                'school_years' => 'required',
-            ];
-        } elseif (request()->nest_id) {
-            $rules = [
-                'nest_id' => 'required',
-            ];
+        ];
+        // nếu đã chọn school_years thì không yêu cầu week
+        if(request()->school_years){
+            unset($rules['week']);
         }
-        
+        // nếu đã chọn week thì không yêu cầu school_years
+        if(request()->week){
+            unset($rules['school_years']);
+        }
         return $rules;
     }
 
     public $messages = [
-        'error.required_without_all' => 'Chỉ được điền một trong hai trường "Tuần" hoặc "Năm học"',
-        'week.required' => 'Trường Tuần là bắt buộc',
-        'school_years.required' => 'Trường Năm học là bắt buộc',
-        'nest_id.required' => 'Trường nest_id là bắt buộc',
+        'required' => 'Trường bắt buộc'
     ];
     
     public function handle()
     {
         $type = request()->type;
-        $query = Borrow::query();
+        // Xử lý tìm kiếm 
+        $query = \App\Models\BorrowDevice::query();
         if(request()->nest_id){
-            $users = User::where('nest_id', request()->nest_id)->pluck('id');
-            $query->whereIn('user_id', $users);
+            $query->whereHas('borrow.user', function ($query) {
+                $query->where('nest_id', request()->nest_id );
+            });
         }
         if (request()->week) {
-            $startWeek = Carbon::parse(request()->week)->startOfWeek()->format('Y-m-d');
-            $endWeek = Carbon::parse(request()->week)->endOfWeek()->format('Y-m-d');
-            $query->whereBetween('borrow_date', [$startWeek, $endWeek]);
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
         }
         if(request()->school_years){
-            // Lấy giá trị năm bắt đầu và kết thúc từ chuỗi '2022-2023'
-            $yearRange = explode('-', request()->school_years);
-            $startYear = $yearRange[0].'-1-1';
-            $endYear = $yearRange[1].'-1-1';
-            
-            $query->whereDate('borrow_date', '>', $startYear)
-            ->whereDate('borrow_date', '<=', $endYear);
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
         }
-        $borrows = $query->get();
+        $BorrowDevices = $query->get();
+        $BorrowDevices = \App\Models\BorrowDevice::groupBorrowDevices($BorrowDevices);
         // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('system/export/'.$type.'.xlsx');
+        $templatePath = public_path('system/export/'.strtolower($type).'.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
         $spreadsheet = $reader->load($templatePath);
 
-        // Lấy ngày, tháng và năm hiện tại
-        $currentDay = date('d');
-        $currentMonth = date('m');
-        $currentYear = date('Y');
-        $newValue = 'Gio Linh, ngày ' . $currentDay . ' tháng ' . $currentMonth . ' năm ' . $currentYear;
-    
         // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('B2', \App\Models\Nest::find(request()->nest_id)->name ?? '');
-        $sheet->setCellValue('F4', isset($startYear) ? $startYear : ( isset($startWeek) ? $startWeek : ''));
-        $sheet->setCellValue('I4', isset($endYear) ? $endYear : ( isset($endWeek) ? $endWeek : ''));
+        // Tổ
+        $borrowerName = '';
+        $nest = request()->nest_id ? \App\Models\Nest::find( request()->nest_id ) : '';
+        $borrowerName = $nest->name ?? '';
+        $nestID = $nest->id ?? 0;
+        $sheet->setCellValue('B2', $borrowerName);
 
-        // Duyệt qua danh sách mượn thiết bị
-        $index = 8; // Bắt đầu từ hàng 10
-        $stt = 1; // Khởi tạo biến STT
-        foreach ($borrows as $borrow) {
-            foreach ($borrow->the_devices as $device) {
-                $sheet->setCellValueExplicit('A' . $index, $stt, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
-                $sheet->setCellValue('B' . $index, $device->borrow_date);
-                $sheet->setCellValue('C' . $index, $device->return_date);
-                $sheet->setCellValue('D' . $index, $borrow->id);
-                $sheet->setCellValue('E' . $index, $borrow->borrow_date);
-                $sheet->setCellValue('F' . $index, $device->device->name ?? '');
-                $sheet->setCellValue('G' . $index, $device->quantity);
-                $sheet->setCellValue('H' . $index, $device->tiet);
-                $sheet->setCellValue('I' . $index, $device->lesson_name);
-                $sheet->setCellValue('J' . $index, $device->room->name ?? '');
-                $sheet->setCellValue('K' . $index, $device->lecture_number);
-                $sheet->setCellValue('L' . $index, $borrow->borrow_note ?? '');
-                $sheet->setCellValue('M' . $index, $borrow->user->name);
-                $index++;
-                $stt++;
-            }
+        // Ngày dạy từ
+        $dateStart = date('d/m/Y',strtotime($startDateEndDate[0]));
+        $sheet->setCellValue('F4', $dateStart);
+
+        $dateEnd = date('d/m/Y',strtotime($startDateEndDate[1]));
+        $sheet->setCellValue('I4', $dateEnd);
+
+        $index = 8;
+        $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
+
+        foreach ($BorrowDevices as $key => $item) {
+            $sheet->setCellValueExplicit('A' . $index, $key + 1, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
+            $sheet->setCellValue('B' . $index, $item['borrow_date']);
+            $sheet->setCellValue('C' . $index, $item['return_date']);
+            $sheet->setCellValue('D' . $index, $key + 1);
+            $sheet->setCellValue('E' . $index, $item['created_at']);
+            $sheet->setCellValue('F' . $index, $item['device_name']);
+            $sheet->setCellValue('G' . $index, $item['quantity']);
+            $sheet->setCellValue('H' . $index, $item['lecture_name']);
+            $sheet->setCellValue('I' . $index, $item['lesson_name']);
+            $sheet->setCellValue('J' . $index, $item['room_name']);
+            $sheet->setCellValue('K' . $index, '');
+            $sheet->getColumnDimension('L')->setWidth(50); 
+            $sheet->setCellValue('L' . $index, $item['user_name']);
+            
+            $index++;
+            $stt++;
         }
+      
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('system/uploads/'.$type.'.xlsx');
+        $newFilePath = public_path('system/tmp/so-muon-'.date("Y-m-d").'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);
         return $newFilePath;
-        }
+    }
 }

@@ -47,7 +47,7 @@ class RouteServiceProvider extends ServiceProvider
                     $databaseName = $this->getDatabaseName();
                     $databaseExists = $this->checkDatabaseExist($databaseName);
                     if (!$databaseExists) {
-                        // abort(403);
+                        abort(403);
                     }else{
                         config(['database.connections.mysql.database' => $databaseName]);
                         \DB::reconnect('mysql');
