@@ -25,9 +25,12 @@ use Illuminate\Support\Facades\DB;
 
 class BorrowDetailExport {
     protected $templateFile = '';
-    public $rules = [
-        'id' => 'required|exists:borrows,id'
-    ];
+    public function rules() : array{
+        $rules = [
+            'id' => 'required|exists:borrows,id'
+        ];
+        return $rules;
+    }
     public $messages = [
         'required' => 'Trường yêu cầu',
         'exists' => 'ID không tồn tại',
