@@ -58,7 +58,11 @@ class AdminUserController extends Controller
     {
         $type = $request->type;
         try {
-            $this->model::saveItem($request,$type);
+            $item = $this->model::saveItem($request,$type);
+            // Hook xử lý sự kiện sau khi user tạo thành công
+            if($request->task == 'save-form'){
+                \App\Events\UserCreated::dispatch($item);
+            }
             return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());

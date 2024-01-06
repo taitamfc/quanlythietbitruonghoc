@@ -78,7 +78,7 @@ class BorrowDetailExport {
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('system/uploads/'.$type.$borrow->id.'.xlsx');
+        $newFilePath = public_path('system/tmp/'.$type.$borrow->id.'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);

@@ -9,14 +9,13 @@
 </div>
 <div class="form-group mb-4">
     <label class="form-label fw-bold">Ngày dạy : Năm</label>
-    <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}"
-        autoSubmit="true" />
+    <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}"/>
     <p class="mb-0">Nếu đã chọn Tuần thì không chọn Năm</p>
     <x-admintheme::form-input-error field="school_years" />
 </div>
 <div class="form-group mb-4">
     <label class="form-label fw-bold">Chọn Tổ</label>
-    <x-admintheme::form-input-nests name="nest_id" selected_id="{{ request()->nest_id }}" autoSubmit="true" />
+    <x-admintheme::form-input-nests name="nest_id" selected_id="{{ request()->nest_id }}"  />
     <p class="mb-0">Không chọn có nghĩa là xuất cho tất cả các tổ</p>
     <x-admintheme::form-input-error field="nest_id" />
 </div>

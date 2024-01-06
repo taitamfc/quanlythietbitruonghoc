@@ -51,16 +51,10 @@ class BorrowDevice extends Model
                 $query->where('nest_id', $request->nest_id );
             });
         }
-        if ($request && $request->school_years) {
-            $yearRange = explode('-', $request->school_years);
-            if (count($yearRange) == 2) {
-                $startYear = trim($yearRange[0]);
-                $endYear = trim($yearRange[1]);
-                // Tính toán ngày bắt đầu và ngày kết thúc dựa vào năm học
-                $startDate = $startYear . '-08-01'; // Năm học bắt đầu từ tháng 8
-                $endDate = $endYear . '-07-01'; // Năm học kết thúc vào tháng 7 năm sau
-                $query->whereBetween('borrow_date', [$startDate, $endDate]);
-            }
+        if ($request->school_years) {
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
         }
         if( $request->week ){
             $startDateEndDate = self::getStartEndDateFromWeek($request->week);
@@ -69,47 +63,7 @@ class BorrowDevice extends Model
         }
         $query->orderBy('borrow_date','asc');
         $items = $query->get();
-        $nitems = [];
-        foreach( $items as $BorrowDevice ){
-            $nitems[$BorrowDevice->borrow_date.'-'.$BorrowDevice->room_id.'-'.Str::slug($BorrowDevice->lesson_name).'-'.$BorrowDevice->session.'-'.$BorrowDevice->lecture_number][] = $BorrowDevice;
-        }
-        $items = [];
-        foreach( $nitems as $item ){
-            $departmentName = '';
-            $lab_name = '';
-            if( empty($item[0]) ){
-                continue;
-            }
-            $device_names = [];
-            foreach( $item as $key => $device_item ){
-                if(empty($lab_name)){
-                    $lab_name = $device_item->lab->name ?? '';
-                }
-                if(@$device_item->device->name){
-                    $device_names[$key] = '- '.@$device_item->device->name . ' ('. $device_item->quantity .')';
-                }
-                if (empty($departmentName)) {
-                    $departmentName = @$device_item->device->department->name;
-                }
-            }
-            $device_names = implode(' <br> ', $device_names);
-            $items[] = [
-                'borrow_date' => $item[0]->borrow ? date('d/m/Y',strtotime($item[0]->borrow->borrow_date)) : '',
-                'return_date' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->return_date)) : '',
-                'created_at' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->created_at)) : '',
-                'device_name' => $device_names,
-                'quantity' => $item[0]->quantity,
-                'session' => $item[0]->session,
-                'lecture_name' => $item[0]->lecture_name,
-                'lesson_name' => $item[0]->lesson_name,
-                'lecture_number' => $item[0]->lecture_number,
-                'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
-                'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
-                'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
-                'department'    => $departmentName, // Sử dụng giá trị đơn lẻ
-                'lab_name'      => $lab_name, // Sử dụng giá trị đơn lẻ
-            ];
-        }
+        $items = \App\Models\BorrowDevice::groupBorrowDevices($items);
         return $items;
     }
     public function room()
