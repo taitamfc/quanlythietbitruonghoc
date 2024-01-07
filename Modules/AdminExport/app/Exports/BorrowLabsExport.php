@@ -59,7 +59,7 @@ class BorrowLabsExport {
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
         dd($lab);
-        $templatePath = public_path('system/export/'.$type.'.xlsx');
+        $templatePath = public_path('system/export/'.strtolower($type).'.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");

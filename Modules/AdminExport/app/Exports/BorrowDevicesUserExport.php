@@ -43,9 +43,10 @@ class BorrowDevicesUserExport {
         if(request()->week){
             unset($rules['school_years']);
         }
-        // if (request()->week && request()->school_years) {
-        //     // trả về thông báo chỉ được nhập 1 trong 2
-        // }
+        // nếu đã chọn cả hai thì lấy theo tuần
+        if(request()->school_years && request()->week){
+            unset($rules['school_years']);
+        }
         return $rules;
     }
     public function handle($request = null){
@@ -68,7 +69,7 @@ class BorrowDevicesUserExport {
         }
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('system/export/'.$type.'.xlsx');
+        $templatePath = public_path('system/export/'.strtolower($type).'.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");

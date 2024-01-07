@@ -37,6 +37,9 @@ class BorrowDevicesNestExport
         if(request()->week){
             unset($rules['school_years']);
         }
+        if(request()->school_years && request()->week){
+            unset($rules['school_years']);
+        }
         return $rules;
     }
 
@@ -54,12 +57,15 @@ class BorrowDevicesNestExport
                 $query->where('nest_id', request()->nest_id );
             });
         }
-        if (request()->week) {
+        if (request()->week && request()->school_years) {
             $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
             $startDateEndDate = array_values($startDateEndDate);
             $query->whereBetween('borrow_date', $startDateEndDate);
-        }
-        if(request()->school_years){
+        }elseif( request()->week ){
+            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
+            $startDateEndDate = array_values($startDateEndDate);
+            $query->whereBetween('borrow_date', $startDateEndDate);
+        }elseif(request()->school_years){
             $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
             $startDateEndDate = array_values($startDateEndDate);
             $query->whereBetween('borrow_date', $startDateEndDate);
@@ -91,8 +97,9 @@ class BorrowDevicesNestExport
 
         $index = 8;
         $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
-
         foreach ($BorrowDevices as $key => $item) {
+            // Xử lý xuống dòng trong execl
+            $item['device_name'] = str_replace('<br>', "\n",$item['device_name']);
             $sheet->setCellValueExplicit('A' . $index, $key + 1, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
             $sheet->setCellValue('B' . $index, $item['borrow_date']);

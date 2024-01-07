@@ -102,5 +102,9 @@
     "Thursday" : "Thứ năm",
     "Friday" : "Thứ sáu",
     "Saturday" : "Thứ bảy",
-    "Sunday" : "Chủ nhật"
+    "Sunday" : "Chủ nhật",
+    "BorrowDevicesNest" : "Sổ mượn tổ",
+    "BorrowDevicesUser" : "Sổ mượn giáo viên",
+    "BorrowLabs" : "Sổ mượn phòng bộ môn",
+    "BorrowDetail" : "Phiếu báo mượn"
 }
