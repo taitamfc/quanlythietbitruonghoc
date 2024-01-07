@@ -45,14 +45,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(function () {
                     $databaseName = $this->getDatabaseName();
+					
+					config(['database.connections.mysql.database' => $databaseName]);
+                    \DB::reconnect('mysql');
+						
                     $databaseExists = $this->checkDatabaseExist($databaseName);
                     if (!$databaseExists) {
-                        // abort(403);
+                        abort(403);
                     }else{
-                        config(['database.connections.mysql.database' => $databaseName]);
-                        \DB::reconnect('mysql');
-
-                        
                         require base_path('routes/web.php');
                     }
                 });
@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
         $exploded = explode('.', $host);
         $subdomain = $exploded[0];
         $databaseName = $subdomain;
-        return $databaseName;
+        return 'jzxzyfjmhosting_'.$databaseName;
     }
     public function checkDatabaseExist($databaseName){
         try {
