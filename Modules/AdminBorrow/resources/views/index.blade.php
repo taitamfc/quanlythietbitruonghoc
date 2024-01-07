@@ -90,6 +90,14 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
+                                            @if( $item->status ==0 )
+                                            <li>
+                                                <a onclick=" return confirm('{{ __('Bạn có chắc chắn duyệt phiếu này !') }}') " class="dropdown-item" href="{{ route($route_prefix.'index',['task'=>'approve','id'=>$item->id]) }}">
+                                                    {{ __('borrow::sys.approve') }}        
+                                                </a>
+                                            </li>
+                                            @endif
+                                            @if( $item->status != -2 )
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
@@ -100,7 +108,7 @@
                                                     </button>
                                                 </form>
                                             </li>
-
+                                            @endif
                                         </ul>
                                     </div>
                                 </td>

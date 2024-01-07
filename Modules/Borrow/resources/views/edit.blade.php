@@ -21,7 +21,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-end gap-2">
                     <a href="{{ route($route_prefix.'index') }}" class="btn btn-sm btn-dark">Quay lại</a>
-                    @if( $item->status < 0 )
+                    @if( $item->status <= 0 )
                     <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                         @csrf
                         @method('DELETE')
