@@ -1,19 +1,19 @@
 <div class="card">
     <div class="card-body">
         <div class="mb-4">
-            <label class="mb-3">Tên</label>
+            <label class="mb-3">Tên <span class="text-danger">(*)</span></label>
             <input type="text" class="form-control" name="name" value="{{ $item->name ?? old('name') }}" placeholder="Nhập tên...">
             <x-admintheme::form-input-error field="name"/>
         </div>
         <div class="row">
             <div class="mb-4 col-lg-6">
-                <label class="mb-3">Email</label>
+                <label class="mb-3">Email <span class="text-danger">(*)</span></label>
                 <input type="text" class="form-control" name="email" value="{{ $item->email ?? old('email') }}" placeholder="Nhập Email...">
                 <x-admintheme::form-input-error field="email"/>
             </div>
             <div class="mb-4 col-lg-6">
-                <label class="mb-3">Mật khẩu</label>
-                <input type="text" class="form-control" name="password" value="{{ $item->password ?? old('password') }}" placeholder="Nhập mật khẩu...">
+                <label class="mb-3">Mật khẩu <span class="text-danger">(*)</span></label>
+                <input type="text" class="form-control" name="password" value="" placeholder="Nhập mật khẩu...">
                 <x-admintheme::form-input-error field="password"/>
             </div>
         </div>
@@ -32,7 +32,10 @@
         <div class="row">
             <div class="mb-4 col-lg-6">
                 <label class="mb-3">Giới tính</label>
-                <input type="text" class="form-control" name="gender" value="{{ $item->gender ?? old('gender') }}" placeholder="Nhập giới tính...">
+                <select name="gender" class="form-control">
+                    <option @selected(@$item->gender == 'Nam') value="Nam">Nam</option>
+                    <option @selected(@$item->gender == 'Nữ') value="Nữ">Nữ</option>
+                </select>
                 <x-admintheme::form-input-error field="gender"/>
             </div>
             <div class="mb-4 col-lg-6">

@@ -28,7 +28,7 @@
                         <h3 class="mb-2">{{ $item->name }}</h3>
                        
                     </div>
-                    <a href="{{route('website.users.edit') }}" class="btn btn-primary">Thay đổi thông tin</a>
+                    <a href="{{route('users.edit') }}" class="btn btn-primary">Thay đổi thông tin</a>
                 </div>
             </div>
         </div>

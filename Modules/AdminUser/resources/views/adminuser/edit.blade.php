@@ -1,16 +1,13 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Chỉnh sửa người dùng',
-// 'actions' => [
-// 'add_new' => route($route_prefix.'create',['type'=>request()->type]),
-//'export' => route($route_prefix.'export'),
-// ]
+    'page_title' => 'Chỉnh sửa người dùng',
+    'actions' => []
 ])
 
 <form action="{{ route($route_prefix.'update',$item->id) }}" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="type" value="{{ request()->type }}">
+    @method('PUT')
     <div class="row">
         <div class="col-12 col-lg-8">
             @include('adminuser::adminuser.includes.form-left')

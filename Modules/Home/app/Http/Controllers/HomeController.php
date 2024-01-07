@@ -4,69 +4,78 @@ namespace Modules\Home\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\Borrow;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home::index');
+        $currentMonth    = Carbon::now()->format('m');
+        $currentYear    = Carbon::now()->format('Y');
+
+        $user_id = Auth::id();
+        
+        $total_borrow = Borrow::query(true)
+        ->where('user_id',$user_id)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->whereIn('status',[
+            Borrow::ACTIVE,
+            Borrow::INACTIVE
+        ])->count();
+        ;
+        $total_borrow_active = Borrow::query(true)
+        ->where('user_id',$user_id)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::ACTIVE)->count();
+
+        $total_borrow_inactive = Borrow::query(true)
+        ->where('user_id',$user_id)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::INACTIVE)->count();
+
+        $events = $this->getDataForCalendar($request);
+
+        $params = [
+            'total_borrow' => $total_borrow,
+            'total_borrow_active' => $total_borrow_active,
+            'total_borrow_inactive' => $total_borrow_inactive,
+            'events' => $events
+        ];
+        return view('home::index',$params);
+    }
+    private function getDataForCalendar($request = null){
+        $currentMonth    = Carbon::now()->format('m');
+        $currentYear    = Carbon::now()->format('Y');
+        $user_id = Auth::id();
+
+        $borrows = Borrow::query(true)
+        ->where('user_id',$user_id)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::ACTIVE)->get();
+
+        $events = [];
+        foreach($borrows as $borrow){
+            $events[] = [
+                'title' => '#'.$borrow->id,
+                'start' => $borrow->borrow_date
+            ];
+        }
+        return $events;
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('home::create');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('home::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('home::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-        public function is_read(Request $request)
+    public function is_read(Request $request)
     {
         try {
             DB::beginTransaction();

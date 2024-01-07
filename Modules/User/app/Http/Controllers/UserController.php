@@ -79,9 +79,9 @@ class UserController extends Controller
         }
         $item = Auth::user();
         if ($item->update($data)) {
-            return redirect()->route('website.users.index')->with('success','Cập nhập thông tin thành công');
+            return redirect()->route('users.index')->with('success','Cập nhập thông tin thành công');
         }
-        return redirect()->route('website.users.index')->with('success','Cập nhập thông tin thành công');
+        return redirect()->route('users.index')->with('success','Cập nhập thông tin thành công');
     }
 
     /**

@@ -73,6 +73,12 @@ class Borrow extends Model
         $data = $request->except(['_token', '_method','type']);
         $item->update($data);
     } 
+    public static function findItem($id,$table = ''){
+        $model = self::class;
+        $item = $model::findOrFail($id);
+        $item->status = $item->deleted_at ? 0 : 1;
+        return $item;
+    }
 
     // Relationships
     public function borrow_devices(){
@@ -132,10 +138,10 @@ class Borrow extends Model
                 return '<span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Phiếu Nháp</span>';
                 break;
             case self::ACTIVE:
-                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Đã Xét Duyệt</span>';
+                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Đã Duyệt</span>';
                 break;
             case self::INACTIVE:
-                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Chờ Xét Duyệt</span>';
+                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Chờ Duyệt</span>';
                 break;
             case self::CANCELED:
                 return '<span class="lable-table bg-dark-subtle text-warning rounded border border-dark-subtle font-text2 fw-bold">Đã Hủy</span>';

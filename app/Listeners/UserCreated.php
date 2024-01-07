@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\UserCreated;
+use App\Events\UserCreated as UserCreatedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -19,7 +19,7 @@ class UserCreated
     /**
      * Handle the event.
      */
-    public function handle(UserCreated $event): void
+    public function handle(UserCreatedEvent $event): void
     {
         //
     }

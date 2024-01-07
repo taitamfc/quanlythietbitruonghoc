@@ -11,31 +11,25 @@ class StoreAdminUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required', 
-            'email' => 'required', 
+            'email' => 'required|unique:users', 
             'password' => 'required', 
-            'address' => 'required', 
-            'phone' => 'required', 
-            'gender' => 'required', 
-            'birthday' => 'required', 
             'group_id' => 'required', 
             'nest_id' => 'required', 
         ];
+        if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+            $rules['email'] = 'required';
+            unset($rules['password']);
+        }
+        return $rules;
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Trường không được để trống.', 
-            'email.required' => 'Trường không được để trống.', 
-            'password.required' => 'Trường không được để trống.', 
-            'address.required' => 'Trường không được để trống.', 
-            'phone.required' => 'Trường không được để trống.', 
-            'gender.required' => 'Trường không được để trống.', 
-            'birthday.required' => 'Trường không được để trống.', 
-            'group_id.required' => 'Trường không được để trống.', 
-            'nest_id.required' => 'Trường không được để trống.', 
+            'required' => 'Trường yêu cầu',
+            'unique' => 'Đã tồn tại',
         ];
     }
 

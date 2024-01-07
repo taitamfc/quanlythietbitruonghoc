@@ -17,5 +17,5 @@ Route::group([
     'prefix'=>'devices',
     'middleware'=>['auth']
 ], function () {
-    Route::get('/',[DeviceController::class,'index'])->name('website.devices.index');
+    Route::get('/',[DeviceController::class,'index'])->name('devices.index');
 });

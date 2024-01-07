@@ -17,7 +17,7 @@
 <script>
     
     jQuery(document).ready(function() {
-        let indexUrl = "{{ route('website.devices.index') }}";
+        let indexUrl = "{{ route('devices.index') }}";
         let positionUrl = "";
         let params = <?= json_encode(request()->query()); ?>;
         let wrapperResults = '.device-table-results';

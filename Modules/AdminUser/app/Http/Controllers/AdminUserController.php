@@ -68,53 +68,13 @@ class AdminUserController extends Controller
         $type = $request->type;
         try {
             $item = $this->model::saveItem($request,$type);
-            // Hook xử lý sự kiện sau khi user tạo thành công
-            if($request->task == 'save-form'){
-                \App\Events\UserCreated::dispatch($item);
-            }
+            \App\Events\UserCreated::dispatch($item);
             return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
             return redirect()->back()->with('error', __('sys.item_not_found'));
         }
     }
-
-    /**
-     * Show the specified resource.
-     */
-    public function showCVs(Request $request)
-    {
-        $type = $request->type;
-        try {
-            $items = $this->model::showUserCVs($request,null,$type);
-            $params = [
-                'route_prefix'  => $this->route_prefix,
-                'model'         => $this->model,
-                'items'         => $items
-            ];
-            return view($this->view_path.'showCVs', $params);
-        } catch (QueryException $e) {
-            Log::error('Error in index method: ' . $e->getMessage());
-            return redirect()->route( $this->route_prefix.'index' )->with('error',  __('sys.get_items_error'));
-        }
-    }
-    public function showCV(Request $request)
-    {
-        $type = $request->type;
-        try {
-            $item = $this->model::showCV($request,$type);
-            $params = [
-                'route_prefix'  => $this->route_prefix,
-                'model'         => $this->model,
-                'item'         => $item
-            ];
-            return view($this->view_path.'showCV', $params);
-        } catch (QueryException $e) {
-            Log::error('Error in index method: ' . $e->getMessage());
-            return redirect()->route( $this->route_prefix.'index' )->with('error',  __('sys.get_items_error'));
-        }
-    }
-
     /**
      * Show the form for editing the specified resource.
      */

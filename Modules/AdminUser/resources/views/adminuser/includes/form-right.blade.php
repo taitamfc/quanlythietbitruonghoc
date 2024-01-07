@@ -9,18 +9,13 @@
 <div class="card">
     <div class="card-body">
         <div class="mb-4">
-            <label class="mb-3">Ảnh</label>
-            <x-admintheme::form-image name="image" imageUrl="{{ $item->image ?? '' }}" upload="1" accept=".jpg, .png, image/jpeg, image/png"/>
-            <x-admintheme::form-input-error field="image"/>
-        </div>
-        <div class="mb-4">
-            <label class="mb-3">Tổ</label>
-            <x-admintheme::form-nest model="{{$nest_model}}" nest_id="{{ is_object($item) ? $item->nest_id : old('nest_id') }}" />
+            <label class="mb-3">Tổ <span class="text-danger">(*)</span></label>
+            <x-admintheme::form-input-nests name="nest_id" selectedId="{{ $item->nest_id ?? old('nest_id')  }}" />
             <x-admintheme::form-input-error field="nest_id"/>
         </div>
         <div class="mb-4">
-            <label class="mb-3">Nhóm người dùng</label>
-            <x-admintheme::form-group model="{{$group_model}}" nest_id="{{ is_object($item) ? $item->group_id : old('group_id') }}" />
+            <label class="mb-3">Nhóm người dùng <span class="text-danger">(*)</span></label>
+            <x-admintheme::form-input-groups name="group_id" selectedId="{{ $item->group_id ?? old('group_id')  }}" />
             <x-admintheme::form-input-error field="group_id"/>
         </div>
     </div>

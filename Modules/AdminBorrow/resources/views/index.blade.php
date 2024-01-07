@@ -57,11 +57,11 @@
                         <thead class="table-light">
                             <tr>
                                 <th>Mã</th>
-                                <th width="20%">Người mượn</th>
-                                <th width="10%">Ngày dạy</th>
+                                <th width="15%">Người mượn</th>
+                                <th width="12%">Ngày dạy</th>
                                 <th>Thiết bị</th>
                                 <th width="20%">Phòng bộ môn</th>
-                                <th width="15%">Trạng thái</th>
+                                <th width="10%"></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -90,6 +90,7 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
+                                            @if( $item->status <= 0 )
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
@@ -100,6 +101,7 @@
                                                     </button>
                                                 </form>
                                             </li>
+                                            @endif
 
                                         </ul>
                                     </div>
