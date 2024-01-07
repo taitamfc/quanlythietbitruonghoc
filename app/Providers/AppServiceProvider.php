@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\View\Composers\NotificationComposer;
-use App\View\Composers\AdminNotificationComposer;
 use Illuminate\Support\Facades\View;
 // Group
 use App\Repositories\Eloquents\GroupRepository;
@@ -133,9 +132,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
 
-        if( !Schema::hasTable('notifications') ){
-          // View::composer('*', AdminNotificationComposer::class);
-          View::composer('*', NotificationComposer::class);
-        }
+        View::composer('*', NotificationComposer::class);
     }
 }

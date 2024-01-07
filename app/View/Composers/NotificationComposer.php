@@ -30,9 +30,10 @@ class NotificationComposer
     {
         if (Auth::check()) {
             $user_id = Auth::id();
-            $items = Notification::where('is_read', 0)
-                ->where('user_id', $user_id)
-                ->orderBy('id', 'desc')->get();
+            // $items = Notification::where('is_read', 0)
+            //     ->where('user_id', $user_id)
+            //     ->orderBy('id', 'desc')->get();
+            $items = [];
             $view->with('cr_notifications', $items);
         } else {
             // Set $cr_notifications to an empty array if not authenticated
