@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class WebsiteModel extends Model
 {
@@ -95,5 +96,15 @@ class WebsiteModel extends Model
             return asset('admin-assets/images/default-image.png');
         }
         return asset($this->image);
+    }
+    public static function getStartEndDateFromWeek($week){
+        $year           = substr($week, 0, 4);
+        $weekNumber     = substr($week, -2);
+        $startDate      = Carbon::now()->setISODate($year, $weekNumber)->startOfWeek();
+        $endDate        = Carbon::now()->setISODate($year, $weekNumber)->endOfWeek();
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ];
     }
 }

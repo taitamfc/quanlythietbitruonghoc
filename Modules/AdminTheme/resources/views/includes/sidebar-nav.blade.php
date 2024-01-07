@@ -27,6 +27,11 @@
                     <span class="material-symbols-outlined">arrow_right</span>Phiếu Mượn
                 </a>
             </li>
+            <li>
+                <a href="{{ route('borrows.labs') }}">
+                    <span class="material-symbols-outlined">arrow_right</span>Lịch Sử Dụng Phòng
+                </a>
+            </li>
         </ul>
     </li>
     <li class="menu-label">Quản Lý</li>
