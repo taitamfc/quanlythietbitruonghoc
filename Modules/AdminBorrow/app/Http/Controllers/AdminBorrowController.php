@@ -22,6 +22,12 @@ class AdminBorrowController extends Controller
             if($notiid){
                 Notification::deleteNotification($notiid);
             }
+            if($request->task && $request->task == 'approve'){
+                $id = $request->id;
+                $borrow = $this->model::findItem($id);
+                $borrow->status = 1;
+                $borrow->save();
+            }
             $items = $this->model::getItems($request);
             $params = [
                 'route_prefix'  => $this->route_prefix,

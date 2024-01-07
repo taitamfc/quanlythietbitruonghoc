@@ -17,7 +17,12 @@ use Modules\System\app\Http\Controllers\OptionController;
 |
 */
 
-Route::group([], function () {
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => [
+        'auth.custom'
+    ]
+], function () {
     Route::get('system/',[SystemController::class,'index'])->name('system.index');
     // Option
     Route::get('options',[OptionController::class,'index'])->name('system.options.index');
@@ -26,6 +31,10 @@ Route::group([], function () {
     Route::get('system/update',[UpdateController::class,'index'])->name('system.update.index');
     Route::post('system/doUpdate',[UpdateController::class,'doUpdate'])->name('system.update.doUpdate');
     // Install
+});
+
+
+Route::group([], function () {
     Route::get('system/install',[InstallController::class,'index'])->name('system.install.index');
     Route::get('system/doInstall',[InstallController::class,'doInstall'])->name('system.install.doInstall');
 });
