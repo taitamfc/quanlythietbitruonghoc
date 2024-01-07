@@ -54,6 +54,7 @@ class Borrow extends Model
                 $query->whereBetween('borrow_date', [$startDate, $endDate]);
             }
         }
+        $query->orderBy('id','DESC');
         if( $request->week ){
             $week = $request->week;
             $year = substr($week, 0, 4);
@@ -61,6 +62,7 @@ class Borrow extends Model
             $startDate = Carbon::now()->setISODate($year, $weekNumber)->startOfWeek();
             $endDate = Carbon::now()->setISODate($year, $weekNumber)->endOfWeek();
             $query->whereBetween('borrow_date', [$startDate, $endDate]);
+            $query->orderBy('borrow_date','ASC');
         }
         
         $query->orderBy('id','DESC');
