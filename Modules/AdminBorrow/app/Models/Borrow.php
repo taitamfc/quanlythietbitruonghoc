@@ -65,7 +65,6 @@ class Borrow extends Model
             $query->orderBy('borrow_date','ASC');
         }
         
-        $query->orderBy('id','DESC');
         $items = $query->paginate($limit);
         return $items;
     }
