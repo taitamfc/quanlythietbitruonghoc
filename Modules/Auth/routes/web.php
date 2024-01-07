@@ -14,10 +14,10 @@ use Modules\Auth\app\Http\Controllers\AuthController;
 |
 */
 
+Route::get('login',[AuthController::class,'login'])->name('auth.login');
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::get('login',[AuthController::class,'login'])->name('auth.login');
     Route::post('postLogin',[AuthController::class,'postLogin'])->name('auth.postLogin');
     Route::get('logout',[AuthController::class,'logout'])->name('auth.logout');
 
