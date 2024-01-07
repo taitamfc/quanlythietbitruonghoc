@@ -3,7 +3,7 @@
 @include('admintheme::includes.globals.breadcrumb',[
     'page_title' => 'Danh sách nhóm người dùng',
     'actions' => [
-        'Quay lại' => route($route_prefix.'index',['type'=>request()->type]),
+        'back' => route($route_prefix.'index',['type'=>request()->type]),
     ]
 ])
 

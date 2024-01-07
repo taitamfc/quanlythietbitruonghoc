@@ -54,7 +54,7 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="dropdown-item" href="{{ route($route_prefix.'show',$item->id) }}">
-                                                Show
+                                                Cấp quyền
                                             </a>
                                         </li>
                                         <li>

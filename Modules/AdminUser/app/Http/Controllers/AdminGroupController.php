@@ -23,7 +23,6 @@ class AdminGroupController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->type ?? '';
         try {
             $items = $this->model::getItems($request);
             $params = [
@@ -49,9 +48,6 @@ class AdminGroupController extends Controller
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model
         ];
-        if ($type) {
-            return view($this->view_path.'types.'.$type.'.create', $params);
-        }
         return view($this->view_path.'create', $params);
     }
 
@@ -60,9 +56,8 @@ class AdminGroupController extends Controller
      */
     public function store(GroupRequest $request): RedirectResponse
     {
-        $type = $request->type;
         try {
-            $this->model::saveItem($request,$type);
+            $this->model::saveItem($request,'Group');
             return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
@@ -77,7 +72,7 @@ class AdminGroupController extends Controller
     {
         $type = $request->type ?? '';
 
-        $item = $this->model::find($id);
+        $item = $this->model::findItem($id,'Group');
         $roles = AdminRole::getAll();
         $active_roles = [];
         $all_roles = [];
@@ -91,9 +86,6 @@ class AdminGroupController extends Controller
             'group'         => $item,
             'active_roles'         => $active_roles,
         ];
-        if ($type) {
-            return view($this->view_path.'types.'.$type.'.show', $params);
-        }
         return view($this->view_path.'show', $params);
     }
 
@@ -102,8 +94,7 @@ class AdminGroupController extends Controller
      */
     public function edit($id)
     {
-        $type = $request->type ?? '';
-        $item = Group::findOrFail($id);
+        $item = $this->model::findItem($id,'Group');
         $params = [
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model,
@@ -139,7 +130,7 @@ class AdminGroupController extends Controller
     public function destroy($id)
     {
         try {
-            $this->model::deleteItem($id);
+            $this->model::deleteItem($id,'Group');
             return redirect()->route($this->route_prefix.'index')->with('success', __('sys.destroy_item_success'));
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());

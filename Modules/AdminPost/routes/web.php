@@ -16,7 +16,7 @@ use Modules\AdminPost\app\Http\Controllers\AdminPostController;
 Route::group([
     'prefix' => 'admin',
     'middleware' => [
-        'auth'
+        'auth.custom'
     ]
 ], function () {
     Route::resource('adminpost', AdminPostController::class)->names('adminpost');
