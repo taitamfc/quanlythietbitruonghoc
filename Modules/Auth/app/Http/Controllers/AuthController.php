@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
-use Modules\Auth\App\Http\Requests\StoreLoginRequest;
-use Modules\Auth\App\Http\Requests\StoreRegisterRequest;
-use Modules\Auth\App\Http\Requests\ForgotPasswordRequest;
-use Modules\Auth\App\Http\Requests\ResetPasswordRequest;
+use Modules\Auth\app\Http\Requests\StoreLoginRequest;
+use Modules\Auth\app\Http\Requests\StoreRegisterRequest;
+use Modules\Auth\app\Http\Requests\ForgotPasswordRequest;
+use Modules\Auth\app\Http\Requests\ResetPasswordRequest;
 use Mail;
-use Modules\Auth\App\Jobs\SendEmail;
+use Modules\Auth\app\Jobs\SendEmail;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
