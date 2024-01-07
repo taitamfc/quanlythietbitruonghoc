@@ -100,9 +100,6 @@ class AdminGroupController extends Controller
             'model'         => $this->model,
             'item'         => $item,
         ];
-        if ($type) {
-            return view($this->view_path.'types.'.$type.'.edit', $params);
-        }
         return view($this->view_path.'edit', $params);
     }
 

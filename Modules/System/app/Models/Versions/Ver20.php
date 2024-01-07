@@ -16,6 +16,7 @@ class Ver20 extends Model
             self::createLabTable();
             self::createNotificationTable();
             self::updateBorrowDeviceTable();
+            self::updateGroupTable();
             self::updateBorrowDeviceData();
             self::updateBorrowData();
             self::insertDataForLabTable();
@@ -72,6 +73,11 @@ class Ver20 extends Model
                 $table->unsignedBigInteger('room_id')->default(0)->change();
             });
         }
+    }
+    public static function updateGroupTable(){
+        Schema::table('groups', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
     public static function updateBorrowDeviceData(){
         $searchBorrowDevices = \App\Models\BorrowDevice::whereNull('borrow_date')->get();

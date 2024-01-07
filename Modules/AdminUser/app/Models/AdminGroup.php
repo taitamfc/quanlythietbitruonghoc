@@ -13,7 +13,7 @@ class AdminGroup extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = ['name','deleted_at'];
     
     protected static function newFactory(): AdminUserFactory
     {
