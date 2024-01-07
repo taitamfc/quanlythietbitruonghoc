@@ -21,7 +21,7 @@ class AdminNotificationComposer
     {
         $cr_notifications = [];
         if (Auth::user()) {
-            $items = Notification::whereIn('action', ['student_to_site', 'system_to_site'])
+            $items = Notification::whereIn('action', ['user_to_admin'])
                 ->where('is_read', 0)
                 ->orderBy('id', 'desc')->get();
             $cr_notifications = $items->toArray();

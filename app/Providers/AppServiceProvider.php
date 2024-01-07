@@ -68,6 +68,7 @@ use App\Services\DepartmentService;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\Eloquents\DepartmentRepository;
 
+use Illuminate\Support\Facades\Schema;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -132,7 +133,9 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
 
-         View::composer('*', AdminNotificationComposer::class);
-         View::composer('*', NotificationComposer::class);
+        if( !Schema::hasTable('notifications') ){
+          // View::composer('*', AdminNotificationComposer::class);
+          View::composer('*', NotificationComposer::class);
+        }
     }
 }

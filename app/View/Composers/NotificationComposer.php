@@ -30,8 +30,7 @@ class NotificationComposer
     {
         if (Auth::check()) {
             $user_id = Auth::id();
-            $items = Notification::where('action', 'user_to_admin')
-                ->where('is_read', 0)
+            $items = Notification::where('is_read', 0)
                 ->where('user_id', $user_id)
                 ->orderBy('id', 'desc')->get();
             $view->with('cr_notifications', $items);
