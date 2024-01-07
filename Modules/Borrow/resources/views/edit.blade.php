@@ -44,7 +44,6 @@
 @section('footer')
     @include('borrow::includes.modal-devices')
     @include('borrow::includes.modal-labs')
-    <script src="{{ asset('admin-assets/js/repeater.js') }}"></script>
     <script>
         var tiet_id = 0;
         // device-table-results
