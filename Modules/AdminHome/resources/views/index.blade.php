@@ -1,4 +1,7 @@
 @extends('admintheme::layouts.master')
+@section('header')
+<link href="{{ asset('admin-assets/plugins/fullcalendar/css/main.min.css') }}" rel="stylesheet">
+@endsection
 @section('content')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-4 row-cols-xxl-4">
     <div class="col">
@@ -79,296 +82,83 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12 col-lg-6 col-xl-4 d-flex">
-        <div class="card w-100">
-            <div class="card-header bg-transparent">
-                <div class="d-flex align-items-center">
-                    <div class="">
-                        <h6 class="mb-0 fw-bold">Team Members</h6>
-                    </div>
-                    <div class="dropdown ms-auto">
-                        <button type="button" class="btn-option dropdown-toggle dropdown-toggle-nocaret cursor-pointer"
-                            data-bs-toggle="dropdown"><i class="bi bi-three-dots fs-4"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+<main class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id='calendar'></div>
             </div>
-            <div class="card-body">
-                <div class="team-list">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/01.png" alt=""
-                                width="50" height="50" class="rounded-circle">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">John Michael</h6>
-                            <span
-                                class="badge bg-success bg-success-subtle text-success border border-opacity-25 border-success">ONLINE</span>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-outline-primary rounded-5 btn-sm px-3">Add</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt=""
-                                width="50" height="50" class="rounded-circle">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Samantha Ivy</h6>
-                            <span class="badge bg-danger-subtle text-danger border border-opacity-25 border-danger">IN
-                                MEETING</span>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-outline-primary rounded-5 btn-sm px-3">Add</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/03.png" alt=""
-                                width="50" height="50" class="rounded-circle">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Alex Smith</h6>
-                            <span
-                                class="badge bg-warning-subtle text-warning border border-opacity-25 border-warning">OFFLINE</span>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-outline-primary rounded-5 btn-sm px-3">Add</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/04.png" alt=""
-                                width="50" height="50" class="rounded-circle">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Alex Smith</h6>
-                            <span
-                                class="badge bg-danger-subtle text-danger border border-opacity-25 border-danger">OFFLINE</span>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-outline-primary rounded-5 btn-sm px-3">Add</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/avatars/02.png" alt=""
-                                width="50" height="50" class="rounded-circle">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Samantha</h6>
-                            <span
-                                class="badge bg-success-subtle text-success border border-opacity-25 border-success">IN
-                                MEETING</span>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-outline-primary rounded-5 btn-sm px-3">Add</button>
-                        </div>
-                    </div>
+        </div>
+    </div>
+</main>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-lg-6 col-xl-4 d-flex">
-        <div class="card w-100">
-            <div class="card-header bg-transparent">
-                <div class="d-flex align-items-center">
-                    <div class="">
-                        <h6 class="mb-0 fw-bold">To do list</h6>
-                    </div>
-                    <div class="dropdown ms-auto">
-                        <button type="button" class="btn-option dropdown-toggle dropdown-toggle-nocaret cursor-pointer"
-                            data-bs-toggle="dropdown"><i class="bi bi-three-dots fs-4"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="team-list">
-                    <div
-                        class="d-flex align-items-center gap-3 border-start border-success border-4 border-0 px-2 py-1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Meeeting with John</h6>
-                            <span class="">10:56 PM</span>
-                        </div>
-                        <div class="form-check form-switch form-check-success border-0">
-                            <input class="form-check-input border-1" type="checkbox" role="switch" checked="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3 border-start border-danger border-4 border-0 px-2 py-1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Meeeting with John</h6>
-                            <span class="">10:56 PM</span>
-                        </div>
-                        <div class="form-check form-switch form-check-danger border-0">
-                            <input class="form-check-input border-1" type="checkbox" role="switch" checked="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div
-                        class="d-flex align-items-center gap-3 border-start border-primary border-4 border-0 px-2 py-1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Meeeting with John</h6>
-                            <span class="">10:56 PM</span>
-                        </div>
-                        <div class="form-check form-switch form-check-primary border-0">
-                            <input class="form-check-input border-1" type="checkbox" role="switch" checked="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div
-                        class="d-flex align-items-center gap-3 border-start border-warning border-4 border-0 px-2 py-1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Meeeting with John</h6>
-                            <span class="">10:56 PM</span>
-                        </div>
-                        <div class="form-check form-switch form-check-warning border-0">
-                            <input class="form-check-input border-1" type="checkbox" role="switch" checked="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3 border-start border-info border-4 border-0 px-2 py-1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">Meeeting with John</h6>
-                            <span class="">10:56 PM</span>
-                        </div>
-                        <div class="form-check form-switch form-check-info border-0">
-                            <input class="form-check-input border-1" type="checkbox" role="switch" checked="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-lg-12 col-xl-4 d-flex">
-        <div class="card w-100">
-            <div class="card-header bg-transparent">
-                <div class="d-flex align-items-center">
-                    <div class="">
-                        <h6 class="mb-0 fw-bold">Projects</h6>
-                    </div>
-                    <div class="dropdown ms-auto">
-                        <button type="button" class="btn-option dropdown-toggle dropdown-toggle-nocaret cursor-pointer"
-                            data-bs-toggle="dropdown"><i class="bi bi-three-dots fs-4"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="team-list">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/apple.png" alt=""
-                                width="30">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/bootstrap.png" alt=""
-                                width="30">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="75"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/google-2.png" alt=""
-                                width="30">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="75"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/spotify.png" alt=""
-                                width="30">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="75"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="widget-icon bg-transparent border rounded-3">
-                            <img src="https://codervent.com/roksyn/demo/ltr/assets/images/icons/outlook.png" alt=""
-                                width="30">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-2 fw-bold">Angular 12 Dashboard</p>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 45%;" aria-valuenow="75"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@endsection
+@section('footer')
+<script src="{{ asset('admin-assets/plugins/fullcalendar/js/main.min.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        initialView: 'dayGridMonth',
+        initialDate: '2020-09-12',
+        navLinks: true, // can click day/week names to navigate views
+        selectable: true,
+        nowIndicator: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        editable: true,
+        selectable: true,
+        businessHours: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        events: [{
+            title: 'All Day Event',
+            start: '2020-09-01',
+        }, {
+            title: 'Long Event',
+            start: '2020-09-07',
+            end: '2020-09-10'
+        }, {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2020-09-09T16:00:00'
+        }, {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2020-09-16T16:00:00'
+        }, {
+            title: 'Conference',
+            start: '2020-09-11',
+            end: '2020-09-13'
+        }, {
+            title: 'Meeting',
+            start: '2020-09-12T10:30:00',
+            end: '2020-09-12T12:30:00'
+        }, {
+            title: 'Lunch',
+            start: '2020-09-12T12:00:00'
+        }, {
+            title: 'Meeting',
+            start: '2020-09-12T14:30:00'
+        }, {
+            title: 'Happy Hour',
+            start: '2020-09-12T17:30:00'
+        }, {
+            title: 'Dinner',
+            start: '2020-09-12T20:00:00'
+        }, {
+            title: 'Birthday Party',
+            start: '2020-09-13T07:00:00'
+        }, {
+            title: 'Click for Google',
+            url: 'http://google.com/',
+            start: '2020-09-28'
+        }]
+    });
+    calendar.render();
+});
+</script>
 @endsection
