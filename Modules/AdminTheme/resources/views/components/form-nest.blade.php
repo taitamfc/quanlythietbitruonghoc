@@ -1,7 +1,8 @@
 <select class="form-control dropdown-toggle" name="nest_id">
-    @if($showAll)
-    <option value="">All statuses</option>
+    @if(!$nest_id)
+        <option value="" selected>--Vui lòng chọn tổ--</option>
     @endif
-    <option value="{{ $model::INACTIVE }}" @selected( $status == $model::INACTIVE )>{{ __('sys.inactive') }}</option>
-    <option value="{{ $model::ACTIVE }}" @selected( $status == $model::ACTIVE )>{{ __('sys.active') }}</option>
+    @foreach($model::all() as $record)
+    <option value="{{ $record->id }}" @selected($nest_id == $record->id)>{{ $record->name }}</option>
+    @endforeach
 </select>

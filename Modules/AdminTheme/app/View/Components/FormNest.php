@@ -4,6 +4,7 @@ namespace Modules\AdminTheme\app\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use App\Models\Nest;
 
 class FormNest extends Component
 {
@@ -13,10 +14,10 @@ class FormNest extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($model,$status = null,$showAll = 0)
+    public function __construct($model,$nest_id = null,$showAll = 0)
     {
         $this->model = $model = Nest::class;
-        $this->status = $status;
+        $this->nest_id = $nest_id;
         $this->showAll = $showAll;
     }
 
@@ -26,10 +27,15 @@ class FormNest extends Component
     public function render(): View|string
     {
         $params = [
-            'model' => $this->model,
-            'status' => $this->status,
+            'model' => $this->getModel(),
+            'nest_id' => $this->nest_id,
             'showAll' => $this->showAll,
         ];
-        return view('admintheme::components.form-nest',$params);
+        return view('admintheme::components.form-nest', $params);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 }

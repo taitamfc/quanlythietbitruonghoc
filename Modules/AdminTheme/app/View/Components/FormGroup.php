@@ -4,19 +4,20 @@ namespace Modules\AdminTheme\app\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use App\Models\Group;
 
 class FormGroup extends Component
 {
-    protected $model = Group::class;
+    protected $model;
     protected $item;
     protected $showAll;
     /**
      * Create a new component instance.
      */
-    public function __construct($model,$status = null,$showAll = 0)
+    public function __construct($model,$group_id = null,$showAll = 0)
     {
-        $this->model = $model;
-        $this->status = $status;
+        $this->model = $model = Group::class;
+        $this->group_id = $group_id;
         $this->showAll = $showAll;
     }
 
@@ -26,10 +27,15 @@ class FormGroup extends Component
     public function render(): View|string
     {
         $params = [
-            'model' => $this->model,
-            'status' => $this->status,
+            'model' => $this->getModel(),
+            'group_id' => $this->group_id,
             'showAll' => $this->showAll,
         ];
-        return view('admintheme::components.form-group',$params);
+        return view('admintheme::components.form-group', $params);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 }

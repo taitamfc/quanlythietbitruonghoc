@@ -10,7 +10,7 @@ use Modules\AdminUser\app\Models\AdminUser;
 use Illuminate\Support\Facades\Auth;
 use Modules\AdminUser\app\Http\Requests\StoreAdminUserRequest;
 use Illuminate\Support\Facades\Log;
-use Modules\AdminUser\app\Models\Group;
+use App\Models\Group;
 use App\Models\Nest;
 
 class AdminUserController extends Controller
@@ -44,14 +44,14 @@ class AdminUserController extends Controller
     public function create(Request $request)
     {
         $type = $request->type ?? '';
-        $groups = Group::all();
-        $nests = Nest::all();
+        $group_model = Group::class;
+        $nest_model = Nest::class;
         $params = [
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model,
             'item'=> '',
-            'groups' => $groups,
-            'nests' => $nests,
+            'group_model' => $group_model,
+            'nest_model' => $nest_model,
         ];
         if ($type) {
             return view($this->view_path.'types.'.$type.'.create', $params);
@@ -64,6 +64,7 @@ class AdminUserController extends Controller
      */
     public function store(StoreAdminUserRequest $request): RedirectResponse
     {
+        // dd($request);
         $type = $request->type;
         try {
             $item = $this->model::saveItem($request,$type);
@@ -119,7 +120,21 @@ class AdminUserController extends Controller
      */
     public function edit($id)
     {
-        return view($this->view_path.'edit');
+        $type = $request->type ?? '';
+        $item = $this->model::findItem($id,'User');
+        $group_model = Group::class;
+        $nest_model = Nest::class;
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'item'=> $item,
+            'group_model' => $group_model,
+            'nest_model' => $nest_model,
+        ];
+        if ($type) {
+            return view($this->view_path.'types.'.$type.'.edit', $params);
+        }
+        return view($this->view_path.'edit', $params);
     }
 
     /**
