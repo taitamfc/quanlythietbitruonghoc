@@ -58,7 +58,7 @@ class AdminGroupController extends Controller
     {
         try {
             $this->model::saveItem($request,'Group');
-            return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
+            return redirect()->route($this->route_prefix.'index')->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
             return redirect()->back()->with('error', __('sys.item_not_found'));
@@ -110,7 +110,7 @@ class AdminGroupController extends Controller
     {
         try {
             $this->model::updateItem($id,$request,'Group');
-            return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.update_item_success'));
+            return redirect()->route($this->route_prefix.'index')->with('success', __('sys.update_item_success'));
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());
             return redirect()->back()->with('error', __('sys.item_not_found'));
