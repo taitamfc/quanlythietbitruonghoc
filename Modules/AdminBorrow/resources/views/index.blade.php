@@ -90,7 +90,6 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
-                                            @if( $item->status <= 0 )
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
@@ -101,7 +100,6 @@
                                                     </button>
                                                 </form>
                                             </li>
-                                            @endif
 
                                         </ul>
                                     </div>
