@@ -24,7 +24,7 @@ class AdminAuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('adminuser.index');
+            return redirect()->route('admin.home');
         }
     }
 
