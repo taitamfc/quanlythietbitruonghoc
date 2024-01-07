@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Borrow\app\Http\Controllers\BorrowController;
+use Modules\Borrow\app\Http\Controllers\BorrowLabController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +17,6 @@ use Modules\Borrow\app\Http\Controllers\BorrowController;
 Route::group([
     'middleware'=>['auth']
 ], function () {
+    Route::get('borrows/labs', [BorrowLabController::class,'index'])->name('borrows.labs');
     Route::resource('borrows', BorrowController::class)->names('borrows');
 });

@@ -39,4 +39,8 @@ class BorrowDevice extends Model
     {
         return $this->belongsTo(\App\Models\Lab::class, 'lab_id', 'id');
     }
+    public function borrow()
+    {
+        return $this->belongsTo(\App\Models\Borrow::class, 'borrow_id', 'id');
+    }
 }

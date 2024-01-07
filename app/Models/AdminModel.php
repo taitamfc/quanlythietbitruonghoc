@@ -141,4 +141,14 @@ class AdminModel extends Model
         }
         return asset($this->image);
     }
+    public static function getStartEndDateFromWeek($week){
+        $year           = substr($week, 0, 4);
+        $weekNumber     = substr($week, -2);
+        $startDate      = Carbon::now()->setISODate($year, $weekNumber)->startOfWeek();
+        $endDate        = Carbon::now()->setISODate($year, $weekNumber)->endOfWeek();
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ];
+    }
 }
