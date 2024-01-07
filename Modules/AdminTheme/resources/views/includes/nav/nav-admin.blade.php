@@ -158,11 +158,11 @@
                 <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Giáo Viên
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{ route('adminexport.index',['type'=>'BorrowLabs']) }}">
                 <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Phòng Bộ Môn
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="{{ route('adminexport.index',['type'=>'BorrowDetail']) }}">
                 <span class="material-symbols-outlined">arrow_right</span>Phiếu Báo Mượn
