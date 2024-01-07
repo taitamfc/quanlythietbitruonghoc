@@ -54,7 +54,7 @@ class Borrow extends Model
                 $query->whereBetween('borrow_date', [$startDate, $endDate]);
             }
         }
-        $query->orderBy('id','DESC');
+        $query->orderBy('borrow_date','DESC');
         if( $request->week ){
             $week = $request->week;
             $year = substr($week, 0, 4);
