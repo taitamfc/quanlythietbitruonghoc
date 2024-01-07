@@ -2,10 +2,7 @@
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
         'page_title' => 'Thiết bị mượn: '.request()->week,
-        'actions' => [
-            'exportBorrowDeviceByUser' => route($route_prefix.'exportBorrowDeviceByUser'),
-            'exportBorrowDeviceByNest' => route($route_prefix.'exportBorrowDeviceByNest'),
-        ]
+        'actions' => []
     ])
 
     <!-- Item actions -->

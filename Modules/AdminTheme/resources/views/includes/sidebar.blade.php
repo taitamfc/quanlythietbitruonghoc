@@ -25,7 +25,7 @@
             </div>
         </div>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="{{route('website.users.index')}}">
+            <li><a class="dropdown-item" href="{{route('users.index')}}">
                 <span class="material-symbols-outlined me-2"></span>
                 <span>Profile</span>
             </a>

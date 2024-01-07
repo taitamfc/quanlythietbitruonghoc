@@ -39,14 +39,19 @@ class AdminModel extends Model
     // Methods
     public static function getItems($request = null,$table = ''){
         $limit = $request->limit ? $request->limit : 20;
-        $model = new self;
-        $tableName = $model->getTable();
         if($table){
             $modelClass = '\App\Models\\' . $table;
             $query = $modelClass::query(true);
         }else{
             $query = self::query(true);
         }
+        $query = self::handleSearch($request,$query);
+        $items = $query->paginate($limit);
+        return $items;
+    }
+    public static function handleSearch($request,$query){
+        $model = new self;
+        $tableName = $model->getTable();
         if($request->type && Schema::hasColumn($tableName, 'type')){
             $query->where('type',$request->type);
         }
@@ -58,8 +63,7 @@ class AdminModel extends Model
                 $query->whereNotNull('deleted_at');
             }
         }
-        $items = $query->paginate($limit);
-        return $items;
+        return $query;
     }
     public static function getAll($activeOnly = false){
         $query = self::query(true);

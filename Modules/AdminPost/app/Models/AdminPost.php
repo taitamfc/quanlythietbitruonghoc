@@ -34,18 +34,16 @@ class AdminPost extends Model
             $model = self::class;
         }
         $data = $request->except(['_token', '_method','type']);
-
         if(Auth::id()){
             $data['user_id'] = Auth::id();
         }
-
         if(!$request->slug && $request->name){
             $data['slug'] = Str::slug($request->name);
         }
         if ($request->hasFile('image')) {
             $data['image'] = self::uploadFile($request->file('image'), self::$upload_dir);
         } 
-        $model::create($data);
+        return $model::create($data);
     }
 
     // Relationships

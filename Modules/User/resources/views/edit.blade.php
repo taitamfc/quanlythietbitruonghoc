@@ -7,7 +7,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('website.users.update') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('users.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">

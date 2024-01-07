@@ -32,23 +32,22 @@ class AdminUser extends Model
     }
     public static function saveItem($request, $table = '')
     {
-        if ($table) {
-            $model = '\App\Models\\' . $table;
-        } else {
-            $model = self::class;
+        $data = $request->except(['_token', '_method']);
+        if(!empty($data['password'])){
+            $data['password'] = bcrypt($data['password']);
         }
-
-        $data = [];
-        foreach ($request->all() as $key => $value) {
-            if (!in_array($key, ['_token', '_method', 'type'])) {
-                if ($key === 'password') {
-                    $data[$key] = bcrypt($value); // Mã hóa mật khẩu trước khi lưu
-                } else {
-                    $data[$key] = $value;
-                }
-            }
+        return self::create($data);
+    }
+    public static function updateItem($id,$request, $table = '')
+    {
+        $item = self::findOrFail($id);
+        $data = $request->except(['_token', '_method']);
+        if(!empty($data['password'])){
+            $data['password'] = bcrypt($data['password']);
+        }else{
+            unset($data['password']);
         }
-
-        return $model::create($data);
+        $item->update($data);
+        return $item;
     }
 }

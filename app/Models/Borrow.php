@@ -12,6 +12,11 @@ class Borrow extends Model
     use HasFactory;
     protected $table ='borrows';
     use HasFactory;
+    const ACTIVE    = 1;
+    const INACTIVE  = 0;
+    const DRAFT     = -1;
+    const CANCELED     = -2;
+    
     protected $fillable = ['id', 'user_id', 'borrow_date','created_at','updated_at','deleted_at','borrow_note','status','approved'];
 
     public function user()

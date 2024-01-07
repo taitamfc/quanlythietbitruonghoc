@@ -27,13 +27,13 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
-                    <a class="dropdown-item" href="{{ route('website.users.index') }}">
+                    <a class="dropdown-item" href="{{ route('users.index') }}">
                         <span class="material-symbols-outlined me-2"></span>
-                        <span>Profile</span>
+                        <span>Tài Khoản</span>
                     </a>
-                    <a class="dropdown-item" href="javascript:;">
+                    <a class="dropdown-item" href="{{ route('auth.logout') }}">
                         <span class="material-symbols-outlined me-2"></span>
-                        <span>Logout</span>
+                        <span>Thoát</span>
                     </a>
                 </div>
                 <style>

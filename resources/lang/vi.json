@@ -95,5 +95,12 @@
     "Option_update": "[Cấu hình]  Cập nhật",
     "CheckAll": "Chọn Tất Cả",
     "exportBorrowDeviceByUser" : "Xuất sổ theo giáo viên",
-    "exportBorrowDeviceByNest" : "Xuất sổ theo tổ"
+    "exportBorrowDeviceByNest" : "Xuất sổ theo tổ",
+    "Monday" : "Thứ hai",
+    "Tuesday" : "Thứ ba",
+    "Wednesday" : "Thứ tư",
+    "Thursday" : "Thứ năm",
+    "Friday" : "Thứ sáu",
+    "Saturday" : "Thứ bảy",
+    "Sunday" : "Chủ nhật"
 }

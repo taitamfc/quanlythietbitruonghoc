@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
-use Modules\AdminHome\App\Models\AdminHome;
+use Carbon\Carbon;
+use App\Models\Notification;
+use App\Models\Borrow;
 
 class AdminHomeController extends Controller
 {
@@ -17,57 +18,69 @@ class AdminHomeController extends Controller
     protected $view_path    = 'adminhome::';
     protected $route_prefix = 'adminhome.';
     protected $model = AdminHome::class;
-    public function index()
+    public function index(Request $request)
     {
-        $count_statis = $this->model::getApprovedOnWeek('Borrow');
-        return view($this->view_path.'index',$count_statis);
-    }
+        $currentMonth    = Carbon::now()->format('m');
+        $currentYear    = Carbon::now()->format('Y');
+        
+        $total_borrow = Borrow::query(true)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->whereIn('status',[
+            Borrow::ACTIVE,
+            Borrow::INACTIVE
+        ])->count();
+        ;
+        $total_borrow_active = Borrow::query(true)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::ACTIVE)->count();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view($this->view_path.'create');
-    }
+        $total_borrow_inactive = Borrow::query(true)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::INACTIVE)->count();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
+        $events = $this->getDataForCalendar($request);
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view($this->view_path.'show');
+        $params = [
+            'total_borrow' => $total_borrow,
+            'total_borrow_active' => $total_borrow_active,
+            'total_borrow_inactive' => $total_borrow_inactive,
+            'events' => $events
+        ];
+        return view($this->view_path.'index',$params);
     }
+    private function getDataForCalendar($request = null){
+        $currentMonth    = Carbon::now()->format('m');
+        $currentYear    = Carbon::now()->format('Y');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view($this->view_path.'edit');
+        $borrows = Borrow::query(true)
+        ->whereMonth('borrow_date',$currentMonth)
+        ->whereYear('borrow_date',$currentYear)
+        ->where('status',Borrow::ACTIVE)->get();
+
+        $events = [];
+        foreach($borrows as $borrow){
+            $events[] = [
+                'title' => '#'.$borrow->id.' - '.$borrow->user->name,
+                'start' => $borrow->borrow_date
+            ];
+        }
+        return $events;
+        
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function is_read(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            DB::beginTransaction();
+            DB::table('notifications')->where('is_read', 0)->update(['is_read' => 1]);
+            DB::commit();
+            $unreadCount = DB::table('notifications')->where('is_read', 0)->count();
+            return redirect()->back()->with('success', 'Đã đánh dấu tất cả là đã đọc.')->with('unreadCount', $unreadCount);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Có lỗi xảy ra.');
+        }
     }
 }

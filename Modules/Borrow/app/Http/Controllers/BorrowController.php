@@ -53,16 +53,21 @@ class BorrowController extends Controller
     public function show($id)
     {
         try {
+            $rooms = \App\Models\Room::getAll();
             $item = $this->model::findItem($id);
+            if( $item->user_id != Auth::id() ){
+                abort(403);
+            }
             $params = [
                 'route_prefix'  => $this->route_prefix,
                 'model'         => $this->model,
-                'item' => $item
+                'item'          => $item,
+                'rooms'         => $rooms,
             ];
             return view($this->view_path.'show', $params);
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.item_not_found'));
+            return redirect()->route($route_prefix.'index')->with('error', __('sys.item_not_found'));
         }
     }
 

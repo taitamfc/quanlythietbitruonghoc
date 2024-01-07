@@ -80,9 +80,9 @@ class LabController extends Controller
             'departments' => $departments,
             'borrow_lab_ids' => $borrow_lab_ids,
         ];
-        // if( $request->ajax() ){
+        if( $request->ajax() ){
             return view('lab::index-ajax',$param);
-        // }
+        }
         return view('lab::index',$param);
     }
 }

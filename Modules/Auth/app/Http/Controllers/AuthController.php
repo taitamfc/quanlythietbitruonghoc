@@ -25,7 +25,7 @@ class AuthController extends Controller
     {
         try {
             if (Auth::check()) {
-                return redirect()->route('website.devices.index');
+                return redirect()->route('home');
             } else {
                 return view($this->view_path.'login');
             }
@@ -41,7 +41,7 @@ class AuthController extends Controller
             $dataUser = $request->only('email', 'password');
             if (Auth::attempt($dataUser, $request->remember)) {
                 // Đã vào được
-                return redirect()->route('website.devices.index');
+                return redirect()->route('home');
             } else {
                 return redirect()->route($this->route_prefix.'login')->with('error', 'Tài khoản hoặc mật khẩu không chính xác!');
             }

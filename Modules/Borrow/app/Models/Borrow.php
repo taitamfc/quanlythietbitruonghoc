@@ -178,9 +178,7 @@ class Borrow extends Model
     public static function deleteItem($id){
         $item = self::findItem($id);
         $item->borrow_devices()->delete();
-        // $item->deleted_at = date('Y-m-d H:i:s');
-        // return $item->save();
-        return self::deleteItem($id);
+        return $item->delete();
     }
 
     // Relationships
@@ -241,10 +239,10 @@ class Borrow extends Model
                 return '<span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Phiếu Nháp</span>';
                 break;
             case self::ACTIVE:
-                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Đã Xét Duyệt</span>';
+                return '<span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Đã Duyệt</span>';
                 break;
             case self::INACTIVE:
-                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Chờ Xét Duyệt</span>';
+                return '<span class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Chờ Duyệt</span>';
                 break;
             case self::CANCELED:
                 return '<span class="lable-table bg-dark-subtle text-warning rounded border border-dark-subtle font-text2 fw-bold">Đã Hủy</span>';
@@ -288,6 +286,9 @@ class Borrow extends Model
                             $query->where('user_id',$request->user_id);
                         });
                     }
+                    $borrow_labs->whereHas('borrow',function($query) use($request){
+                        $query->where('status','>',0);
+                    });
 
                     $borrow_labs = $borrow_labs->get();
 
