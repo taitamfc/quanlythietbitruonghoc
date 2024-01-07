@@ -31,11 +31,11 @@
             getAjaxTable(url, wrapperResults, positionUrl);
         });
         jQuery('body').on('change', wrapperResults + ' .f-filter', function() {
-            let filterData = jQuery(wrapperResults).find('form-search').serialize();
+            let filterData = jQuery(wrapperResults).find('.form-search').serialize();
             getAjaxTable(indexUrl, wrapperResults, positionUrl, filterData);
         });
         jQuery('body').on('keyup', wrapperResults + ' .f-filter-up',delay(function (e) {
-            let filterData = jQuery(wrapperResults).find('form-search').serialize();
+            let filterData = jQuery(wrapperResults).find('.form-search').serialize();
             getAjaxTable(indexUrl, wrapperResults, positionUrl, filterData);
         }, 500));
     });
