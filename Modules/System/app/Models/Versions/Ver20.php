@@ -14,6 +14,7 @@ class Ver20 extends Model
         
         try {
             self::createLabTable();
+            self::createNotificationTable();
             self::updateBorrowDeviceTable();
             self::updateBorrowDeviceData();
             self::updateBorrowData();
@@ -36,6 +37,20 @@ class Ver20 extends Model
                 $table->unsignedBigInteger('department_id');
                 $table->foreign('department_id')->references('id')->on('departments');
                 $table->softDeletes();
+                $table->timestamps();
+            });
+        }
+        
+    }
+    public static function createNotificationTable(){
+        if( !Schema::hasTable('notifications') ){
+            Schema::create('notifications', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->string('type')->nullable();
+                $table->string('action')->nullable();
+                $table->boolean('is_read')->default(false);
+                $table->unsignedBigInteger('item_id')->nullable();
                 $table->timestamps();
             });
         }
