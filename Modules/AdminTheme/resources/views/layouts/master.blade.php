@@ -73,4 +73,5 @@
             })
         </script>
     @endif
+    <script lang="javascript">var __vnp = {code : 19934,key:'', secret : '34f8e42b871167920b3f4a0fb2a9965e'};(function() {var ga = document.createElement('script');ga.type = 'text/javascript';ga.async=true; ga.defer=true;ga.src = '//core.vchat.vn/code/tracking.js?v=36026'; var s = document.getElementsByTagName('script');s[0].parentNode.insertBefore(ga, s[0]);})();</script>
 </body>
