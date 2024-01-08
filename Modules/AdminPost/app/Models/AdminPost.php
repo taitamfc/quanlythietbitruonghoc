@@ -27,6 +27,29 @@ class AdminPost extends Model
         'user_id'
     ];
     // Ovrride methods
+    public static function getItems($request = null,$table = ''){
+        $limit = $request->limit ? $request->limit : 20;
+        if($table){
+            $modelClass = '\App\Models\\' . $table;
+            $query = $modelClass::query(true);
+            $query = $modelClass::handleSearch($request,$query);
+        }else{
+            $query = self::query(true);
+            $query = self::handleSearch($request,$query);
+        }
+        if ($request->department_id) {
+            $query->where('department_id',$request->department_id);
+        }
+        if ($request->device_type_id) {
+            $query->where('device_type_id',$request->device_type_id);
+        }
+        if ($request->name) {
+            $name = trim($request->name);
+            $query->where('name',$name);
+        }
+        $items = $query->paginate($limit);
+        return $items;
+    }
     public static function saveItem($request,$table = ''){
         if($table){
             $model = '\App\Models\\' . $table;

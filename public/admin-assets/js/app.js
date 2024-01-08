@@ -89,4 +89,4 @@ function delay(callback, ms) {
         callback.apply(context, args);
       }, ms || 0);
     };
-  }
+}
