@@ -19,18 +19,18 @@
         </form>
         <div class="card">
             <div class="card-body">
-                <div class="d-flex align-items-center justify-content-end gap-2">
-                    <a href="{{ route($route_prefix.'index') }}" class="btn btn-sm btn-dark">Quay lại</a>
+                <div class="d-flex align-items-center justify-content-end gap-2 flex-column flex-lg-row">
+                    <a href="{{ route($route_prefix.'index') }}" class="btn btn-sm btn-dark col-12 col-lg-auto">Quay lại</a>
                     @if( $item->status <= 0 )
-                    <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
+                    <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post" class="col-12 col-lg-auto">
                         @csrf
                         @method('DELETE')
-                        <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="btn btn-sm btn-danger px-4 mr-2">
+                        <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="btn btn-sm btn-danger px-4 mr-2 col-12 col-lg-auto">
                             {{ __('borrow::sys.delete') }} 
                         </button>
                     </form>
-                    <button id="save_draft" class="btn btn-sm btn-warning px-4 mr-2"  >Lưu Nháp</button>
-                    <button id="submit_request" class="btn btn-sm btn-primary px-4 ml-2" >Gửi Yêu Cầu</button>
+                    <button id="save_draft" class="btn btn-sm btn-warning px-4 mr-2 col-12 col-lg-auto"  >Lưu Nháp</button>
+                    <button id="submit_request" class="btn btn-sm btn-primary px-4 ml-2 col-12 col-lg-auto" >Gửi Yêu Cầu</button>
                     @endif
                 </div>
             </div>

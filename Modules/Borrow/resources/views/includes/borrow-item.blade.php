@@ -14,13 +14,13 @@
         <div class="card-body">
             <div class="item-content">
                 <div class="row mb-4">
-                    <div class="col col-lg-3 col-6 input-devices-{{ $tiet }}-lesson_name">
+                    <div class="col col-lg-3 col-12 input-devices-{{ $tiet }}-lesson_name">
                         <label class="form-label">Tên bài dạy</label>
                         <input type="text" class="form-control" id="devices_{{ $tiet }}_lesson_name"
                             data-name="lesson_name" name="devices[{{ $tiet }}][lesson_name]" value="{{ $borrow['lesson_name'] }}">
                         <span class="input-error text-danger"></span>
                     </div>
-                    <div class="col col-lg-1 col-6">
+                    <div class="col col-lg-1 col-12">
                         <label class="form-label">Buổi</label>
                         <select data-name="session" name="devices[{{ $tiet }}][session]" id="devices_{{ $tiet }}_session"
                             class="form-control">
@@ -28,13 +28,13 @@
                             <option @selected($borrow['session'] == 'Chiều') value="Chiều">Chiều</option>
                         </select>
                     </div>
-                    <div class="col col-lg-2 col-6 input-devices-{{ $tiet }}-lecture_name">
+                    <div class="col col-lg-2 col-12 input-devices-{{ $tiet }}-lecture_name">
                         <label class="form-label">Tiết PPCT</label>
                         <input type="text" class="form-control" id="devices_{{ $tiet }}_lecture_name"
                             data-name="lecture_name" name="devices[{{ $tiet }}][lecture_name]" value="{{ $borrow['lecture_name'] }}">
                             <span class="input-error text-danger"></span>
                     </div>
-                    <div class="col col-lg-2 col-6">
+                    <div class="col col-lg-2 col-12">
                         <label class="form-label">Lớp</label>
                         <select data-name="room_id"  name="devices[{{ $tiet }}][room_id]" id="devices_{{ $tiet }}_room_id"
                             class="form-control select2">
@@ -43,7 +43,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col col-lg-1 col-6">
+                    <div class="col col-lg-1 col-12">
                         <label class="form-label">Tiết TKB</label>
                         <select data-name="lecture_number" data-name="devices[{{ $tiet }}][lecture_number]" name="devices[{{ $tiet }}][lecture_number]"
                             id="devices_{{ $tiet }}_lecture_number" class="form-control">
@@ -54,7 +54,7 @@
                             <option @selected($borrow['lecture_number'] == 5) value="5">5</option>
                         </select>
                     </div>
-                    <div class="col col-lg-3 col-6 lab-choiced">
+                    <div class="col col-lg-3 col-12 lab-choiced">
                         <div>
                             <label class="form-label">Phòng bộ môn</label>
                             <span title="Xóa phòng bộ môn" class="float-end ml-1 delete-lab x{{ $borrow_items[0]->lab_id ?? 'd-none' }}" data-tiet-id="{{ $tiet }}">Xóa</span>

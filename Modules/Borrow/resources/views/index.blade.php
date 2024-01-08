@@ -11,7 +11,7 @@
     <!-- Item actions -->
     <form action="{{ route($route_prefix.'index') }}" method="get">
         <div class="row">
-            <div class="col col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <label class="form-label fw-bold">Buổi</label>
                 <select name="session" class="form-control" onchange="this.form.submit()">
                     <option value="">---</option>
@@ -19,15 +19,15 @@
                     <option @selected(request()->session == 'PM') value="PM">Chiều</option>
                 </select>
             </div>
-            <div class="col col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <label class="form-label fw-bold">Ngày dạy : Tuần</label>
                 <input type="week" min="2022-W01" max="{{ date('Y') }}-W99" name="week" class="form-control" value="{{ request()->week }}" onchange="this.form.submit()">
             </div>
-            <div class="col col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <label class="form-label fw-bold">Ngày dạy : Năm</label>
                 <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}" autoSubmit="true"/>
             </div>
-            <div class="col col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <label class="form-label fw-bold">Trạng thái</label>
                 <select name="status" class="form-control" onchange="this.form.submit()">
                     <option value="">---</option>

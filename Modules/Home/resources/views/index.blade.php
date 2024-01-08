@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
 <div class="row">
-    <div class="col-6 col-lg-4">
+    <div class="col-12 col-lg-4">
         <div class="card radius-10 border-0 border-start border-primary border-4">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-lg-4">
+    <div class="col-12 col-lg-4">
         <div class="card radius-10 border-0 border-start border-success border-4">
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-lg-4">
+    <div class="col-12 col-lg-4">
         <div class="card radius-10 border-0 border-start border-danger border-4">
             <div class="card-body">
                 <div class="d-flex align-items-center">

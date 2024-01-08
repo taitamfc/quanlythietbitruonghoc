@@ -12,15 +12,15 @@
     <form action="{{ route($route_prefix.'index') }}" method="get">
         <p class="mb-2">Lưu ý: Chỉ tìm kiếm một trong hai trường Tuần và Năm</p>
         <div class="row">
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Giáo Viên</label>
                 <x-admintheme::form-input-users name="user_id" selected_id="{{ request()->user_id }}" autoSubmit="true"/>
             </div>
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Tổ</label>
                 <x-admintheme::form-input-nests name="nest_id" selected_id="{{ request()->nest_id }}" autoSubmit="true"/>
             </div>
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Buổi</label>
                 <select name="session" class="form-control" onchange="this.form.submit()">
                     <option value="">---</option>
@@ -28,15 +28,15 @@
                     <option @selected(request()->session == 'PM') value="PM">Chiều</option>
                 </select>
             </div>
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Ngày dạy : Tuần</label>
                 <input type="week" min="2022-W01" max="{{ date('Y') }}-W99" name="week" class="form-control" value="{{ request()->week }}" onchange="this.form.submit()">
             </div>
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Ngày dạy : Năm</label>
                 <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}" autoSubmit="true"/>
             </div>
-            <div class="col col-xs-6">
+               <div class="col col-12 col-md-2">
                 <label class="form-label fw-bold">Trạng thái</label>
                 <select name="status" class="form-control" onchange="this.form.submit()">
                     <option value="">---</option>

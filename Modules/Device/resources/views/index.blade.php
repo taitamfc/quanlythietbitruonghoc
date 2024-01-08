@@ -5,14 +5,14 @@
     'actions' => []
 ])
 <form class="row" action="" method="get">
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <select class="form-control" onchange="this.form.submit()" name='qty'>
             <option @selected( request()->qty === '' ) value="">Tình trạng</option>
             <option value="1" @selected( request()->qty == 1 )> Thiết bị còn</option>
             <option value="0" @selected( request()->qty !== "" && request()->qty === '0' )> Thiết bị đã hết</option>
         </select>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <select class="form-control" onchange="this.form.submit()" name='device_type_id'>
             <option value="">Loại thiết bị</option>
             @foreach($device_types as $device_type)
@@ -22,7 +22,7 @@
             @endforeach
         </select>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <select class="form-control" onchange="this.form.submit()" name='department_id'>
             <option value="">Môn học</option>
             @foreach($departments as $department)
