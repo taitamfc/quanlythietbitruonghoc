@@ -60,7 +60,7 @@ class AdminPostController extends Controller
             return redirect()->route($this->route_prefix.'index',['type'=>$type])->with('success', __('sys.store_item_success'));
         } catch (QueryException $e) {
             Log::error('Error in store method: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('sys.item_not_found'));
+            return redirect()->back()->with('error', __('sys.store_item_error'));
         }
     }
 

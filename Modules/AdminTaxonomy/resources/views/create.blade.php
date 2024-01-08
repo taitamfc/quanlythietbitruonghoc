@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
-        'page_title' => __('admintaxonomy::general.title_create')
+        'page_title' => 'Thêm '.__(request()->type) ?? 'Phân Loại'
     ])
     <form action="{{ route('admintaxonomy.store') }}" method="post" enctype="multipart/form-data">
         @csrf

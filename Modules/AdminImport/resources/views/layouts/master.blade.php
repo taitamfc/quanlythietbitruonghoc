@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
-        'page_title' => 'Import: '.request()->type,
+        'page_title' => 'Nhập: '.__(request()->type),
         'actions' => []
     ])
     <div class="card mt-4">

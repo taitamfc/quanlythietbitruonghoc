@@ -21,7 +21,7 @@
             <div class="col-lg-6">
                 <div class="mb-4">
                     <label class="mb-3">Số lượng</label>
-                    <input type="number" class="form-control" name="quantity" value="{{ $item->quantity ?? old('quantity') }}">
+                    <input type="number" class="form-control" min="0" name="quantity" value="{{ $item->quantity ?? old('quantity',0) }}">
                     <x-admintheme::form-input-error field="quantity"/>
                 </div>
             </div>

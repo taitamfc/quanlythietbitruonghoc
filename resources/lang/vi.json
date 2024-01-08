@@ -106,5 +106,7 @@
     "BorrowDevicesNest" : "Sổ mượn tổ",
     "BorrowDevicesUser" : "Sổ mượn giáo viên",
     "BorrowLabs" : "Sổ mượn phòng bộ môn",
-    "BorrowDetail" : "Phiếu báo mượn"
+    "BorrowDetail" : "Phiếu báo mượn",
+    "Lab" : "Phòng học",
+    "Asset" : "Tài sản"
 }

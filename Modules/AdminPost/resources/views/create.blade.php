@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
-        'page_title' => __('adminpost::general.title_create')
+        'page_title' => 'Thêm '.__(request()->type) ?? 'Bài Viết'
     ])
     <form action="{{ route('adminpost.store') }}" method="post" enctype="multipart/form-data">
         @csrf
