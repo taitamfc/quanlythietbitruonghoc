@@ -46,6 +46,17 @@ class BorrowLabExport {
     public $messages = [
         'required' => 'Trường là bắt buộc',
     ];
+    public static function convertToExcelColumn($number) {
+        $columnName = '';
+    
+        while ($number > 0) {
+            $modulo = ($number - 1) % 26;
+            $columnName = chr(65 + $modulo) . $columnName;
+            $number = intval(($number - $modulo) / 26);
+        }
+    
+        return $columnName;
+    }
     public function handle($request = null){
         $type = request()->type;
         $query = BorrowDevice::query();
@@ -91,10 +102,9 @@ class BorrowLabExport {
                 $sheet->setCellValue('B3', request()->week ?? '');
                 $sheet->setCellValue('D3', $startWeek ?? '');
                 $sheet->setCellValue('G3',  $endWeek ?? '');
-                $columnIndex = ord($nameLab) - 65; // Lấy chỉ số cột dựa trên mã ASCII của chữ cái
-                $columnIndex += 14; // Cộng thêm 14 để di chuyển cách cột hiện tại 14 cột
-                $newNameLab = chr($columnIndex + 65); // Chuyển đổi lại thành chữ cái bằng cách cộng 65
-                $cellCoordinate = $newNameLab . '2';
+                $columnIndex = ord($nameLab)+14; // Lấy chỉ số cột dựa trên mã ASCII của chữ cái
+                $cellCoordinate = self::convertToExcelColumn($columnIndex);
+                dd($cellCoordinate);
             }
         }
         
