@@ -66,7 +66,7 @@
                                                     @method('DELETE')
                                                     <input type="hidden" name="type" value="{{ request()->type }}">
                                                     <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') " class="dropdown-item">
-                                                        {{ __('sys.delete') }}   
+                                                    {{ $item->deleted_at ? __('sys.force_delete') : __('sys.delete') }}   
                                                     </button>
                                                 </form>
                                             </li>

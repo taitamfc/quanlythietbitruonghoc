@@ -90,21 +90,21 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
-                                            @if( $item->status ==0 )
+                                            @if( $item->status == 0 )
                                             <li>
                                                 <a onclick=" return confirm('{{ __('Bạn có chắc chắn duyệt phiếu này !') }}') " class="dropdown-item" href="{{ route($route_prefix.'index',['task'=>'approve','id'=>$item->id]) }}">
                                                     {{ __('borrow::sys.approve') }}        
                                                 </a>
                                             </li>
                                             @endif
-                                            @if( $item->status != -2 )
+                                            @if( $item->status <= 0 )
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
                                                     @method('PUT')
                                                     <input type="hidden" name="status" value="{{ $model::CANCELED }}">
                                                     <button onclick=" return confirm('{{ __('adminborrow::sys.confirm_canceled') }}') " class="dropdown-item">
-                                                        {{ __('borrow::sys.delete') }} 
+                                                    {{ $item->status == -2 ? __('sys.force_delete') : __('sys.delete') }}   
                                                     </button>
                                                 </form>
                                             </li>

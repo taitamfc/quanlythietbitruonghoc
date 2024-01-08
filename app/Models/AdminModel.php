@@ -125,7 +125,11 @@ class AdminModel extends Model
         }
         $item = $model::findItem($id,$table);
         unset($item->status);
-        $item->deleted_at = date('Y-m-d H:i:s');
+        if($item->deleted_at){
+            return $item->delete();
+        }else{
+            $item->deleted_at = date('Y-m-d H:i:s');
+        }
         return $item->save();
     }
 
