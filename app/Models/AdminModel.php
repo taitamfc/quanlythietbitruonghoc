@@ -42,10 +42,11 @@ class AdminModel extends Model
         if($table){
             $modelClass = '\App\Models\\' . $table;
             $query = $modelClass::query(true);
+            $query = $modelClass::handleSearch($request,$query);
         }else{
             $query = self::query(true);
+            $query = self::handleSearch($request,$query);
         }
-        $query = self::handleSearch($request,$query);
         $items = $query->paginate($limit);
         return $items;
     }

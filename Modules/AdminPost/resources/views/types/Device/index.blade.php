@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-    'page_title' => 'Loại thiết bị',
+    'page_title' => 'Danh sách thiết bị',
     'actions' => [
         'add_new' => route($route_prefix.'create',['type'=>request()->type]),
     ]

@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => __('adminpost::general.title_index'),
+'page_title' => 'Danh sách tài sản',
 'actions' => [
 'add_new' => route($route_prefix.'create',['type'=>request()->type]),
 //'export' => route($route_prefix.'export'),

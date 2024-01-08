@@ -11,12 +11,11 @@ class Room extends AdminModel
     use HasFactory;
     protected $table = "rooms";
     protected $fillable = [
-        'name',
-        // các thuộc tính fillable khác
+        'name','deleted_at'
     ];
-    // public function borrows()
-    // {
-    //     return $this->belongsToMany(Borrow::class,'borrow_devices','room_id','borrow_id');
-    // }
+    public static function handleSearch($request,$query){
+        $query->orderBy('name','ASC');
+        return $query;
+    }
     
 }

@@ -26,6 +26,12 @@ class Device extends AdminModel
         'deleted_at'
     ];
 
+    // Ovrrides
+    public static function handleSearch($request,$query){
+        $query->orderBy('name','ASC');
+        return $query;
+    }
+
     public function borrows()
     {
         return $this->belongsToMany(Borrow::class,'borrow_devices','device_id','borrow_id');

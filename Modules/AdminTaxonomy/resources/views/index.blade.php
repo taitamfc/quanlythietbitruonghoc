@@ -1,7 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
     @include('admintheme::includes.globals.breadcrumb',[
-        'page_title' => __('admintaxonomy::general.title_index'),
+        'page_title' => 'Danh sách '.__( request()->type ),
         'actions' => [
             'add_new' => route($route_prefix.'create',['type'=>request()->type]),
             //'export' => route($route_prefix.'export'),

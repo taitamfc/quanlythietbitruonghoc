@@ -15,7 +15,10 @@ class Department extends AdminModel
         'name','deleted_at'
         // các thuộc tính fillable khác
     ];
-
+    public static function handleSearch($request,$query){
+        $query->orderBy('name','ASC');
+        return $query;
+    }
     public function devices()
     {
         return $this->hasMany(Device::class);

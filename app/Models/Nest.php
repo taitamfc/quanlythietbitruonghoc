@@ -13,6 +13,10 @@ class Nest extends AdminModel
     protected $fillable = [
         'name','deleted_at'
     ];
+    public static function handleSearch($request,$query){
+        $query->orderBy('name','ASC');
+        return $query;
+    }
     public function users()
     {
         return $this->hasMany(User::class);
