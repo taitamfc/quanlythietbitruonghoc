@@ -12,30 +12,19 @@
 <form action="{{ route($route_prefix.'index') }}" method="get">
     <input type="hidden" name="type" value="{{ request()->type }}">
     <div class="row">
-        <div class="col-lg mb-2">
-            <input class="form-control" name="name" type="text" placeholder="Tên thiết bị"
-                    value="{{ request()->name }}">
+        <div class="col">
+            <label class="form-label fw-bold">Tên Tài sản</label>
+            <input class="form-control" name="name" type="text" placeholder="Tên tài sản" value="{{ request()->name }}">
         </div>
-        <div class="col-lg mb-2">
-            <select name="device_type_id" class="form-control">
-                <option value="">Loại Thiết Bị</option>
-                @foreach( \App\Models\DeviceType::getAll() as $device_type )
-                    <option value="{{ $device_type->id }}">{{ $device_type->name }}</option>
-                @endforeach
-            </select>
+        <div class="col">
+            <label class="form-label fw-bold">Loại Tài sản</label>
+            <x-admintheme::form-input-device-types name="device_type_id" selected_id="{{ request()->device_type_id }}"
+                autoSubmit="1" />
         </div>
-        <div class="col-lg mb-2">
-            <select name="department_id " class="form-control">
-                <option value="">Bộ Môn</option>
-                @foreach( \App\Models\Department::getAll() as $department )
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-lg">
-            <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Search</button>
-            </div>
+        <div class="col">
+            <label class="form-label fw-bold">Môn Học</label>
+            <x-admintheme::form-input-departments name="department_id" selected_id="{{ request()->department_id }}"
+                autoSubmit="1" />
         </div>
     </div>
 </form>
@@ -49,7 +38,7 @@
                         <tr>
                             <th>Tên</th>
                             <th>Số lượng</th>
-                            <th>Loại thiết bị</th>
+                            <th>Loại tài sản</th>
                             <th>Bộ môn</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
@@ -57,43 +46,43 @@
                     </thead>
                     <tbody>
                         @if( count( $items ) )
-                            @foreach( $items as $key => $item )
-                            <tr>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->devicetype->name ?? '' }}</td>
-                                <td>{{ $item->department->name ?? '' }}</td>
-                                <td>{!! $item->status_fm !!}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"
-                                            type="button" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route($route_prefix.'edit',['adminpost'=>$item->id,'type'=>request()->type]) }}">
-                                                    {{ __('sys.edit') }}
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form
-                                                    action="{{ route($route_prefix.'destroy',['adminpost'=>$item->id,'type'=>request()->type]) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') "
-                                                        class="dropdown-item">
-                                                        {{ $item->deleted_at ? __('sys.force_delete') : __('sys.delete') }}   
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
+                        @foreach( $items as $key => $item )
+                        <tr>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ $item->devicetype->name ?? '' }}</td>
+                            <td>{{ $item->department->name ?? '' }}</td>
+                            <td>{!! $item->status_fm !!}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"
+                                        type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route($route_prefix.'edit',['adminpost'=>$item->id,'type'=>request()->type]) }}">
+                                                {{ __('sys.edit') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form
+                                                action="{{ route($route_prefix.'destroy',['adminpost'=>$item->id,'type'=>request()->type]) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') "
+                                                    class="dropdown-item">
+                                                    {{ $item->deleted_at ? __('sys.force_delete') : __('sys.delete') }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
                         @else
                         <tr>
                             <td colspan="5" class="text-center">{{ __('sys.no_item_found') }}</td>

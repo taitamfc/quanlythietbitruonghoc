@@ -25,30 +25,19 @@ use Illuminate\Support\Facades\DB;
 
 class BorrowDevicesUserExport {
     protected $templateFile = '';
-    public $messages = [
-        'required' => 'Trường là bắt buộc',
-    ];
     public function rules(): array
     {
         $rules = [
-            'week' => 'required',
-            'school_years' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
             'user_id' => 'required',
         ];
-        // nếu đã chọn school_years thì không yêu cầu week
-        if(request()->school_years){
-            unset($rules['week']);
-        }
-        // nếu đã chọn week thì không yêu cầu school_years
-        if(request()->week){
-            unset($rules['school_years']);
-        }
-        // nếu đã chọn cả hai thì lấy theo tuần
-        if(request()->school_years && request()->week){
-            unset($rules['school_years']);
-        }
         return $rules;
     }
+
+    public $messages = [
+        'required' => 'Trường bắt buộc'
+    ];
     public function handle($request = null){
         // $id = request()->id;
         $type = request()->type;
@@ -57,16 +46,12 @@ class BorrowDevicesUserExport {
         $user = User::find(request()->user_id);
         $query = Borrow::query();
         $query = $query->where('user_id', request()->user_id);
-        if (request()->week) {
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }
-        if(request()->school_years){
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }
+
+        // lấy ra theo ngày
+        $startDate = request()->start_date;
+        $endDate = request()->end_date;
+        $query->whereBetween('borrow_date', [$startDate, $endDate]);
+        
         $borrows = $query->get();
         // Đường dẫn đến mẫu Excel đã có sẵn
         $templatePath = public_path('system/export/'.strtolower($type).'.xlsx');

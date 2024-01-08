@@ -26,20 +26,9 @@ class BorrowDevicesNestExport
     public function rules(): array
     {
         $rules = [
-            'week' => 'required',
-            'school_years' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ];
-        // nếu đã chọn school_years thì không yêu cầu week
-        if(request()->school_years){
-            unset($rules['week']);
-        }
-        // nếu đã chọn week thì không yêu cầu school_years
-        if(request()->week){
-            unset($rules['school_years']);
-        }
-        if(request()->school_years && request()->week){
-            unset($rules['school_years']);
-        }
         return $rules;
     }
 
@@ -57,19 +46,11 @@ class BorrowDevicesNestExport
                 $query->where('nest_id', request()->nest_id );
             });
         }
-        if (request()->week && request()->school_years) {
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }elseif( request()->week ){
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }elseif(request()->school_years){
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }
+        // Lấy thông tin theo thời gian
+        $startDate = request()->start_date;
+        $endDate = request()->end_date;
+        $query->whereBetween('borrow_date', [$startDate, $endDate]);
+
         $BorrowDevices = $query->get();
         $BorrowDevices = \App\Models\BorrowDevice::groupBorrowDevices($BorrowDevices);
         // Đường dẫn đến mẫu Excel đã có sẵn
@@ -89,10 +70,10 @@ class BorrowDevicesNestExport
         $sheet->setCellValue('B2', $borrowerName);
 
         // Ngày dạy từ
-        $dateStart = date('d/m/Y',strtotime($startDateEndDate[0]));
+        $dateStart = date('d/m/Y',strtotime($startDate));
         $sheet->setCellValue('F4', $dateStart);
 
-        $dateEnd = date('d/m/Y',strtotime($startDateEndDate[1]));
+        $dateEnd = date('d/m/Y',strtotime($endDate));
         $sheet->setCellValue('I4', $dateEnd);
 
         $index = 8;
