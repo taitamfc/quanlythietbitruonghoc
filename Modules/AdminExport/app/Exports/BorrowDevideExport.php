@@ -50,11 +50,7 @@ class BorrowDevideExport {
     public function handle($request = null){
         $type = request()->type;
         // Lấy thông tin người dùng và mượn thiết bị
-        $query = \App\Models\Borrow::query();
-
-        // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('system/export/'.$type.'.xlsx');
-
+        $query = DB::table('borrows');
         if (request()->week && request()->school_years) {
             $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
             $startDateEndDate = array_values($startDateEndDate);
@@ -68,20 +64,30 @@ class BorrowDevideExport {
             $startDateEndDate = array_values($startDateEndDate);
             $query->whereBetween('borrow_date', $startDateEndDate);
         }
-        $query->select('user_id');
-        $query->groupBy('user_id');
+        $query->join('users','users.id', '=','borrows.user_id');
+        $query->select('users.name');
+        $query->groupBy('users.name');
         $items = $query->get();
+        
+        // Đường dẫn đến mẫu Excel đã có sẵn
+        $templatePath = public_path('system/export/'.$type.'.xlsx');
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
         $spreadsheet = $reader->load($templatePath);
         
-        // Lấy sheet hiện tại
+        // Lấy ngày tạo phiếu
         $dateStart = date('d/m/Y',strtotime($startDateEndDate[0]));
         $dateEnd = date('d/m/Y',strtotime($startDateEndDate[1]));
         $date = Carbon::createFromFormat('d/m/Y', $dateEnd);
         $year = $date->year;
         
+
+        // Lấy đơn vị tạo
+        $auto_approved = \App\Models\Option::get_option('general','company_name');
+        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');        
+        // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1',$title);
         $sheet->setCellValue('D6',$dateStart);
         $sheet->setCellValue('F6',$dateEnd);
         $sheet->setCellValue('E7',$year);
