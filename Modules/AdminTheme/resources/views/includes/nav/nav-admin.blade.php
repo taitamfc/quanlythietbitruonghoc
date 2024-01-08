@@ -158,17 +158,21 @@
                 <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Giáo Viên
             </a>
         </li>
-        <!-- <li>
-            <a href="{{ route('adminexport.index',['type'=>'BorrowLabs']) }}">
+        <li>
+            <a href="{{ route('adminexport.index',['type'=>'BorrowLab']) }}">
                 <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Phòng Bộ Môn
             </a>
-        </li> -->
+        </li>
+        <li>
+            <a href="{{ route('adminexport.index',['type'=>'BorrowDevide']) }}">
+                <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Thiết Bị
+            </a>
+        </li>
         <li>
             <a href="{{ route('adminexport.index',['type'=>'BorrowDetail']) }}">
                 <span class="material-symbols-outlined">arrow_right</span>Phiếu Báo Mượn
             </a>
         </li>
-
     </ul>
 </li>
 <li>
