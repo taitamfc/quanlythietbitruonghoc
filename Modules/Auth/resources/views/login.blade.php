@@ -24,7 +24,7 @@
         <div class="col-12">
             <label for="password" class="form-label">Password</label>
             <div class="input-group" id="show_hide_password">
-                <input type="password" class="form-control border-end-0" id="password" name="password" value="12345678"
+                <input type="password" class="form-control border-end-0" id="password" name="password" value=""
                     placeholder="Enter Password">
                 <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
             </div>
