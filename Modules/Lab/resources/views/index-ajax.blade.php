@@ -1,10 +1,10 @@
 <form class="form-search" action="{{ route('labs.index') }}" method="get">
     <div class="row">
-        <div class="col">
+    <div class="col-lg-3 col-md-6 col-sm-12"> 
             <label class="form-label">Ngày dạy</label>
             <input disabled type="date" name="borrow_date" class="form-control" value="{{ request()->borrow_date }}">
         </div>
-        <div class="col d-none">
+        <div class="col-lg-3 col-md-6 col-sm-12 d-none">
             <label class="form-label">Lớp</label>
             <select disabled class="form-control f-filter" name='room_id'>
                 <option value="">Lớp</option>
@@ -15,14 +15,14 @@
                 @endforeach
             </select>
         </div>
-        <div class="col">
+        <div class="col-lg-3 col-md-6 col-sm-12"> 
             <label class="form-label">Buổi</label>
             <select disabled name="session" class="form-control">
                 <option @selected( request()->session == 'Sáng') value="Sáng">Sáng</option>
                 <option @selected( request()->session == 'Chiều') value="Chiều">Chiều</option>
             </select>
         </div>
-        <div class="col">
+        <div class="col-lg-3 col-md-6 col-sm-12"> 
             <label class="form-label">Tiết TKB</label>
             <select disabled name="lecture_number" class="form-control">
                 <option @selected( request()->lecture_number  == 1) value="1">1</option>

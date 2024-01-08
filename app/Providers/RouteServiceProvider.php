@@ -45,7 +45,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(function () {
                     $databaseName = $this->getDatabaseName();
-					
 					config(['database.connections.mysql.database' => $databaseName]);
                     \DB::reconnect('mysql');
 						

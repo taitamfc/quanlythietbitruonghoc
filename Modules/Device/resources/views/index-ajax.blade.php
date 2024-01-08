@@ -1,15 +1,15 @@
 <form class="row form-search" action="{{ route('devices.index') }}" method="get">
-    <div class="col-6 col-lg-3">
+    <div class="col-12 col-lg-3 mb-2">
         <input type="text" name="name" class="form-control f-filter-up" placeholder="Tên thiết bị" value="{{ request()->name }}">
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-12 col-lg-3 mb-2">
         <select class="form-control f-filter" name='qty'>
             <option @selected( request()->qty === '' ) value="">Tình trạng</option>
             <option value="1" @selected( request()->qty == 1 )> Thiết bị còn</option>
             <option value="0" @selected( request()->qty !== "" && request()->qty === '0' )> Thiết bị đã hết</option>
         </select>
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-12 col-lg-3 mb-2">
         <select class="form-control f-filter" name='device_type_id'>
             <option value="">Loại thiết bị</option>
             @foreach($device_types as $device_type)
@@ -19,7 +19,7 @@
             @endforeach
         </select>
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-12 col-lg-3 mb-2">
         <select class="form-control f-filter" name='department_id'>
             <option value="">Môn học</option>
             @foreach($departments as $department)

@@ -12,11 +12,11 @@
 <form action="{{ route($route_prefix.'index') }}" method="get">
     <input type="hidden" name="type" value="{{ request()->type }}">
     <div class="row">
-        <div class="col">
+        <div class="col-lg mb-2">
             <input class="form-control" name="name" type="text" placeholder="Tên thiết bị"
                     value="{{ request()->name }}">
         </div>
-        <div class="col">
+        <div class="col-lg mb-2">
             <select name="device_type_id" class="form-control">
                 <option value="">Loại Thiết Bị</option>
                 @foreach( \App\Models\DeviceType::getAll() as $device_type )
@@ -24,7 +24,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col">
+        <div class="col-lg mb-2">
             <select name="department_id " class="form-control">
                 <option value="">Bộ Môn</option>
                 @foreach( \App\Models\Department::getAll() as $department )
@@ -32,7 +32,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col">
+        <div class="col-lg">
             <div class="d-flex align-items-center gap-2 justify-content-lg-end">
                 <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Search</button>
             </div>
