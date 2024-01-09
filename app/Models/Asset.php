@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asset extends AdminModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'assets';
     protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id','price','country','year','unit','note','deleted_at'];
     

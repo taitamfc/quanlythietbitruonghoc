@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Device extends AdminModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table ='devices';
-    use HasFactory;
     protected $fillable = [
         'id',
         'device_type_id',
