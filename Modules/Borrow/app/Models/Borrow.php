@@ -10,10 +10,10 @@ class Borrow extends Model
     use HasFactory;
 
     protected $table = 'borrows';
-    const ACTIVE    = 1;
-    const INACTIVE  = 0;
-    const DRAFT     = -1;
-    const CANCELED     = -2;
+    const ACTIVE    = 1; //Đã duyệt
+    const INACTIVE  = 0; //Chờ duyệt
+    const DRAFT     = -1; //Nháp
+    const CANCELED     = -2;//Đã hủy
     /**
      * The attributes that are mass assignable.
      */
@@ -23,7 +23,7 @@ class Borrow extends Model
         'status'
     ];
 
-    // Ovrride
+    // Ovrrides
     public static function updateItem($id,$request){
         $item = self::findItem($id);
         if($request->borrow_date){
@@ -185,7 +185,11 @@ class Borrow extends Model
     public function borrow_devices(){
         return $this->hasMany(BorrowDevice::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 
+    // Attributes
     public function getBorrowItemsAttribute(){
         $item = self::findItem($this->id);
         $results = [];
@@ -196,11 +200,6 @@ class Borrow extends Model
         }
         return $results;
     }
-    public function user(){
-        return $this->belongsTo(User::class,'user_id','id');
-    }
-
-    // Attributes
     public function getBorrowDateFmAttribute(){
         return $this->borrow_date ?  date('d-m-Y',strtotime($this->borrow_date)) : '';
     }
@@ -249,6 +248,33 @@ class Borrow extends Model
                 break;
         }
     }
+
+    public function getCanEditAttribute(){
+        $permissions = self::getPermissions();
+        if(
+            ($this->status == self::ACTIVE && $permissions['allow_edit_approved']) ||
+            ($this->status == self::INACTIVE && $permissions['allow_edit_pending']) ||
+            $this->status == self::DRAFT ||
+            $this->status == self::CANCELED 
+        ){
+            return true;
+        }
+        return false;
+    }
+    public function getCanDeleteAttribute(){
+        $permissions = self::getPermissions();
+        if(
+            ($this->status == self::ACTIVE && $permissions['allow_delete_approved']) ||
+            ($this->status == self::INACTIVE && $permissions['allow_delete_pending']) ||
+            $this->status == self::DRAFT ||
+            $this->status == self::CANCELED 
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    // Custom methods
     public static function getBorrowedLabs($request){
         $items = [];
         if( $request->week ){
@@ -311,6 +337,17 @@ class Borrow extends Model
             }
         }
         return $items;
+    }
+    public static function getPermissions(){
+        $permissions = [
+            'allow_edit_approved' => \App\Models\Option::get_option('borrow_device','allow_edit_approved',0),
+            'allow_edit_pending' => \App\Models\Option::get_option('borrow_device','allow_edit_pending',0),
+            'allow_delete_approved' => \App\Models\Option::get_option('borrow_device','allow_delete_approved',0),
+            'allow_delete_pending' => \App\Models\Option::get_option('borrow_device','allow_delete_pending',0),
+            'auto_approved' => \App\Models\Option::get_option('borrow_device','auto_approved',0),
+            'check_duplicate' => \App\Models\Option::get_option('borrow_device','check_duplicate',0)
+        ];
+        return $permissions;
     }
     
 }

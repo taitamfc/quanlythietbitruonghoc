@@ -22,7 +22,7 @@ class BorrowCreated
      */
     public function handle(BorrowCreatedEvent $event): void
     {
-        $auto_approved = \App\Models\Option::get_option('borrow_device','auto_approved',1);
+        $auto_approved = \App\Models\Option::get_option('borrow_device','auto_approved',0);
         if($auto_approved){
             $event->item->status = 1;
             $event->item->save();

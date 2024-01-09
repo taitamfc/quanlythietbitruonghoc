@@ -13,11 +13,55 @@ class StoreBorrowRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'borrow_date' => 'required',
             'devices.*.lesson_name' => 'required',
             'devices.*.lecture_name' => 'required',
         ];
+        if(request()->task == 'save-form'){
+            // Kiểm tra tiết dạy cần có thiết bị hoặc phòng bộ môn
+            $validate_tiet = [];
+            foreach( request()->devices as $tiet => $device ){
+                $validate_tiet[$tiet] = true;
+                $has_devices = false;
+                $has_labs = false;
+                if( !empty($device['device_id']) ){
+                    $has_devices = true;
+                }
+                if( !empty($device['lab_id']) ){
+                    $has_labs = true;
+                }
+                if( !$has_devices && !$has_labs ){
+                    $rules['tiet_'.$tiet.'_validate'] = 'required';
+                    $validate_tiet[$tiet] = false;
+                }
+            }
+
+            // Kiểm tra tiết dạy cùng buổi và cùng tiết tkb
+            $session_lectures = [];
+            foreach( request()->devices as $tiet => $device ){
+                $session_lectures[$tiet] = $device['session'].'-'.$device['lecture_number'];
+            }
+
+            if( count($session_lectures) ){
+                $countValues = array_count_values($session_lectures);
+                $duplicateValues = [];
+                foreach ($countValues as $value => $count) {
+                    if ($count > 1) {
+                        $duplicateValues[] = $value;
+                    }
+                }
+                $validate_session_lectures = [];
+                foreach( $duplicateValues as $duplicateValue ){
+                    foreach( $session_lectures as $tiet => $session_lecture ){
+                        if( $duplicateValue == $session_lecture ){
+                            $rules['tiet_'.$tiet.'_duplicate'] = 'required';
+                        }   
+                    }
+                }
+            }            
+        }
+        return $rules;
     }
     public function messages(): array
     {
@@ -25,6 +69,8 @@ class StoreBorrowRequest extends FormRequest
             'borrow_date.required' => 'Trường yêu cầu',
             'devices.*.lesson_name.required' => 'Trường yêu cầu',
             'devices.*.lecture_name.required' => 'Trường yêu cầu',
+            'tiet_*_validate.required' => 'Tiết dạy phải có thiết bị hoặc phòng bộ môn',
+            'tiet_*_duplicate.required' => 'Tiết dạy này bị trùng buổi và tiết thời khóa biểu',
         ];
     }
 

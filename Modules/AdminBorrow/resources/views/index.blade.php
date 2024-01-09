@@ -101,10 +101,14 @@
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
-                                                    @method('PUT')
-                                                    <input type="hidden" name="status" value="{{ $model::CANCELED }}">
-                                                    <button onclick=" return confirm('{{ __('adminborrow::sys.confirm_canceled') }}') " class="dropdown-item">
-                                                    {{ $item->status == -2 ? __('sys.force_delete') : __('sys.delete') }}   
+                                                    @if($item->status == $model::CANCELED)
+                                                        @method('DELETE')    
+                                                    @else
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status" value="{{ $model::CANCELED }}">
+                                                    @endif
+                                                    <button onclick=" return confirm('{{ $item->status == $model::CANCELED ? __('adminborrow::sys.force_delete') : __('adminborrow::sys.confirm_canceled') }}') " class="dropdown-item">
+                                                    {{ $item->status == $model::CANCELED ? __('sys.force_delete') : __('sys.delete') }}   
                                                     </button>
                                                 </form>
                                             </li>

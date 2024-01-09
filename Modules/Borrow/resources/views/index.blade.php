@@ -81,12 +81,15 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
-                                            @if( $item->status <= 0 )
+                                            @if($item->can_edit)
                                             <li>
                                                 <a class="dropdown-item" href="{{ route($route_prefix.'edit',$item->id) }}">
                                                     {{ __('borrow::sys.edit') }}     
                                                 </a>
                                             </li>
+                                            @endif
+
+                                            @if($item->can_delete)
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf

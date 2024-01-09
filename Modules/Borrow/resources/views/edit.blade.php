@@ -21,7 +21,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-end gap-2 flex-column flex-lg-row">
                     <a href="{{ route($route_prefix.'index') }}" class="btn btn-sm btn-dark col-12 col-lg-auto">Quay lại</a>
-                    @if( $item->status <= 0 )
+                    
+                    @if($item->can_delete)
                     <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post" class="col-12 col-lg-auto">
                         @csrf
                         @method('DELETE')
@@ -29,9 +30,12 @@
                             {{ __('borrow::sys.delete') }} 
                         </button>
                     </form>
-                    <button id="save_draft" class="btn btn-sm btn-warning px-4 mr-2 col-12 col-lg-auto"  >Lưu Nháp</button>
-                    <button id="submit_request" class="btn btn-sm btn-primary px-4 ml-2 col-12 col-lg-auto" >Gửi Yêu Cầu</button>
                     @endif
+
+                    @if( $item->status != $model::ACTIVE )
+                    <button id="save_draft" class="btn btn-sm btn-warning px-4 mr-2 col-12 col-lg-auto"  >Lưu Nháp</button>
+                    @endif
+                    <button id="submit_request" class="btn btn-sm btn-primary px-4 ml-2 col-12 col-lg-auto" >Gửi Yêu Cầu</button>
                 </div>
             </div>
         </div>
@@ -105,12 +109,13 @@
                     saveItem('delete-tiet');
                 }
             });
-            // Xử lý thêm phòng bộ môn
+            // Xử lý xóa phòng bộ môn
             jQuery('body').on('click', ".delete-lab", function(e) {
                 tiet_id = jQuery(this).data('tiet-id');
                 jQuery('#tiet').val(tiet_id);
                 let lab_choiced = jQuery(this).closest('.lab-choiced');
-                lab_id = lab_choiced.find('[data-name="lab_id"]').val();
+                lab_id = lab_choiced.find('[data-name="lab_id"]').val('');
+                lab_choiced.find('.lab_id').val('');
                 lab_choiced.find('.show-labs').html('Chọn');
                 lab_choiced.find('.delete-lab').addClass('d-none');
 
