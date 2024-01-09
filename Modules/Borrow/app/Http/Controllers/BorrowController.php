@@ -21,6 +21,7 @@ class BorrowController extends Controller
     public function index(Request $request)
     {
         $items = $this->model::getItems($request,Auth::id());
+        
         $params = [
             'route_prefix'  => $this->route_prefix,
             'model'         => $this->model,
@@ -79,14 +80,18 @@ class BorrowController extends Controller
         try {
             $rooms = \App\Models\Room::getAll();
             $item = $this->model::findItem($id);
-            if( $item->user_id != Auth::id() || $item->status > 0 ){
+            if( $item->user_id != Auth::id() ){
                 abort(403);
             }
+            if( !$item->can_edit  ){
+                abort(403);
+            }
+
             $params = [
                 'route_prefix'  => $this->route_prefix,
                 'model'         => $this->model,
                 'item'          => $item,
-                'rooms'         => $rooms,
+                'rooms'         => $rooms
             ];
             return view($this->view_path.'edit', $params);
         } catch (ModelNotFoundException $e) {

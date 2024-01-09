@@ -13,6 +13,12 @@
     <div class="card">
         <div class="card-body">
             <div class="item-content">
+                <div class="input-tiet_{{ $tiet }}_validate">
+                    <span class="input-error text-danger"></span>
+                </div>
+                <div class="input-tiet_{{ $tiet }}_duplicate">
+                    <span class="input-error text-danger"></span>
+                </div>
                 <div class="row mb-4">
                     <div class="col col-lg-3 col-12 input-devices-{{ $tiet }}-lesson_name">
                         <label class="form-label">Tên bài dạy</label>
@@ -60,7 +66,7 @@
                             <span title="Xóa phòng bộ môn" class="float-end ml-1 delete-lab x{{ $borrow_items[0]->lab_id ?? 'd-none' }}" data-tiet-id="{{ $tiet }}">Xóa</span>
                         </div>
                         <div class="">
-                            <input data-name="lab_id" name="devices[{{ $tiet }}][lab_id]" id="devices_{{ $tiet }}_lab_id" type="hidden" value="{{ $borrow_items[0]->lab_id ?? 0 }}">
+                            <input class="lab_id" data-name="lab_id" name="devices[{{ $tiet }}][lab_id]" id="devices_{{ $tiet }}_lab_id" type="hidden" value="{{ $borrow_items[0]->lab_id ?? 0 }}">
                             <button title="Nhấn để chọn lại Phòng Bộ Môn" type="button" class="btn btn-sm btn-info mt-1 show-labs" data-tiet-id="{{ $tiet }}">
                                 {{ $borrow_items[0]->lab->name ?? 'Chọn' }}
                             </button>

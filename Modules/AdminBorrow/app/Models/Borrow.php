@@ -80,6 +80,11 @@ class Borrow extends Model
         $item->status = $item->deleted_at ? 0 : 1;
         return $item;
     }
+    public static function deleteItem($id,$table = ''){
+        $item = self::findItem($id);
+        $item->borrow_devices()->delete();
+        return $item->delete();
+    }
 
     // Relationships
     public function borrow_devices(){

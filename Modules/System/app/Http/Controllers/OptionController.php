@@ -19,8 +19,13 @@ class OptionController extends Controller
     protected $allOptions = [
         'general' => [
             [
+                'option_name' => 'company_parent',
+                'option_label' => 'Tên sở',
+                'option_value' => '',
+            ],
+            [
                 'option_name' => 'company_name',
-                'option_label' => 'Tên đơn vị',
+                'option_label' => 'Tên trường',
                 'option_value' => '',
             ],
             [
@@ -42,8 +47,32 @@ class OptionController extends Controller
         'borrow_device' => [
             [
                 'option_name' => 'auto_approved',
-                'option_label' => 'Tự động duyệt',
+                'option_label' => 'Tự động <span class="fw-bold">Duyệt</span> phiếu khi Giáo Viên gửi yêu cầu',
                 'option_value' => 1,
+                'type' => 'checkbox'
+            ],
+            [
+                'option_name' => 'allow_edit_approved',
+                'option_label' => 'Cho phép Giáo Viên <span class="fw-bold text-uppercase">cập nhật</span> phiếu mượn sau khi phiếu <span class="fw-bold">Đã Duyệt</span>',
+                'option_value' => 0,
+                'type' => 'checkbox'
+            ],
+            [
+                'option_name' => 'allow_edit_pending',
+                'option_label' => 'Cho phép Giáo Viên <span class="fw-bold text-uppercase">cập nhật</span> phiếu mượn sau khi phiếu <span class="fw-bold">Chờ Duyệt</span>',
+                'option_value' => 0,
+                'type' => 'checkbox'
+            ],
+            [
+                'option_name' => 'allow_delete_approved',
+                'option_label' => 'Cho phép Giáo Viên <span class="fw-bold text-danger text-uppercase">xóa</span> phiếu mượn sau khi phiếu <span class="fw-bold">Đã Duyệt</span>',
+                'option_value' => 0,
+                'type' => 'checkbox'
+            ],
+            [
+                'option_name' => 'allow_delete_pending',
+                'option_label' => 'Cho phép Giáo Viên <span class="fw-bold text-danger text-uppercase">xóa</span> phiếu mượn sau khi phiếu <span class="fw-bold">Chờ Duyệt</span>',
+                'option_value' => 0,
                 'type' => 'checkbox'
             ],
             [

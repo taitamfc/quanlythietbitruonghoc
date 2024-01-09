@@ -1,8 +1,8 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Cấu Hình',
-'actions' => []
+    'page_title' => 'Cấu Hình',
+    'actions' => []
 ])
 <!-- Item actions -->
 <form action="{{ route('system.options.update') }}" method="post">
@@ -10,11 +10,11 @@
     @foreach( $optionGroupNames as $option_group_name => $option_group_label )
     <div class="card" id="{{ $option_group_name }}">
         <div class="card-body p-4">
-            <div class="mb-2 fw-bold">{{ $option_group_label }}</div>
+            <div class="mb-2 fw-bold">{!! $option_group_label !!}</div>
             @foreach( $allOptions[$option_group_name] as $optionField )
             <div class="row mb-3">
-                <label for="{{ $optionField['option_name'] }}" class="col-sm-4 col-form-label">{{ $optionField['option_label'] }}</label>
-                <div class="col-sm-8">
+                <label for="{{ $optionField['option_name'] }}" class="col-sm-5 col-form-label">{!! $optionField['option_label'] !!}</label>
+                <div class="col-sm-7">
                     @if(  !empty($optionField['type']) && $optionField['type'] == 'checkbox' )
                     <input value="0" type="hidden" class="form-check-input" name="{{ $option_group_name }}[{{ $optionField['option_name'] }}]" @checked( !empty($optionField['option_value']) && $optionField['option_value'] == 0 )>
                     <input value="1" type="checkbox" class="form-check-input" name="{{ $option_group_name }}[{{ $optionField['option_name'] }}]" @checked( !empty($optionField['option_value']) && $optionField['option_value'] == 1 )>
