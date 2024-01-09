@@ -23,7 +23,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class BorrowDevideExport {
+class BorrowDeviceExport {
     protected $templateFile = '';
     public function rules(): array
     {
