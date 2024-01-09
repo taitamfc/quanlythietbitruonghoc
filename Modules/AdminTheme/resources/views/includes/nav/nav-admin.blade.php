@@ -164,7 +164,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('adminexport.index',['type'=>'BorrowDevide']) }}">
+            <a href="{{ route('adminexport.index',['type'=>'BorrowDevice']) }}">
                 <span class="material-symbols-outlined">arrow_right</span>Sổ Mượn Thiết Bị
             </a>
         </li>

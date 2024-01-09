@@ -23,25 +23,14 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class BorrowDevideExport {
+class BorrowDeviceExport {
     protected $templateFile = '';
     public function rules(): array
     {
         $rules = [
-            'week' => 'required',
-            'school_years' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ];
-        // nếu đã chọn school_years thì không yêu cầu week
-        if(request()->school_years){
-            unset($rules['week']);
-        }
-        // nếu đã chọn week thì không yêu cầu school_years
-        if(request()->week){
-            unset($rules['school_years']);
-        }
-        if(request()->school_years && request()->week){
-            unset($rules['school_years']);
-        }
         return $rules;
     }
     public $messages = [
@@ -51,22 +40,16 @@ class BorrowDevideExport {
         $type = request()->type;
         // Lấy thông tin người dùng và mượn thiết bị
         $query = DB::table('borrows');
-        if (request()->week && request()->school_years) {
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }elseif( request()->week ){
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromWeek(request()->week);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }elseif(request()->school_years){
-            $startDateEndDate = \App\Models\Borrow::getStartEndDateFromYear(request()->school_years);
-            $startDateEndDate = array_values($startDateEndDate);
-            $query->whereBetween('borrow_date', $startDateEndDate);
-        }
+        
+        // Lấy điều kiện thời gian
+        $startDate = request()->start_date;
+        $endDate = request()->end_date;
+        $query->whereBetween('borrow_date', [$startDate, $endDate]);
+
         $query->join('users','users.id', '=','borrows.user_id');
-        $query->select('users.name');
-        $query->groupBy('users.name');
+        $query->join('nests','nests.id', '=','users.nest_id');
+        $query->select('users.name as user_name','nests.name as nest_name');
+        $query->groupBy('users.name','nests.name');
         $items = $query->get();
         
         // Đường dẫn đến mẫu Excel đã có sẵn
@@ -76,20 +59,21 @@ class BorrowDevideExport {
         $spreadsheet = $reader->load($templatePath);
         
         // Lấy ngày tạo phiếu
-        $dateStart = date('d/m/Y',strtotime($startDateEndDate[0]));
-        $dateEnd = date('d/m/Y',strtotime($startDateEndDate[1]));
-        $date = Carbon::createFromFormat('d/m/Y', $dateEnd);
+        $startDate = date('d/m/Y',strtotime($startDate));
+        $endDate = date('d/m/Y',strtotime($endDate));
+        $date = Carbon::createFromFormat('d/m/Y', $endDate);
         $year = $date->year;
         
 
         // Lấy đơn vị tạo
         $auto_approved = \App\Models\Option::get_option('general','company_name');
-        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');        
+        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');      
+          
         // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1',$title);
-        $sheet->setCellValue('D6',$dateStart);
-        $sheet->setCellValue('F6',$dateEnd);
+        $sheet->setCellValue('D6',$startDate);
+        $sheet->setCellValue('F6',$endDate);
         $sheet->setCellValue('E7',$year);
 
         // Duyệt qua danh sách mượn thiết bị
@@ -98,13 +82,13 @@ class BorrowDevideExport {
         foreach ($items as $item) {
             $sheet->setCellValueExplicit('A' . $index, $stt, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
-            $sheet->setCellValue('B' . $index, $item->user->name ?? '');
-            $sheet->setCellValue('C' . $index, $item->user->nest->name ?? '');
-            $sheet->setCellValue('D' . $index, '');
-            $sheet->setCellValue('E' . $index, '');
-            $sheet->setCellValue('F' . $index, '');
-            $sheet->setCellValue('G' . $index, '');
-            $sheet->setCellValue('H' . $index, '');
+            $sheet->setCellValue('B' . $index, $item->user_name ?? '');
+            $sheet->setCellValue('C' . $index, $item->nest_name ?? '');
+            $sheet->setCellValue('D' . $index, '0');
+            $sheet->setCellValue('E' . $index, '0');
+            $sheet->setCellValue('F' . $index, '0');
+            $sheet->setCellValue('G' . $index, '0');
+            $sheet->setCellValue('H' . $index, '0');
             $index++;
             $stt++;
         }

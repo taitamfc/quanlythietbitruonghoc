@@ -12,10 +12,4 @@
     <!-- <p class="mb-0">Nếu đã chọn Tuần thì không chọn Năm</p> -->
     <x-admintheme::form-input-error field="end_date" />
 </div>
-<div class="form-group mb-4">
-    <label class="form-label fw-bold">Chọn Phòng : <span class="text-danger">(*)</span></label>
-    <x-admintheme::form-input-labs name="lab_id" selected_id="{{ request()->lab_id }}" />
-    <!-- <p class="mb-0">Không chọn có nghĩa là xuất cho tất cả các phòng</p> -->
-    <x-admintheme::form-input-error field="lab_id" />
-</div>
 @endsection
