@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends AdminModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     protected $table = "departments";
     protected $fillable = [

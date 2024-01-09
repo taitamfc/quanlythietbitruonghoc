@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lab extends AdminModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['id','name', 'quantity','department_id','deleted_at'];
 
     public static function handleSearch($request,$query){
