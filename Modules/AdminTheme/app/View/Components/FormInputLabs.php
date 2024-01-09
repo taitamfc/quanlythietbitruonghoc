@@ -13,7 +13,7 @@ class FormInputLabs extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($name,$selectedId = '',$autoSubmit = '')
+    public function __construct($name = 'lab_id',$selectedId = '',$autoSubmit = '')
     {
         $this->name = $name;
         $this->selected_id = $selectedId;

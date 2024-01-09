@@ -32,6 +32,7 @@ class Borrow extends Model
         if($request->status !== ''){
             $item->status = $request->status;
         }
+        dd($item->status);
         $item->save();
 
         
@@ -333,6 +334,67 @@ class Borrow extends Model
                         'labs' => $labs
                     ];
 
+                }
+            }
+        }
+        return $items;
+    }
+    // Lấy danh sách phòng mượn theo tuần
+    public static function getBorrowedLab($request){
+        $items = [];
+        if( $request->week && $request->lab_id ){
+            $startDayEndDate = self::getStartEndDateFromWeek($request->week);
+            $periods = CarbonPeriod::create($startDayEndDate['startDate'],$startDayEndDate['endDate']);
+            foreach ($periods as $date) {
+                $date = $date->format('Y-m-d');
+                $items[$date] = [];
+                for($i = 1; $i <= 10; $i++){
+                    $tietTKB = $i;
+                    $session = 'Sáng';
+                    if( $i > 5 ){
+                        $session = 'Chiều';
+                        $tietTKB = $i - 5;
+                    }
+                    $borrow_labs = BorrowDevice::select(['borrow_id','lab_id','session','lecture_number'])->where('borrow_date',$date);
+                    $borrow_labs->where('lecture_number',$tietTKB);
+                    $borrow_labs->where('session',$session);
+                    $borrow_labs->where('lab_id','>',0);
+
+                    if($request->session){
+                        $session = $request->session == 'AM' ? 'Sáng' : 'Chiều';
+                        $borrow_labs->where('session',$session);
+                    }
+                    if($request->lab_id){
+                        $borrow_labs->where('lab_id',$request->lab_id);
+                    }
+                    if($request->department_id){
+                        $borrow_labs->whereHas('device',function($query) use($request){
+                            $query->where('department_id',$request->department_id);
+                        });
+                    }
+                    if($request->user_id){
+                        $borrow_labs->whereHas('borrow.user',function($query) use($request){
+                            $query->where('user_id',$request->user_id);
+                        });
+                    }
+                    $borrow_labs->whereHas('borrow',function($query) use($request){
+                        $query->where('status',self::ACTIVE);
+                    });
+
+                    $borrow_labs = $borrow_labs->get();
+
+                    $labs = [];
+                    foreach( $borrow_labs as $borrow_lab ){
+                        $labs = [
+                            'borrow_id' => $borrow_lab->borrow_id,
+                            'lab_id'    => $borrow_lab->lab_id,
+                            'session'    => $borrow_lab->session,
+                            'lecture_number'    => $borrow_lab->lecture_number,
+                            'lab_name'  => $borrow_lab->lab->name ?? '',
+                            'user_name'  => $borrow_lab->borrow->user->name ?? '',
+                        ];
+                    }
+                    $items[$date][$i] = $labs;
                 }
             }
         }

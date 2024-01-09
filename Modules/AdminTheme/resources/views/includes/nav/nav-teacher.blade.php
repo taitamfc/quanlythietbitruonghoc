@@ -55,3 +55,11 @@
         </li>
     </ul>
 </li>
+<li>
+    <a target="_blank" href="https://huongdan.quanlythietbitruonghoc.com/">
+        <div class="parent-icon">
+            <span class="material-symbols-outlined">help</span>
+        </div>
+        <div class="menu-title">Hướng Dẫn</div>
+    </a>
+</li>

@@ -21,5 +21,7 @@ Route::group([
     ]
 ], function () {
     Route::get('adminexport', [AdminExportController::class,'index'])->name('adminexport.index');
-    Route::post('adminexport', [AdminExportController::class,'store'])->name('adminexport.store');
+    Route::match(['get', 'post'], 'adminexport/handle', [AdminExportController::class, 'store'])->name('adminexport.store');
+
+    
 });

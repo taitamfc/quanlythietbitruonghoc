@@ -1,15 +1,20 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Danh sách phòng học',
-'actions' => []
+    'page_title' => 'Danh sách phòng học',
+    'actions' => []
 ])
 
 <!-- Item actions -->
 <form class="form-search" action="{{ route('labs.index') }}" method="get">
     <div class="row">
+        <div class="col-lg-4 mb-2">
+            <label class="form-label fw-bold">Tên</label>
+            <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+                value="{{ request()->name }}">
+        </div>
         <div class="col col-lg-3">
-            <label class="form-label">Phân Loại</label>
+            <label class="form-label fw-bold">Phân Loại</label>
             <select  class="form-control f-filter" name='department_id'>
                 <option value="">Môn học</option>
                 @foreach($departments as $department)

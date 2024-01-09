@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col">
             <label class="form-label fw-bold">Tên Thiết Bị</label>
-            <input class="form-control" name="name" type="text" placeholder="Tên thiết bị"
+            <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
                 value="{{ request()->name }}">
         </div>
         <div class="col">
@@ -24,6 +24,11 @@
         <div class="col">
             <label class="form-label fw-bold">Môn Học</label>
             <x-admintheme::form-input-departments name="department_id" selected_id="{{ request()->department_id }}"
+                autoSubmit="1" />
+        </div>
+        <div class="col col-lg-2">
+            <label class="form-label fw-bold">Trạng Thái</label>
+            <x-admintheme::form-input-status name="status" status="{{ request()->status }}"
                 autoSubmit="1" />
         </div>
     </div>
@@ -40,7 +45,7 @@
                             <th>Số lượng</th>
                             <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
-                            <th>Trạng thái</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>

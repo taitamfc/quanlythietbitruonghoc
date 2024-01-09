@@ -1,10 +1,9 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Danh sách tài sản',
+'page_title' => 'Danh sách thiết bị',
 'actions' => [
 'add_new' => route($route_prefix.'create',['type'=>request()->type]),
-//'export' => route($route_prefix.'export'),
 ]
 ])
 
@@ -13,17 +12,23 @@
     <input type="hidden" name="type" value="{{ request()->type }}">
     <div class="row">
         <div class="col">
-            <label class="form-label fw-bold">Tên Tài sản</label>
-            <input class="form-control" name="name" type="text" placeholder="Tên tài sản" value="{{ request()->name }}">
+            <label class="form-label fw-bold">Tên Tài Sản</label>
+            <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+                value="{{ request()->name }}">
         </div>
         <div class="col">
-            <label class="form-label fw-bold">Loại Tài sản</label>
+            <label class="form-label fw-bold">Loại Thiết Bị</label>
             <x-admintheme::form-input-device-types name="device_type_id" selected_id="{{ request()->device_type_id }}"
                 autoSubmit="1" />
         </div>
         <div class="col">
             <label class="form-label fw-bold">Môn Học</label>
             <x-admintheme::form-input-departments name="department_id" selected_id="{{ request()->department_id }}"
+                autoSubmit="1" />
+        </div>
+        <div class="col col-lg-2">
+            <label class="form-label fw-bold">Trạng Thái</label>
+            <x-admintheme::form-input-status name="status" status="{{ request()->status }}"
                 autoSubmit="1" />
         </div>
     </div>
@@ -38,10 +43,10 @@
                         <tr>
                             <th>Tên</th>
                             <th>Số lượng</th>
-                            <th>Loại tài sản</th>
+                            <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

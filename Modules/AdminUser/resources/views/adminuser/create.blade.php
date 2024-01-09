@@ -1,11 +1,7 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Thêm mới người dùng',
-// 'actions' => [
-// 'add_new' => route($route_prefix.'create',['type'=>request()->type]),
-//'export' => route($route_prefix.'export'),
-// ]
+    'page_title' => 'Thêm mới người dùng',
 ])
 
 <form action="{{ route($route_prefix.'store') }}" method="post" enctype="multipart/form-data">
