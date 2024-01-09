@@ -1,22 +1,21 @@
 @extends('adminexport::layouts.master')
 @section('form-fields')
 <div class="form-group mb-4">
-    <label class="form-label fw-bold">Ngày dạy : Tuần</label>
-    <input type="week" min="2022-W01" max="{{ date('Y') }}-W99" name="week" class="form-control"
-        value="{{ request()->week }}">
-    <p class="mb-0">Nếu đã chọn Năm thì không chọn Tuần</p>
-    <x-admintheme::form-input-error field="week" />
+    <label class="form-label fw-bold">Từ ngày : <span class="text-danger">(*)</span></label>
+    <input type="date" name="start_date" class="form-control" value="{{ request()->start_date }}">
+    <!-- <p class="mb-0">Nếu đã chọn Năm thì không chọn Tuần</p> -->
+    <x-admintheme::form-input-error field="start_date" />
 </div>
 <div class="form-group mb-4">
-    <label class="form-label fw-bold">Ngày dạy : Năm</label>
-    <x-admintheme::form-input-school-years name="school_years" selected_id="{{ request()->school_years }}" />
-    <p class="mb-0">Nếu đã chọn Tuần thì không chọn Năm</p>
-    <x-admintheme::form-input-error field="school_years" />
+    <label class="form-label fw-bold">Đến ngày : <span class="text-danger">(*)</span></label>
+    <input type="date" name="end_date" class="form-control" value="{{ request()->end_date }}">
+    <!-- <p class="mb-0">Nếu đã chọn Tuần thì không chọn Năm</p> -->
+    <x-admintheme::form-input-error field="end_date" />
 </div>
 <div class="form-group mb-4">
-    <label class="form-label fw-bold">Chọn Phòng</label>
-    <x-admintheme::form-input-nests name="lab_id" selected_id="{{ request()->lab_id }}" />
-    <p class="mb-0">Không chọn có nghĩa là xuất cho tất cả các phòng</p>
+    <label class="form-label fw-bold">Chọn Phòng : <span class="text-danger">(*)</span></label>
+    <x-admintheme::form-input-labs name="lab_id" selected_id="{{ request()->lab_id }}" />
+    <!-- <p class="mb-0">Không chọn có nghĩa là xuất cho tất cả các phòng</p> -->
     <x-admintheme::form-input-error field="lab_id" />
 </div>
 @endsection
