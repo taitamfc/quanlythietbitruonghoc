@@ -1868,3 +1868,6 @@ a {
 .show-labs {
 	width: 100%;
 }
+.customer-table table tbody, .product-table table tbody {
+    font-size: 13px;
+}

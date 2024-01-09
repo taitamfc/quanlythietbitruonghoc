@@ -30,6 +30,7 @@ class AdminUser extends Model
     {
         //return AdminUserFactory::new();
     }
+    //Overrides
     public static function saveItem($request, $table = '')
     {
         $data = $request->except(['_token', '_method']);
@@ -49,5 +50,10 @@ class AdminUser extends Model
         }
         $item->update($data);
         return $item;
+    }
+    // Attributes
+    // Relations
+    public function group(){
+        return $this->belongsTo(AdminGroup::class);
     }
 }

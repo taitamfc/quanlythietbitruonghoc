@@ -2,7 +2,6 @@
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
     'page_title' => 'Chỉnh sửa người dùng',
-    'actions' => []
 ])
 
 <form action="{{ route($route_prefix.'update',$item->id) }}" method="post" enctype="multipart/form-data">

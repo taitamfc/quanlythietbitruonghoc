@@ -6,7 +6,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="form-label" for="user_id">Người Mượn</label>
-                    <p class="form-control-static fw-bold">{{ Auth::user()->name }}</p>
+                    <p class="form-control-static fw-bold">{{ $item->user->name ?? '' }}</p>
                 </div>
             </div>
             <div class="col-lg-4">

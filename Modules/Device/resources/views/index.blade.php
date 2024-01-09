@@ -6,31 +6,19 @@
 ])
 <form class="row" action="" method="get">
     <div class="col-lg-4 mb-2">
-        <select class="form-control" onchange="this.form.submit()" name='qty'>
-            <option @selected( request()->qty === '' ) value="">Tình trạng</option>
-            <option value="1" @selected( request()->qty == 1 )> Thiết bị còn</option>
-            <option value="0" @selected( request()->qty !== "" && request()->qty === '0' )> Thiết bị đã hết</option>
-        </select>
+        <label class="form-label fw-bold">Tên</label>
+        <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+            value="{{ request()->name }}">
     </div>
     <div class="col-lg-4 mb-2">
-        <select class="form-control" onchange="this.form.submit()" name='device_type_id'>
-            <option value="">Loại thiết bị</option>
-            @foreach($device_types as $device_type)
-            <option value="{{$device_type->id}}"
-                @selected($device_type->id == request()->device_type_id)>
-                {{ $device_type->name }}</option>
-            @endforeach
-        </select>
+        <label class="form-label fw-bold">Loại thiết bị</label>
+        <x-admintheme::form-input-device-types name="device_type_id" selected_id="{{ request()->device_type_id }}"
+                autoSubmit="1" />
     </div>
     <div class="col-lg-4 mb-2">
-        <select class="form-control" onchange="this.form.submit()" name='department_id'>
-            <option value="">Môn học</option>
-            @foreach($departments as $department)
-            <option value="{{$department->id}}"
-                @selected($department->id == request()->department_id)>
-                {{ $department->name }}</option>
-            @endforeach
-        </select>
+        <label class="form-label fw-bold">Môn học</label>
+        <x-admintheme::form-input-departments name="department_id" selected_id="{{ request()->department_id }}"
+                autoSubmit="1" />
     </div>
 </form>
 

@@ -26,7 +26,6 @@
     "Group_restore": "[Nhóm nhân viên]  Khôi phục",
     "Group_trash": "[Nhóm nhân viên]  Thùng rác",
     "Group_forceDelete": "[Nhóm nhân viên]  Xóa Vĩnh Viễn",
-    "BorrowDevice": "Chi tiết phiếu mượn",
     "BorrowDevice_viewAny": "[Chi tiết phiếu mượn]  Xem Danh Sách",
     "BorrowDevice_view": "[Chi tiết phiếu mượn]  Xem Chi Tiết",
     "BorrowDevice_create": "[Chi tiết phiếu mượn]  Thêm",
@@ -105,8 +104,9 @@
     "Sunday" : "Chủ nhật",
     "BorrowDevicesNest" : "Sổ mượn tổ",
     "BorrowDevicesUser" : "Sổ mượn giáo viên",
-    "BorrowLabs" : "Sổ mượn phòng bộ môn",
+    "BorrowLab" : "Sổ mượn phòng bộ môn",
     "BorrowDetail" : "Phiếu báo mượn",
     "Lab" : "Phòng học",
+    "BorrowDevice" : "Sổ mượn thiết bị",
     "Asset" : "Tài sản"
 }

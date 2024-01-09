@@ -49,23 +49,13 @@
             <div class="col-lg-6">
                 <div class="mb-4">
                     <label class="mb-3">Loại Thiết Bị</label>
-                    <select name="device_type_id" class="form-control">
-                        <option value="">---</option>
-                        @foreach( \App\Models\DeviceType::getAll(true) as $device_type )
-                            <option @selected($device_type->id == @$item->device_type_id) value="{{ $device_type->id }}">{{ $device_type->name }}</option>
-                        @endforeach
-                    </select>
+                    <x-admintheme::form-input-device-types name="device_type_id" selected_id="{{ old('device_type_id',$item->device_type_id) }}"/>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-4">
                 <label class="mb-3">Bộ môn</label>
-                    <select name="department_id" class="form-control">
-                        <option value="">---</option>
-                        @foreach( \App\Models\Department::getAll(true) as $department )
-                            <option @selected($department->id == @$item->department_id) value="{{ $department->id }}">{{ $department->name }}</option>
-                        @endforeach
-                    </select>
+                    <x-admintheme::form-input-departments name="department_id" selected_id="{{ old('department_id',$item->department_id) }}" />
                 </div>
             </div>
         </div>

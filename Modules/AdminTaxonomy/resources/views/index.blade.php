@@ -11,19 +11,16 @@
     <!-- Item actions -->
     <form action="{{ route($route_prefix.'index') }}" method="get">
         <input type="hidden" name="type" value="{{ request()->type }}">
-        <div class="row g-3">
-            <div class="col-auto flex-grow-1">
-                <div class="position-relative">
-                    <input class="form-control" name="name" type="text" placeholder="Search name" value="{{ request()->name }}">
-                </div>
+        <div class="row">
+            <div class="col">
+                <label class="form-label fw-bold">Tên</label>
+                <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+                    value="{{ request()->name }}">
             </div>
-            <div class="col-auto">
-                <x-admintheme::form-status model="{{ $model }}" status="{{ request()->status }}" showAll="1"/>
-            </div>
-            <div class="col-auto">
-                <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                    <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Search</button>
-                </div>
+            <div class="col col-lg-2">
+                <label class="form-label fw-bold">Trạng Thái</label>
+                <x-admintheme::form-input-status name="status" status="{{ request()->status }}"
+                    autoSubmit="1" />
             </div>
         </div>
     </form>
@@ -36,9 +33,9 @@
                         <thead class="table-light">
                             <tr>
                                 <th>{{ __('admintaxonomy::table.name') }}</th>
-                                <th>{{ __('admintaxonomy::table.status') }}</th>
                                 <th>{{ __('admintaxonomy::table.created_at') }}</th>
-                                <th>{{ __('admintaxonomy::table.action') }}</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,8 +43,8 @@
                             @foreach( $items as $item )
                             <tr>
                                 <td>{!! $item->name !!}</td>
-                                <td>{!! $item->status_fm !!}</td>
                                 <td>{{ $item->created_at_fm }}</td>
+                                <td>{!! $item->status_fm !!}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"

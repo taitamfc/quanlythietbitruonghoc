@@ -13,7 +13,7 @@ class FormInputGroups extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($name,$selectedId = '',$autoSubmit = '')
+    public function __construct($name = 'group_id',$selectedId = '',$autoSubmit = '')
     {
         $this->name = $name;
         $this->selected_id = $selectedId;
@@ -25,7 +25,7 @@ class FormInputGroups extends Component
      */
     public function render(): View|string
     {
-        $items = \App\Models\Group::orderBy('name')->get();
+        $items = \App\Models\Group::getAll();
         $params = [
             'selected_id'   => $this->selected_id,
             'name'          => $this->name,

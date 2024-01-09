@@ -55,7 +55,7 @@ class AdminBorrowController extends Controller
                 'item'          => $item,
                 'rooms'         => $rooms,
             ];
-            return view('borrow::show', $params);
+            return view($this->view_path.'show', $params);
         } catch (ModelNotFoundException $e) {
             Log::error('Item not found: ' . $e->getMessage());
             return redirect()->route($route_prefix.'index')->with('error', __('sys.item_not_found'));

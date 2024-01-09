@@ -1,34 +1,28 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-'page_title' => 'Danh sách người dùng',
-'actions' => [
-'add_new' => route($route_prefix.'create',['type'=>request()->type]),
-//'export' => route($route_prefix.'export'),
-]
+        'page_title' => 'Người dùng',
+        'actions' => [
+        'add_new' => route($route_prefix.'create',['type'=>request()->type]),
+    ]
 ])
 
 <!-- Item actions -->
 <form action="{{ route($route_prefix.'index') }}" method="get">
     <input type="hidden" name="type" value="{{ request()->type }}">
-    <div class="row g-3">
-        <div class="col-auto">
-            <input class="form-control" name="name" type="text" placeholder="Tên" value="{{ request()->name }}">
+    <div class="row">
+        <div class="col">
+            <label class="form-label fw-bold">Tên</label>
+            <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+                    value="{{ request()->name }}">
         </div>
-        <div class="col-auto">
-            <input class="form-control" name="email" type="text" placeholder="Email" value="{{ request()->email }}">
+        <div class="col">
+            <label class="form-label fw-bold">Nhóm</label>
+            <x-admintheme::form-input-groups status="{{ request()->group_id }}" autoSubmit="1" />
         </div>
-        <div class="col-auto">
-            <input class="form-control" name="phone" type="text" placeholder="Số điện thoại"
-                value="{{ request()->phone }}">
-        </div>
-        <div class="col-auto">
-            <x-admintheme::form-status model="{{ $model }}" status="{{ request()->status }}" showAll="1" />
-        </div>
-        <div class="col-auto">
-            <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Tìm</button>
-            </div>
+        <div class="col col-lg-2">
+            <label class="form-label fw-bold">Trạng thái</label>
+            <x-admintheme::form-input-status status="{{ request()->status }}" autoSubmit="1" />
         </div>
     </div>
 </form>
@@ -42,10 +36,11 @@
                         <tr>
                             <th>Mã</th>
                             <th>Tên</th>
-                            <th>Email</th>
-                            <th>{{ __('adminpost::table.status') }}</th>
-                            <th>{{ __('adminpost::table.created_at') }}</th>
-                            <th>{{ __('adminpost::table.action') }}</th>
+                            <th>Số điện thoại</th>
+                            <th>Nhóm</th>
+                            <th>Ngày tạo</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,9 +49,10 @@
                         <tr>
                             <td>#{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>{!! $item->status_fm !!}</td>
+                            <td>{{ $item->phone }}</td>
+                            <td>{{ $item->group->name ?? '' }}</td>
                             <td>{{ $item->created_at_fm }}</td>
+                            <td>{!! $item->status_fm !!}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"
@@ -75,7 +71,7 @@
                                                 @method('DELETE')
                                                 <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') "
                                                     class="dropdown-item">
-                                                    {{ __('sys.delete') }}
+                                                    {{ $item->deleted_at ? __('sys.force_delete') : __('sys.delete') }}   
                                                 </button>
                                             </form>
                                         </li>

@@ -90,14 +90,18 @@
                                                     {{ __('borrow::sys.show') }}        
                                                 </a>
                                             </li>
-                                            @if( $item->status == 0 )
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route($route_prefix.'edit',$item->id) }}">
+                                                    {{ __('borrow::sys.edit') }}        
+                                                </a>
+                                            </li>
+                                            @if( $item->status == $model::INACTIVE )
                                             <li>
                                                 <a onclick=" return confirm('{{ __('Bạn có chắc chắn duyệt phiếu này !') }}') " class="dropdown-item" href="{{ route($route_prefix.'index',['task'=>'approve','id'=>$item->id]) }}">
                                                     {{ __('borrow::sys.approve') }}        
                                                 </a>
                                             </li>
                                             @endif
-                                            @if( $item->status <= 0 )
                                             <li>
                                                 <form action="{{ route($route_prefix.'destroy',$item->id) }}" method="post">
                                                     @csrf
@@ -108,11 +112,10 @@
                                                         <input type="hidden" name="status" value="{{ $model::CANCELED }}">
                                                     @endif
                                                     <button onclick=" return confirm('{{ $item->status == $model::CANCELED ? __('adminborrow::sys.force_delete') : __('adminborrow::sys.confirm_canceled') }}') " class="dropdown-item">
-                                                    {{ $item->status == $model::CANCELED ? __('sys.force_delete') : __('sys.delete') }}   
+                                                    {{ $item->status == $model::CANCELED ? __('sys.force_delete') : 'Hủy phiếu' }}   
                                                     </button>
                                                 </form>
                                             </li>
-                                            @endif
                                         </ul>
                                     </div>
                                 </td>

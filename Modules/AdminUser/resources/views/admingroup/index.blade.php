@@ -1,24 +1,23 @@
 @extends('admintheme::layouts.master')
 @section('content')
 @include('admintheme::includes.globals.breadcrumb',[
-    'page_title' => 'Danh sách nhóm người dùng',
+    'page_title' => 'Nhóm người dùng',
     'actions' => [
         'add_new' => route($route_prefix.'create',['type'=>request()->type]),
-        //'export' => route($route_prefix.'export'),
     ]
 ])
 
 <!-- Item actions -->
 <form action="{{ route($route_prefix.'index') }}" method="get">
-    <input type="hidden" name="type" value="{{ request()->type }}">
-    <div class="row g-3">
-        <div class="col-auto">
-            <input class="form-control" name="name" type="text" placeholder="Tên" value="{{ request()->name }}">
+    <div class="row">
+        <div class="col">
+            <label class="form-label fw-bold">Tên</label>
+            <input class="form-control" name="name" type="text" placeholder="Nhập tên sau đó nhấn enter để tìm"
+                    value="{{ request()->name }}">
         </div>
-        <div class="col-auto">
-            <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                <button class="btn btn-light px-4"><i class="bi bi-box-arrow-right me-2"></i>Tìm</button>
-            </div>
+        <div class="col col-lg-2">
+            <label class="form-label fw-bold">Trạng thái</label>
+            <x-admintheme::form-input-status status="{{ request()->status }}" autoSubmit="1" />
         </div>
     </div>
 </form>
@@ -32,8 +31,8 @@
                         <tr>
                             <th>Tên</th>
                             <th>Người Dùng</th>
-                            <th>Trạng Thái</th>
                             <th>Ngày Tạo</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -43,8 +42,8 @@
                         <tr>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->user_count }} thành viên</td>
-                            <td>{!! $item->status_fm !!}</td>
                             <td>{{ $item->created_at_fm }}</td>
+                            <td>{!! $item->status_fm !!}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-nocaret"
@@ -69,7 +68,7 @@
                                                 @method('DELETE')
                                                 <button onclick=" return confirm('{{ __('sys.confirm_delete') }}') "
                                                     class="dropdown-item">
-                                                    {{ __('sys.delete') }}
+                                                    {{ $item->deleted_at ? __('sys.force_delete') : __('sys.delete') }}   
                                                 </button>
                                             </form>
                                         </li>

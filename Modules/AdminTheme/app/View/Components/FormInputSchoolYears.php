@@ -13,7 +13,7 @@ class FormInputSchoolYears extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($name,$selectedId = '',$autoSubmit = '')
+    public function __construct($name = 'school_year',$selectedId = '',$autoSubmit = '')
     {
         $this->name = $name;
         $this->selected_id = $selectedId;

@@ -17,8 +17,8 @@ return [
     '404_sub_title' => 'Oops! Trang bạn đang tìm kiếm không tồn tại. Có thể nó đã được di chuyển hoặc xóa',
     'save-changes' => 'Lưu thay đổi',
     'close' => 'Đóng',
-    'active' => 'Hoạt động',
-    'inactive' => 'Không hoạt động',
+    'active' => 'Bật',
+    'inactive' => 'Tắt',
     'draf' => 'Bản nháp',
     'save' => 'Lưu',
     'submit' => 'Gửi',
@@ -34,4 +34,5 @@ return [
     'created_asc' => 'Ngày tạo tăng dần',
     'search_name' => 'Tìm kiếm tên',
     'add_new' => 'Thêm mới',
+    'ExportBorrowDetail' => 'Xuất phiếu mượn',
 ];
