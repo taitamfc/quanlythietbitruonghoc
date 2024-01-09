@@ -26,6 +26,9 @@ class AdminBorrowLabController extends Controller
         }else{
             $startDateEndDate = $this->model::getStartEndDateFromWeek($request->week);
         }
+        if( $request->lab_id ){
+            return $this->show($request);
+        }
         $items = $this->model::getItems($request);
         $params = [
             'route_prefix'  => $this->route_prefix,
@@ -36,51 +39,27 @@ class AdminBorrowLabController extends Controller
         return view($this->view_path.'labs', $params);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('adminborrow::create');
-    }
+    public function show(Request $request){
+        if( !$request->week ){
+            $currentWeek    = Carbon::now()->format('Y-\WW');
+            $startDateEndDate = $this->model::getStartEndDateFromWeek($currentWeek);
+            $request->merge([
+                'week' => $currentWeek
+            ]);
+        }else{
+            $startDateEndDate = $this->model::getStartEndDateFromWeek($request->week);
+        }
+        $lab_id = $request->lab_id;
+        $lab_name = \App\Models\Lab::find($lab_id)->name ?? '';
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('adminborrow::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('adminborrow::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $items = $this->model::getBorrowedLab($request);
+        $params = [
+            'route_prefix'  => $this->route_prefix,
+            'model'         => $this->model,
+            'lab_name'         => $lab_name,
+            'items'         => $items
+        ];
+        $params = array_merge($params,$startDateEndDate);
+        return view('borrow::labs.show', $params);
     }
 }

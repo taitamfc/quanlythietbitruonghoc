@@ -7,8 +7,12 @@
 
 <!-- Item actions -->
 <form action="{{ route($route_prefix.'labs') }}" method="get">
-    <p class="mb-2">Lưu ý: Dữ liệu đang hiển thị từ <span class="fw-bold">{{ @$startDate->format('d/m/Y') }}</span> đến
-        <span class="fw-bold">{{ @$endDate->format('d/m/Y') }}</span> </p>
+    <p class="mb-2">Lưu ý: <br> 
+        - Dữ liệu đang hiển thị từ <span class="fw-bold">{{ @$startDate->format('d/m/Y') }}</span> đến
+        <span class="fw-bold">{{ @$endDate->format('d/m/Y') }}</span>
+        <br> 
+        - Xem chi tiết một phòng bằng cách chọn Phòng Học
+    </p>
     <div class="row">
         <div class="col col-12 col-lg-3">
             <label class="form-label fw-bold">Buổi</label>
