@@ -73,6 +73,7 @@ class BorrowDevicesNestExport
         $dateStart = date('d/m/Y',strtotime($startDate));
         $sheet->setCellValue('F4', $dateStart);
 
+        // Ngày đến
         $dateEnd = date('d/m/Y',strtotime($endDate));
         $sheet->setCellValue('I4', $dateEnd);
 

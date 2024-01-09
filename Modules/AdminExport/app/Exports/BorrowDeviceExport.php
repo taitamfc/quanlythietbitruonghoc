@@ -67,7 +67,8 @@ class BorrowDeviceExport {
 
         // Lấy đơn vị tạo
         $auto_approved = \App\Models\Option::get_option('general','company_name');
-        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');        
+        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');      
+          
         // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1',$title);

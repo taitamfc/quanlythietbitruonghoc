@@ -55,8 +55,14 @@ class BorrowDetailExport {
         $currentYear = date('Y');
         $newValue = 'Gio Linh, ngày ' . $currentDay . ' tháng ' . $currentMonth . ' năm ' . $currentYear;
        
+        // Lấy đơn vị tạo
+        $auto_approved = \App\Models\Option::get_option('general','company_name');
+        $title = 'SỞ GD VÀ ĐT QUẢNG TRỊ TRƯỜNG '.mb_strtoupper($auto_approved,'UTF-8');      
+        
+
         // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', $title ?? '');
         $sheet->setCellValue('C7', $user->name ?? '');
         $sheet->setCellValue('C8', $user->nest->name ?? '');
         $sheet->setCellValue('D25', $user->name ?? '');
